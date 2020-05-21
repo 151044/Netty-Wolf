@@ -19,7 +19,11 @@
 package com.colin.test;
 
 import com.colin.games.werewolf.client.PlayerCache;
-import com.colin.games.werewolf.client.role.*;
+import com.colin.games.werewolf.client.role.Guard;
+import com.colin.games.werewolf.client.role.Seer;
+import com.colin.games.werewolf.client.role.Villager;
+import com.colin.games.werewolf.client.role.Werewolf;
+import com.colin.games.werewolf.common.roles.Roles;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;

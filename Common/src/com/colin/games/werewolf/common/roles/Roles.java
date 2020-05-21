@@ -16,25 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.client;
+package com.colin.games.werewolf.common.roles;
 
-import com.colin.games.werewolf.common.Player;
-import com.colin.games.werewolf.common.roles.Roles;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Supplier;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class PlayerCache {
-    private PlayerCache(){
+public class Roles {
+    private Roles(){
         throw new AssertionError();
     }
-    private static List<Player> players = new ArrayList<>();
-    public static void init(String fullMsg){
-        players = Arrays.stream(fullMsg.split(";")).map(str -> str.split(":")).map(sArr -> new Player(sArr[0], Roles.makeNew(sArr[1]))).collect(Collectors.toList());
+    private static final Map<String, Supplier<? extends Role>> makeMap = new HashMap<>();
+    public static void register(String lookupName,Supplier<? extends Role> supplier) {
+        makeMap.put(lookupName,supplier);
     }
-    public static List<Player> notDead(){
-        return players.stream().filter(p -> !p.isDead()).collect(Collectors.toList());
+    public static Role makeNew(String lookup) {
+        Objects.requireNonNull(lookup);
+        return makeMap.get(lookup).get();
     }
 }
