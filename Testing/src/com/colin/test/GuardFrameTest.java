@@ -17,13 +17,12 @@
  */
 
 package com.colin.test;
-import com.colin.games.werewolf.client.role.Witch;
-import com.colin.games.werewolf.common.message.Message;
 
-public class WitchFrameTest {
+import com.colin.games.werewolf.client.role.Guard;
+
+public class GuardFrameTest {
     public static void main(String[] args) {
         Init.init();
-        Witch w = new Witch();
-        w.action(null,new Message("witch_notify","Eric"));
+        new Guard().action(null,null);
     }
 }

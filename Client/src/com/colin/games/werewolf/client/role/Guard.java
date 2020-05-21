@@ -16,14 +16,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.test;
-import com.colin.games.werewolf.client.role.Witch;
-import com.colin.games.werewolf.common.message.Message;
+package com.colin.games.werewolf.client.role;
 
-public class WitchFrameTest {
-    public static void main(String[] args) {
-        Init.init();
-        Witch w = new Witch();
-        w.action(null,new Message("witch_notify","Eric"));
+import com.colin.games.werewolf.client.role.gui.GuardFrame;
+import com.colin.games.werewolf.common.message.Message;
+import com.colin.games.werewolf.common.roles.Role;
+import io.netty.channel.ChannelHandlerContext;
+
+public class Guard implements Role {
+    @Override
+    public String name() {
+        return "Guard";
+    }
+
+    @Override
+    public void action(ChannelHandlerContext ctx, Message msg) {
+        new GuardFrame();
+    }
+
+    @Override
+    public boolean isGood() {
+        return true;
     }
 }
