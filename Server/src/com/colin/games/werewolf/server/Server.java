@@ -1,3 +1,21 @@
+/*
+ * Netty-Wolf
+ * Copyright (C) 2020  Colin Chow
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.colin.games.werewolf.server;
 
 import com.colin.games.werewolf.common.message.Message;
@@ -37,61 +55,68 @@ public class Server {
      */
     public void run() {
         new Thread(() -> {
-        System.out.println("Starting at port " + port + "!");
-        MessageDispatch.register("chat",(ctx,msg) ->
-            Connections.openChannels().forEach(ch -> {
-                ch.write(msg);
-                ch.flush();
-            }));
-        MessageDispatch.register("query_name",(ctx,msg) -> {
-            String req = msg.getContent();
-            ctx.channel().write(new Message("name_res", Connections.has(req) ? "false":"true"));
-            ctx.channel().flush();
-            if(!Connections.has(req)){
-                Connections.add(req,ctx.channel());
+            System.out.println("Starting at port " + port + "!");
+            registerCallbacks();
+            EventLoopGroup receive = new NioEventLoopGroup();
+            EventLoopGroup worker = new NioEventLoopGroup();
+            try {
+                ServerBootstrap boot = new ServerBootstrap();
+                boot.group(receive, worker)
+                        .channel(NioServerSocketChannel.class)
+                        .childHandler(new ChannelInitializer<SocketChannel>() {
+                            @Override
+                            protected void initChannel(SocketChannel socketChannel) {
+                                ChannelPipeline p = socketChannel.pipeline();
+                                p.addLast(new LineBasedFrameDecoder(3000));
+                                p.addLast(new StringDecoder(CharsetUtil.UTF_8));
+                                p.addLast(new MessageDecoder());
+                                p.addLast(new ServerMessageHandler());
+                                p.addLast(new StringEncoder());
+                                p.addLast(new MessageEncoder());
+                            }
+
+                        });
+                try {
+                    ChannelFuture future = boot.bind(port).sync();
+                    future.channel().closeFuture().sync();
+                } catch (InterruptedException ie) {
+                    throw new RuntimeException(ie);
+                }
+            } finally {
+                receive.shutdownGracefully();
+                worker.shutdownGracefully();
+            }
+        }, "server").start();
+    }
+    private static void registerCallbacks(){
+        //The chat callback
+        MessageDispatch.register("chat", (ctx, msg) ->
                 Connections.openChannels().forEach(ch -> {
-                    ch.write(new Message("chat",req + " has joined!"));
+                    ch.write(msg);
+                    ch.flush();
+                }));
+        //The query if name exists callback
+        MessageDispatch.register("query_name", (ctx, msg) -> {
+            String req = msg.getContent();
+            ctx.channel().write(new Message("name_res", Connections.has(req) ? "false" : "true"));
+            ctx.channel().flush();
+            if (!Connections.has(req)) {
+                Connections.add(req, ctx.channel());
+                Connections.openChannels().forEach(ch -> {
+                    ch.write(new Message("chat", req + " has joined!"));
                     ch.flush();
                 });
             }
         });
-        MessageDispatch.register("disconnect",(ctx,msg) -> {
+        //The disconnect callback
+        MessageDispatch.register("disconnect", (ctx, msg) -> {
             ctx.channel().flush().close();
             Connections.openChannels().forEach(ch -> {
-                ch.write(new Message("chat","[Server]: " + msg.getContent() + " has disconnected!"));
+                ch.write(new Message("chat", "[Server]: " + msg.getContent() + " has disconnected!"));
                 ch.flush();
                 Connections.removeName(msg.getContent());
             });
         });
-        EventLoopGroup receive = new NioEventLoopGroup();
-        EventLoopGroup worker = new NioEventLoopGroup();
-        try{
-            ServerBootstrap boot = new ServerBootstrap();
-            boot.group(receive,worker)
-                    .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel socketChannel) {
-                            ChannelPipeline p = socketChannel.pipeline();
-                            p.addLast(new LineBasedFrameDecoder(3000));
-                            p.addLast(new StringDecoder(CharsetUtil.UTF_8));
-                            p.addLast(new MessageDecoder());
-                            p.addLast(new ServerMessageHandler());
-                            p.addLast(new StringEncoder());
-                            p.addLast(new MessageEncoder());
-                        }
 
-                    });
-            try {
-                ChannelFuture future = boot.bind(port).sync();
-                future.channel().closeFuture().sync();
-            }catch(InterruptedException ie){
-                throw new RuntimeException(ie);
-            }
-        }finally{
-            receive.shutdownGracefully();
-            worker.shutdownGracefully();
-        }
-    },"server").start();
     }
 }

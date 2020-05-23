@@ -19,11 +19,13 @@
 package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.gui.GuardFrame;
+import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
 public class Guard implements Role {
+    private Player lastProtected = null;
     @Override
     public String name() {
         return "Guard";
@@ -31,11 +33,17 @@ public class Guard implements Role {
 
     @Override
     public void action(ChannelHandlerContext ctx, Message msg) {
-        new GuardFrame();
+        new GuardFrame(this);
     }
 
     @Override
     public boolean isGood() {
         return true;
+    }
+    public Player lastSaved(){
+        return lastProtected;
+    }
+    public void setSaved(Player player){
+        lastProtected = player;
     }
 }

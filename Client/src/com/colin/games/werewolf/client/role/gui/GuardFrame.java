@@ -20,28 +20,31 @@ package com.colin.games.werewolf.client.role.gui;
 
 import com.colin.games.werewolf.client.Client;
 import com.colin.games.werewolf.client.PlayerCache;
+import com.colin.games.werewolf.client.role.Guard;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
 
 import javax.swing.*;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class GuardFrame extends JFrame {
-    public GuardFrame(){
+    public GuardFrame(Guard context){
         super("Your turn!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
         JPanel choiceP = new JPanel();
         choiceP.setLayout(new BoxLayout(choiceP,BoxLayout.X_AXIS));
         choiceP.add(new JLabel("Choose a person to guard: "));
-        JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
+        JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead().stream().filter(pla -> !pla.equals(context.lastSaved())).collect(Collectors.toList())));
         choiceP.add(players);
-        JButton submit = new JButton("Check");
+        JButton submit = new JButton("Protect");
         choiceP.add(submit);
         submit.addActionListener((ignored) -> SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(null,"You protected " + ((Player) players.getSelectedItem()).getName() + ".","Information",JOptionPane.INFORMATION_MESSAGE);
             submit.setEnabled(false);
             Client.getCurrent().writeAndFlush(new Message("guard",((Player) players.getSelectedItem()).getName()));
+            context.setSaved((Player) players.getSelectedItem());
         }));
         add(choiceP);
         JButton pass = new JButton("Pass");
