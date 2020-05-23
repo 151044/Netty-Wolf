@@ -117,6 +117,15 @@ public class Server {
                 Connections.removeName(msg.getContent());
             });
         });
+        //The werewolf kill callback
+
+        //The witch kill callback
+        MessageDispatch.register("witch_kill",(ctx,msg) -> GameState.killAsWitch(msg));
+        //The witch heal callback
+        MessageDispatch.register("witch_heal",(ctx,msg) -> GameState.heal(msg));
+        //The guard callback
+        MessageDispatch.register("guard",(ctx,msg) -> GameState.protect(msg));
+        //The next callback
 
     }
 }
