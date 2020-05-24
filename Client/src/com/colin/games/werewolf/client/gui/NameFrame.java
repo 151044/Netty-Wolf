@@ -42,7 +42,7 @@ public class NameFrame extends JFrame {
         JButton submit = new JButton("Submit");
         submit.addActionListener(ignored -> {
             requested = name.getText();
-            if(requested == null || requested.isBlank()){
+            if(requested == null || requested.isEmpty()){
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Please enter a valid name!", "Name taken!", JOptionPane.WARNING_MESSAGE));
                 return;
             }

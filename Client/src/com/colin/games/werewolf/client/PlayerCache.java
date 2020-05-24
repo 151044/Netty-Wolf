@@ -24,6 +24,7 @@ import com.colin.games.werewolf.common.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class PlayerCache {
@@ -38,6 +39,17 @@ public class PlayerCache {
         return players.stream().filter(p -> !p.isDead()).collect(Collectors.toList());
     }
     public static void update(String fullMsg){
-
+        for(String s : fullMsg.split(";")){
+            String[] arr = s.split(":");
+            if(arr.length != 2){
+                continue;
+            }
+            if(arr[1].equals("kill")){
+                lookup(arr[0]).kill();
+            }
+        }
+    }
+    public static Player lookup(String s){
+        return players.stream().filter(play -> play.getName().equals(s)).findFirst().orElseThrow(() -> new NoSuchElementException("No such player found for input string " + s + "."));
     }
 }

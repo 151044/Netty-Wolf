@@ -20,6 +20,7 @@ package com.colin.games.werewolf.client;
 
 import com.colin.games.werewolf.client.protocol.ClientMessageHandler;
 import com.colin.games.werewolf.common.message.MessageDecoder;
+import com.colin.games.werewolf.common.message.MessageDispatch;
 import com.colin.games.werewolf.common.message.MessageEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -31,6 +32,7 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
+import javax.swing.*;
 import java.net.InetAddress;
 
 public class Client {
@@ -39,6 +41,7 @@ public class Client {
     private Channel chan;
     private static Client current;
     private String name;
+    private ChannelFuture connect;
 
     public Client(InetAddress addr,int port){
         this.addr = addr;
@@ -63,9 +66,10 @@ public class Client {
                         }
                     });
             try {
-                ChannelFuture future = boot.connect(addr, port).sync();
-                chan = future.channel();
-                future.channel().closeFuture().sync();
+                connect = boot.connect(addr, port).sync();
+                chan = connect.channel();
+                initCallbacks();
+                connect.channel().closeFuture().sync();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -90,5 +94,18 @@ public class Client {
     }
     public static Client getCurrent(){
         return current;
+    }
+    private static void initCallbacks(){
+        MessageDispatch.register("kick",(ctx,msg) -> {
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null,"You have been kicked by the host.","Kick",JOptionPane.WARNING_MESSAGE);
+            });
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        });
     }
 }

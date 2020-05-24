@@ -22,6 +22,7 @@ import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDecoder;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import com.colin.games.werewolf.common.message.MessageEncoder;
+import com.colin.games.werewolf.server.gui.ServerStatusFrame;
 import com.colin.games.werewolf.server.protocol.ServerMessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -43,6 +44,7 @@ public class Server {
     private final int port;
     private final int maxPlayers;
     private static Server instance;
+    private ServerStatusFrame status = new ServerStatusFrame();
     /**
      * Creates a new, but not started, server with the specified port.
      * @param port The port to host this server at
@@ -80,6 +82,9 @@ public class Server {
                         });
                 try {
                     ChannelFuture future = boot.bind(port).sync();
+                    if(!future.isSuccess()){
+                        future.cause().printStackTrace();
+                    }
                     future.channel().closeFuture().sync();
                 } catch (InterruptedException ie) {
                     throw new RuntimeException(ie);
@@ -105,7 +110,14 @@ public class Server {
             if (!Connections.has(req)) {
                 Connections.add(req, ctx.channel());
                 Connections.openChannels().forEach(ch -> {
-                    ch.write(new Message("chat", req + " has joined!"));
+                    ch.write(new Message("chat", "[Server]: " + req + " has joined!"));
+                    Server.getInstance().statusFrame().updatePlayers(req);
+                    int left = Server.getInstance().maxPlayers - Connections.openChannels().size();
+                    if(left < 1){
+                        ch.write("Read to start at the host's command!");
+                    }else{
+                        ch.write(new Message("chat","[Server]: Waiting for " + left + " more players."));
+                    }
                     ch.flush();
                 });
             }
@@ -113,6 +125,7 @@ public class Server {
         //The disconnect callback
         MessageDispatch.register("disconnect", (ctx, msg) -> {
             ctx.channel().flush().close();
+            Server.getInstance().statusFrame().removePlayers(msg.getContent());
             Connections.openChannels().forEach(ch -> {
                 ch.write(new Message("chat", "[Server]: " + msg.getContent() + " has disconnected!"));
                 ch.flush();
@@ -143,5 +156,8 @@ public class Server {
     }
     public int maxPlayers(){
         return maxPlayers;
+    }
+    public ServerStatusFrame statusFrame(){
+        return status;
     }
 }

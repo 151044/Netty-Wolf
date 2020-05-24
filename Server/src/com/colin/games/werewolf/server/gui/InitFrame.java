@@ -27,7 +27,7 @@ import java.awt.event.KeyEvent;
 public class InitFrame extends JFrame {
     private int ports = -1;
     private int players = -1;
-    private boolean noLim = true;
+    private final boolean noLim = false;
     public InitFrame(){
         super("Server Options");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
