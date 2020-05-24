@@ -1,3 +1,21 @@
+/*
+ * Netty-Wolf
+ * Copyright (C) 2020  Colin Chow
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.colin.games.werewolf.client.role.gui;
 
 import com.colin.games.werewolf.client.Client;
@@ -23,7 +41,7 @@ public class WitchFrame extends JFrame {
         }
         save.add(heal);
         heal.addActionListener((ignored) -> {
-            Client.getCurrent().writeAndFlush(new Message("witch_heal",""));
+            Client.getCurrent().writeAndFlush(new Message("witch_heal","empty"));
             context.setHealStatus(true);
             heal.setEnabled(false);
         });
@@ -42,7 +60,7 @@ public class WitchFrame extends JFrame {
         });
         JButton pass = new JButton("Pass");
         pass.addActionListener(ignored -> {
-            Client.getCurrent().writeAndFlush(new Message("next",""));
+            Client.getCurrent().writeAndFlush(new Message("next","empty"));
             dispose();
         });
         add(kill);

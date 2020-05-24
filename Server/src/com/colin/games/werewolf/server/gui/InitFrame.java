@@ -1,3 +1,21 @@
+/*
+ * Netty-Wolf
+ * Copyright (C) 2020  Colin Chow
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.colin.games.werewolf.server.gui;
 
 import com.colin.games.werewolf.server.Server;
@@ -8,6 +26,8 @@ import java.awt.event.KeyEvent;
 
 public class InitFrame extends JFrame {
     private int ports = -1;
+    private int players = -1;
+    private boolean noLim = true;
     public InitFrame(){
         super("Server Options");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +51,9 @@ public class InitFrame extends JFrame {
                 return;
             }
             dispose();
-            new Server(ports).run();
+            Server server = new Server(ports,players);
+            Server.setInstance(server);
+            server.run();
         });
         port.addKeyListener(new KeyAdapter() {
             @Override
@@ -41,7 +63,31 @@ public class InitFrame extends JFrame {
                 }
             }
         });
+        submit.setEnabled(false);
         add(portP);
+        JPanel opts = new JPanel();
+        opts.setLayout(new BoxLayout(opts,BoxLayout.X_AXIS));
+        opts.add(new JLabel("No. of players:"));
+        JTextField numPlays = new JTextField(3);
+        opts.add(numPlays);
+        JButton numPlaysB = new JButton("Submit");
+        opts.add(numPlaysB);
+        numPlaysB.addActionListener(ignored -> {
+            try{
+                players = Integer.parseInt(numPlays.getText());
+                if(players < 5 && !noLim){
+                    JOptionPane.showMessageDialog(null,"Invalid number of players entered!\n The minimum is 5.","Please try again.",JOptionPane.INFORMATION_MESSAGE);
+                    players = -1;
+                    submit.setEnabled(false);
+                    return;
+                }
+                submit.setEnabled(true);
+            }catch(NumberFormatException nfe){
+                submit.setEnabled(false);
+                JOptionPane.showMessageDialog(null,"Invalid number of players entered!","Please try again.",JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        add(opts);
         pack();
         setVisible(true);
     }

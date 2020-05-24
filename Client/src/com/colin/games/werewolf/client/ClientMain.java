@@ -40,8 +40,10 @@ public class ClientMain {
         ConnectFrame cf = new ConnectFrame();
         SwingUtilities.invokeLater(cf::init);
         Runtime.getRuntime().addShutdownHook(new Thread(()-> {
-            Client.getCurrent().getChannel().write(new Message("disconnect",Client.getCurrent().getName()));
-            Client.getCurrent().getChannel().flush();
+            if(Client.getCurrent() != null) {
+                Client.getCurrent().getChannel().write(new Message("disconnect", Client.getCurrent().getName()));
+                Client.getCurrent().getChannel().flush();
+            }
          }));
     }
 }

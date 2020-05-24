@@ -41,13 +41,15 @@ import io.netty.util.CharsetUtil;
  */
 public class Server {
     private final int port;
-
+    private final int maxPlayers;
+    private static Server instance;
     /**
      * Creates a new, but not started, server with the specified port.
      * @param port The port to host this server at
      */
-    public Server(int port){
+    public Server(int port,int maxPlayers){
         this.port = port;
+        this.maxPlayers = maxPlayers;
     }
 
     /**
@@ -127,5 +129,19 @@ public class Server {
         MessageDispatch.register("guard",(ctx,msg) -> GameState.protect(msg));
         //The next callback
 
+        //The is full callback
+        MessageDispatch.register("full_query",(ctx,msg) -> {
+            ctx.channel().write(new Message("is_full_res",Server.getInstance().maxPlayers() < Connections.openChannels().size() ? "true" :"false"));
+            ctx.channel().flush();
+        });
+    }
+    public static Server getInstance(){
+        return instance;
+    }
+    public static void setInstance(Server s){
+        instance = s;
+    }
+    public int maxPlayers(){
+        return maxPlayers;
     }
 }

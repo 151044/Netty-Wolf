@@ -51,7 +51,7 @@ public class GuardFrame extends JFrame {
         add(pass);
         pass.addActionListener((ignored) -> {
             dispose();
-            Client.getCurrent().writeAndFlush(new Message("next",""));
+            Client.getCurrent().writeAndFlush(new Message("next","empty"));
         });
         pack();
         setVisible(true);

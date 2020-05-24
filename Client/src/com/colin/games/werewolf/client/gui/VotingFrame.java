@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Vector;
 
 public class VotingFrame extends JFrame {
-    private Map<String,JLabel> map = new HashMap<>();
+    private final Map<String,JLabel> map = new HashMap<>();
     public VotingFrame(){
         super("Vote!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,14 +39,10 @@ public class VotingFrame extends JFrame {
         voteP.add(new JLabel("Select who to vote for: "));
         JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
         voteP.add(players);
-        players.addActionListener(ae -> {
-            Client.getCurrent().writeAndFlush(new Message("vote_init",((Player) players.getSelectedItem()).getName()));
-        });
+        players.addActionListener(ae -> Client.getCurrent().writeAndFlush(new Message("vote_init",((Player) players.getSelectedItem()).getName())));
         JButton submit = new JButton("Submit");
         voteP.add(submit);
-        submit.addActionListener(ae -> {
-            Client.getCurrent().writeAndFlush(new Message("vote_final",((Player) players.getSelectedItem()).getName()));
-        });
+        submit.addActionListener(ae -> Client.getCurrent().writeAndFlush(new Message("vote_final",((Player) players.getSelectedItem()).getName())));
         add(voteP);
         JPanel otherVotes = new JPanel();
         otherVotes.setLayout(new BoxLayout(otherVotes,BoxLayout.Y_AXIS));

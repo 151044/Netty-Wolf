@@ -31,6 +31,12 @@ public class VotingFrameTest {
                 e.printStackTrace();
             }
             vote.setSelection("151044","XDGUY");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            vote.setSelection("151044","151044");
         }).start();
     }
 }
