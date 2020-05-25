@@ -1,6 +1,6 @@
-5|Wi,V,V,We,S:Wi,V,S,We,We
-6|We,V,V,S,Wi,G:We,We,V,V,S,Wi:We,We,V,V,Wi,G
-7|We,We,V,V,S,Wi,G:We,We,V,V,V,Wi,G:We,We,We,V,V,S,Wi:We,We,We,V,S,Wi,G
+5|Wi,V,V,We,S:Wi,V,S,H,We
+6|We,V,V,S,Wi,G:We,We,V,V,S,Wi:We,We,H,V,Wi,G
+7|We,We,V,V,S,Wi,G:We,We,V,V,V,Wi,G:We,We,We,V,V,S,Wi:We,We,We,H,S,Wi,G
 8|We,We,We,V,V,G,Wi,S
 9|
 10|

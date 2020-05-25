@@ -26,20 +26,22 @@ import com.colin.games.werewolf.common.message.Message;
 import javax.swing.*;
 import java.util.Vector;
 
-public class SeerFrame extends JFrame {
-    public SeerFrame(){
-        super("Your turn!");
+public class HunterFrame extends JFrame {
+    public HunterFrame() {
+        super("Revenge!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        add(new JLabel("You have been killed!"));
         JPanel choiceP = new JPanel();
-        choiceP.setLayout(new BoxLayout(choiceP,BoxLayout.X_AXIS));
-        choiceP.add(new JLabel("Choose a person to check: "));
+        choiceP.setLayout(new BoxLayout(choiceP, BoxLayout.X_AXIS));
+        choiceP.add(new JLabel("Choose a person to take revenge against: "));
         JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
         choiceP.add(players);
-        JButton submit = new JButton("Check");
+        JButton submit = new JButton("Kill");
         choiceP.add(submit);
         submit.addActionListener((ignored) -> SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null,((Player) players.getSelectedItem()).getName() + " is " + (((Player) players.getSelectedItem()).getRole().isGood() ? "good." : "bad."),"Information",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, ((Player) players.getSelectedItem()).getName() + " is now killed!" , "Information", JOptionPane.INFORMATION_MESSAGE);
+            Client.getCurrent().writeAndFlush(new Message("hunter_kill",((Player) players.getSelectedItem()).getName()));
             submit.setEnabled(false);
         }));
         add(choiceP);
@@ -47,7 +49,7 @@ public class SeerFrame extends JFrame {
         add(pass);
         pass.addActionListener((ignored) -> {
             dispose();
-            Client.getCurrent().writeAndFlush(new Message("next","empty"));
+            Client.getCurrent().writeAndFlush(new Message("next", "empty"));
         });
         pack();
         setVisible(true);

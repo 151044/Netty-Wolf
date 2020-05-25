@@ -19,26 +19,12 @@
 package com.colin.test;
 
 import com.colin.games.werewolf.client.PlayerCache;
-import com.colin.games.werewolf.client.role.*;
+import com.colin.games.werewolf.client.role.Hunter;
 
-import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-
-public class Init {
-    private Init(){
-        throw new AssertionError();
-    }
-    public static void init(){
-        try {
-            UIManager.setLookAndFeel(new NimbusLookAndFeel());
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-        Roles.register("Villager", Villager::new);
-        Roles.register("Seer", Seer::new);
-        Roles.register("Werewolf", Werewolf::new);
-        Roles.register("Guard", Guard::new);
-        Roles.register("Hunter",Hunter::new);
-        PlayerCache.init("151044:Villager;151044a:Seer;Five-Nine:Werewolf;XDGUY:Guard;Eric...:Hunter");
+public class HunterFrameTest {
+    public static void main(String[] args) {
+        Init.init();
+        PlayerCache.update("Five-Nine:kill");
+        new Hunter().action(null,null);
     }
 }
