@@ -109,13 +109,13 @@ public class Server {
             ctx.channel().flush();
             if (!Connections.has(req)) {
                 Connections.add(req, ctx.channel());
+                Server.getInstance().statusFrame().updatePlayers(req);
+                Server.getInstance().statusFrame().enableStart();
                 Connections.openChannels().forEach(ch -> {
                     ch.write(new Message("chat", "[Server]: " + req + " has joined!"));
-                    Server.getInstance().statusFrame().updatePlayers(req);
                     int left = Server.getInstance().maxPlayers - Connections.openChannels().size();
                     if(left < 1){
-                        ch.write("Read to start at the host's command!");
-                        Server.getInstance().statusFrame().enableStart();
+                        ch.write(new Message("chat","Ready to start at the host's command!"));
                     }else{
                         ch.write(new Message("chat","[Server]: Waiting for " + left + " more players."));
                     }
@@ -134,9 +134,7 @@ public class Server {
             });
         });
         //The werewolf kill callback
-        MessageDispatch.register("werewolf_kill",(ctx,msg) -> {
-            GameState.killAsWolf(msg);
-        });
+        MessageDispatch.register("werewolf_kill",(ctx,msg) -> GameState.killAsWolf(msg));
         //The witch kill callback
         MessageDispatch.register("witch_kill",(ctx,msg) -> GameState.killAsWitch(msg));
         //The witch heal callback

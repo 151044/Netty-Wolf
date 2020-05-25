@@ -46,6 +46,7 @@ public class NameFrame extends JFrame {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Please enter a valid name!", "Name taken!", JOptionPane.WARNING_MESSAGE));
                 return;
             }
+            Client.getCurrent().connectFuture().syncUninterruptibly();
             Channel chan = Client.getCurrent().getChannel();
             chan.write(new Message("query_name",requested));
             chan.flush();

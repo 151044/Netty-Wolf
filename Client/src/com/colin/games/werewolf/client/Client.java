@@ -66,7 +66,8 @@ public class Client {
                         }
                     });
             try {
-                connect = boot.connect(addr, port).sync();
+                connect = boot.connect(addr, port);
+                connect.sync();
                 chan = connect.channel();
                 initCallbacks();
                 connect.channel().closeFuture().sync();
@@ -97,9 +98,7 @@ public class Client {
     }
     private static void initCallbacks(){
         MessageDispatch.register("kick",(ctx,msg) -> {
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(null,"You have been kicked by the host.","Kick",JOptionPane.WARNING_MESSAGE);
-            });
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"You have been kicked by the host.","Kick",JOptionPane.WARNING_MESSAGE));
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
@@ -107,5 +106,8 @@ public class Client {
             }
             System.exit(0);
         });
+    }
+    public ChannelFuture connectFuture(){
+        return connect;
     }
 }

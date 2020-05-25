@@ -20,13 +20,16 @@ package com.colin.games.werewolf.server.gui;
 
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.server.Connections;
+import com.colin.games.werewolf.server.Presets;
+import com.colin.games.werewolf.server.Server;
 
 import javax.swing.*;
+import java.util.List;
 
 public class ServerStatusFrame extends JFrame {
-    private JList<String> players;
-    private DefaultListModel<String> model = new DefaultListModel<>();
-    private JButton start;
+    private final JList<String> players;
+    private final DefaultListModel<String> model = new DefaultListModel<>();
+    private final JButton start;
 
     public ServerStatusFrame(){
         super("Server Status");
@@ -50,9 +53,15 @@ public class ServerStatusFrame extends JFrame {
             }
             Connections.lookup(selected).write(new Message("kick","empty"));
             Connections.lookup(selected).flush();
+            model.removeElement(selected);
         });
         start.addActionListener(ignored -> {
-
+            List<String> possiblePresets = Presets.presetFor(Server.getInstance().maxPlayers());
+            if(possiblePresets == null){
+                new CustomFrame(Server.getInstance().maxPlayers());
+            }else{
+                new PresetFrame(Server.getInstance().maxPlayers(),possiblePresets);
+            }
         });
         manage.add(start);
         start.setEnabled(false);

@@ -33,10 +33,9 @@ import java.util.function.Consumer;
  */
 public class OutputFrame extends JFrame {
     private boolean echoToSysOut = false;
-    private final JScrollPane textScroll;
     private final JTextArea textArea;
     private final PrintStream ps;
-    private Semaphore lock = new Semaphore(1);
+    private final Semaphore lock = new Semaphore(1);
 
     /**
      * Constructs a new output frame.
@@ -59,7 +58,7 @@ public class OutputFrame extends JFrame {
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textScroll = new JScrollPane(textArea);
+        JScrollPane textScroll = new JScrollPane(textArea);
         setLayout(new BorderLayout());
         pane.add(textScroll);
         add(pane);
