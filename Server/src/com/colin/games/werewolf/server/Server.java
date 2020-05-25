@@ -44,7 +44,7 @@ public class Server {
     private final int port;
     private final int maxPlayers;
     private static Server instance;
-    private ServerStatusFrame status = new ServerStatusFrame();
+    private final ServerStatusFrame status = new ServerStatusFrame();
     /**
      * Creates a new, but not started, server with the specified port.
      * @param port The port to host this server at
@@ -115,6 +115,7 @@ public class Server {
                     int left = Server.getInstance().maxPlayers - Connections.openChannels().size();
                     if(left < 1){
                         ch.write("Read to start at the host's command!");
+                        Server.getInstance().statusFrame().enableStart();
                     }else{
                         ch.write(new Message("chat","[Server]: Waiting for " + left + " more players."));
                     }
@@ -125,15 +126,17 @@ public class Server {
         //The disconnect callback
         MessageDispatch.register("disconnect", (ctx, msg) -> {
             ctx.channel().flush().close();
+            Connections.removeName(msg.getContent());
             Server.getInstance().statusFrame().removePlayers(msg.getContent());
             Connections.openChannels().forEach(ch -> {
                 ch.write(new Message("chat", "[Server]: " + msg.getContent() + " has disconnected!"));
                 ch.flush();
-                Connections.removeName(msg.getContent());
             });
         });
         //The werewolf kill callback
-
+        MessageDispatch.register("werewolf_kill",(ctx,msg) -> {
+            GameState.killAsWolf(msg);
+        });
         //The witch kill callback
         MessageDispatch.register("witch_kill",(ctx,msg) -> GameState.killAsWitch(msg));
         //The witch heal callback
@@ -141,7 +144,9 @@ public class Server {
         //The guard callback
         MessageDispatch.register("guard",(ctx,msg) -> GameState.protect(msg));
         //The next callback
+        MessageDispatch.register("next",(ctx,msg) -> {
 
+        });
         //The is full callback
         MessageDispatch.register("full_query",(ctx,msg) -> {
             ctx.channel().write(new Message("is_full_res",Server.getInstance().maxPlayers() < Connections.openChannels().size() ? "true" :"false"));

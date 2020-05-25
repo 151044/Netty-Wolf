@@ -26,6 +26,8 @@ import javax.swing.*;
 public class ServerStatusFrame extends JFrame {
     private JList<String> players;
     private DefaultListModel<String> model = new DefaultListModel<>();
+    private JButton start;
+
     public ServerStatusFrame(){
         super("Server Status");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +39,7 @@ public class ServerStatusFrame extends JFrame {
         add(playP);
         JPanel manage = new JPanel();
         manage.setLayout(new BoxLayout(manage,BoxLayout.X_AXIS));
-        JButton start = new JButton("Start");
+        start = new JButton("Start");
         JButton kick = new JButton("Kick");
         manage.add(kick);
         kick.addActionListener(ignored -> {
@@ -48,6 +50,9 @@ public class ServerStatusFrame extends JFrame {
             }
             Connections.lookup(selected).write(new Message("kick","empty"));
             Connections.lookup(selected).flush();
+        });
+        start.addActionListener(ignored -> {
+
         });
         manage.add(start);
         start.setEnabled(false);
@@ -61,5 +66,9 @@ public class ServerStatusFrame extends JFrame {
     }
     public void removePlayers(String toRemove){
         model.removeElement(toRemove);
+        pack();
+    }
+    public void enableStart(){
+        start.setEnabled(true);
     }
 }
