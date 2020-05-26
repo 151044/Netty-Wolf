@@ -1,3 +1,21 @@
+/*
+ * Netty-Wolf
+ * Copyright (C) 2020  Colin Chow
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.colin.games.werewolf.client.gui;
 
 import com.colin.games.werewolf.common.Environment;
@@ -29,7 +47,7 @@ public class ExceptionFrame extends JFrame {
                 //The commented lines are for Java 8
                 /*List<String> temp = new ArrayList<>();
                 temp.add(getMsg(ex,t));*/
-                Files.write(Environment.workingDir().resolve("netty-wolf-exception-" + LocalDateTime.now() + ".txt"),List.of(getMsg(ex,t)/*temp*/));
+                Files.write(Environment.workingDir().resolve("netty-wolf-exception-" + LocalDateTime.now().toString().replace(':','_') + ".txt"),List.of(getMsg(ex,t)/*temp*/));
             } catch (IOException e) {
                 System.exit(1);
             }
