@@ -1,11 +1,1 @@
-name: Upload-Client
 
-on: release
-
-jobs:
-    - name: Upload to release
-      uses: JasonEtco/upload-to-release@master
-      with:
-        args: ./build/libs/Client-0.0.1.jar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
