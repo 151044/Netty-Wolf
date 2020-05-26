@@ -48,6 +48,7 @@ public class Server {
     /**
      * Creates a new, but not started, server with the specified port.
      * @param port The port to host this server at
+     * @param maxPlayers The maximum number of players
      */
     public Server(int port,int maxPlayers){
         this.port = port;

@@ -1,0 +1,71 @@
+/*
+ * Netty-Wolf
+ * Copyright (C) 2020  Colin Chow
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import java.util.function.Predicate
+import java.util.stream.Collectors
+
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = '1.11'
+targetCompatibility = '1.11'
+version = '0.0.1'
+allprojects{
+    repositories {
+        mavenCentral()
+    }
+}
+subprojects {
+    version = '0.0.1'
+}
+subprojects.each { subproject ->
+    evaluationDependsOn(subproject.path)
+}
+task clientJar(type:Jar,dependsOn:assemble){
+    baseName = 'Client'
+    manifest{
+        attributes 'Main-Class':'com.colin.games.werewolf.client.ClientMain'
+    }
+    def clientSrc = ['Common','Client']
+    subprojects.stream().filter(new Predicate<Project>() {
+        @Override
+        boolean test(Project project) {
+            return clientSrc.contains(project.getName())
+        }
+    }).collect(Collectors.toList()).each { sub ->
+        from sub.configurations.archives.artifacts.files.collect { zipTree(it) }
+        from sub.configurations.runtimeClasspath.toSet().collect { it.isDirectory() ?  it : zipTree(it)}
+    }
+}
+task serverJar(type:Jar,dependsOn:assemble){
+    baseName = 'Server'
+    manifest{
+        attributes 'Main-Class':'com.colin.games.werewolf.client.ClientMain'
+    }
+    def clientSrc = ['Common','Server']
+    subprojects.stream().filter(new Predicate<Project>() {
+        @Override
+        boolean test(Project project) {
+            return clientSrc.contains(project.getName())
+        }
+    }).collect(Collectors.toList()).each { sub ->
+        from sub.configurations.archives.artifacts.files.collect { zipTree(it) }
+        from sub.configurations.runtimeClasspath.toSet().collect { it.isDirectory() ?  it : zipTree(it)}
+    }
+}
