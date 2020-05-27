@@ -24,6 +24,7 @@ import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Holds information as to if the person has died or not.
@@ -64,7 +65,6 @@ public class GameState {
             }
         }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.toString())));
-        checkWinCon();
         cache.clear();
     }
     public static void applyOutstanding(BiFunction<String,BitSet,Boolean> func){
@@ -77,10 +77,12 @@ public class GameState {
             isAlive.put(ent.getKey(),killOrNot);
         }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.toString())));
-        checkWinCon();
         cache.clear();
     }
-    private static void checkWinCon(){
+    public static void checkWinCon(){
 
+    }
+    public static GameCondition checkWinCon(Function<Map<String,Boolean>,GameCondition> winFunction){
+        return winFunction.apply(isAlive);
     }
 }

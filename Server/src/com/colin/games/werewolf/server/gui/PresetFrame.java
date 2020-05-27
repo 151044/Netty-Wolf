@@ -51,6 +51,7 @@ public class PresetFrame extends JFrame {
             JButton button = new JButton(s);
             add(button);
             button.addActionListener(ignored -> {
+                dispose();
 
             });
         }

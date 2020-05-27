@@ -29,6 +29,7 @@ public class RoleOrder {
     }
     private static Map<String,String> roleToCallback = new HashMap<>();
     private static List<String> order = new ArrayList<>();
+    private static int current = 0;
     public static void setBefore(String before,String role,String callback){
         int pos = order.indexOf(before);
         if(pos == -1){
@@ -41,10 +42,19 @@ public class RoleOrder {
     public static void setAfter(String after,String role,String callback){
         int pos = order.indexOf(after);
         if(pos == -1){
-            order.add(0,role);
+            order.add(role);
         }else{
             order.add(pos,role);
         }
         roleToCallback.put(role,callback);
+    }
+    public static String next(){
+        String res = order.get(current);
+        if(current ==  order.size() - 1){
+            current = 0;
+        }else{
+            current++;
+        }
+        return res;
     }
 }
