@@ -34,5 +34,5 @@ jobs:
           title: "Latest-Dev-Build"
           files: |
             LICENSE.md
-            ./build/libs/Server.jar
-            ./build/libs/Client.jar
+            ./build/libs/Server-0.0.1.jar
+            ./build/libs/Client-0.0.1.jar
