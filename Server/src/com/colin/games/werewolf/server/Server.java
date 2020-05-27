@@ -144,7 +144,10 @@ public class Server {
         MessageDispatch.register("guard",(ctx,msg) -> GameState.protect(msg));
         //The next callback
         MessageDispatch.register("next",(ctx,msg) -> {
-
+            Connections.openChannels().forEach(ch -> {
+                ch.write(new Message(RoleOrder.next(),""));
+                ch.flush();
+            });
         });
         //The is full callback
         MessageDispatch.register("full_query",(ctx,msg) -> {
