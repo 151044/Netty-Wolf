@@ -16,7 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-include ':Common'
-include ':Server'
-include ':Client'
-include ':Testing'
+plugins {
+    id 'java-library'
+}
+sourceSets{
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}
+dependencies{
+    compile project(':Common')
+    compile project(':Server')
+    compile project(':Client')
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.50.Final'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+version = '0.0.1'

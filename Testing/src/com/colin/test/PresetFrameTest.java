@@ -16,7 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-include ':Common'
-include ':Server'
-include ':Client'
-include ':Testing'
+package com.colin.test;
+
+import com.colin.games.werewolf.server.Presets;
+import com.colin.games.werewolf.server.gui.PresetFrame;
+
+public class PresetFrameTest {
+    public static void main(String[] args) {
+        Init.init();
+        new PresetFrame(5, Presets.presetFor(5));
+    }
+}

@@ -45,4 +45,12 @@ public class Connections {
     public static Channel lookup(String name){
         return channelMap.get(name);
     }
+    public static String nameByChannel(Channel name){
+        for(Map.Entry<String,Channel> ent : channelMap.entrySet()){
+            if(ent.getValue().equals(name)){
+                return ent.getKey();
+            }
+        }
+        return "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
+    }
 }

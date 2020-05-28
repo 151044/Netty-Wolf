@@ -18,29 +18,30 @@
 
 package com.colin.games.werewolf.server;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-public class Presets {
-    private Presets(){
+public class RoleList {
+    private RoleList(){
         throw new AssertionError();
     }
-    private static final Map<Integer, List<String>> presets;
+    private static Map<String,String> roleAbbr = new HashMap<>();
     static{
-        try {
-            presets = Files.readAllLines(Paths.get("./assets/DefaultLoad.txt")).stream().map(str -> str.split("\\|"))
-                    .collect(Collectors.toMap(sArr -> Integer.parseInt(sArr[0]),sArr -> Arrays.asList(sArr[1].split(":"))));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        roleAbbr.put("We","Werewolf");
+        roleAbbr.put("Wi","Witch");
+        roleAbbr.put("H","Hunter");
+        roleAbbr.put("G","Guard");
+        roleAbbr.put("S","Seer");
+        roleAbbr.put("V","Villager");
     }
-    public static List<String> presetFor(int lookup){
-        return presets.get(lookup);
+    public static void register(String full,String abbreviation){
+        roleAbbr.put(abbreviation,full);
+    }
+    public static String getFromAbbreviation(String abbreviate){
+        return roleAbbr.get(abbreviate);
+    }
+    public static Collection<String> getRoles(){
+        return roleAbbr.values();
     }
 }

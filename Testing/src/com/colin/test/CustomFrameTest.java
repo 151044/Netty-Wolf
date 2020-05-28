@@ -16,7 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-include ':Common'
-include ':Server'
-include ':Client'
-include ':Testing'
+package com.colin.test;
+
+import com.colin.games.werewolf.server.gui.CustomFrame;
+
+public class CustomFrameTest {
+    public static void main(String[] args) {
+        Init.init();
+        new CustomFrame(5);
+    }
+}

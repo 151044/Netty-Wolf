@@ -18,7 +18,7 @@
 
 package com.colin.games.werewolf.server.gui;
 
-import com.colin.games.werewolf.server.Presets;
+import com.colin.games.werewolf.server.RoleList;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PresetFrame extends JFrame {
+    private static Map<JButton,String> lookup = new HashMap<>();
     public PresetFrame(int players,List<String> presets){
         super("Presets");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,15 +44,17 @@ public class PresetFrame extends JFrame {
             }
             StringBuilder sb = new StringBuilder();
             for(Map.Entry<String,Integer> ent : map.entrySet()){
-                sb.append(ent.getValue()).append(" ").append(Presets.restoreToFull(ent.getKey())).append(',');
+                sb.append(ent.getValue()).append(" ").append(RoleList.getFromAbbreviation(ent.getKey())).append(',');
             }
             toDisplay.add(sb.deleteCharAt(sb.length() - 1).toString());
         }
         for(String s : toDisplay){
             JButton button = new JButton(s);
+            lookup.put(button,s);
             add(button);
             button.addActionListener(ignored -> {
                 dispose();
+                String op = lookup.get(button);
 
             });
         }

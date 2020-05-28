@@ -145,7 +145,7 @@ public class Server {
         //The next callback
         MessageDispatch.register("next",(ctx,msg) -> {
             Connections.openChannels().forEach(ch -> {
-                ch.write(new Message(RoleOrder.next(),""));
+                ch.write(new Message(RoleOrder.next(),"empty"));
                 ch.flush();
             });
         });

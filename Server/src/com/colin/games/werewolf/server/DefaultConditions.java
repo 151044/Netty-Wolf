@@ -40,6 +40,11 @@ public enum DefaultConditions implements GameCondition{
         public String reason() {
             return "The villagers have unmasked all werewolves!";
         }
+    },WIN_NONE{
+        @Override
+        public String reason() {
+            return "Everyone has died! Sad!";
+        }
     };
 
     @Override

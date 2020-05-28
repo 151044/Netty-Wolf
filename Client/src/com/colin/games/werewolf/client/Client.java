@@ -106,6 +106,9 @@ public class Client {
             }
             System.exit(0);
         });
+        MessageDispatch.register("init_cache",(ctx,msg) -> {
+            PlayerCache.init(msg.getContent());
+        });
     }
     public ChannelFuture connectFuture(){
         return connect;

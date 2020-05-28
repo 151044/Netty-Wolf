@@ -16,7 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-include ':Common'
-include ':Server'
-include ':Client'
-include ':Testing'
+package com.colin.sketches.sound;
+
+import javax.sound.sampled.*;
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+        Clip clip = AudioSystem.getClip();
+        AudioInputStream stream = AudioSystem.getAudioInputStream(new File("/home/colin/test.wav"));
+        clip.open(stream);
+        clip.start();
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        SwingUtilities.invokeLater(() ->  {
+            JOptionPane.showMessageDialog(null,"Close to exit!");
+        });
+    }
+}
