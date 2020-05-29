@@ -55,6 +55,9 @@ public class RoleDispatch {
         });
         Connections.openChannels().forEach(ch -> {
             ch.write(new Message("chat","Night has fallen."));
+            ch.flush();
+            ch.write(new Message("night","empty"));
+            ch.flush();
             List<String> toUnwrap = RoleOrder.next();
             ch.write(new Message(toUnwrap.get(0),toUnwrap.get(1)));
             ch.flush();
@@ -63,5 +66,8 @@ public class RoleDispatch {
     }
     public static String roleFromName(String name){
         return playerRoleMap.get(name);
+    }
+    public static List<String> getAllByRole(String name){
+        return playerRoleMap.entrySet().stream().filter(ent -> ent.getValue().equals(name)).map(ent -> ent.getValue()).collect(Collectors.toList());
     }
 }

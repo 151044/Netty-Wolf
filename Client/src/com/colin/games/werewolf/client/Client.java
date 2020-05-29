@@ -18,8 +18,10 @@
 
 package com.colin.games.werewolf.client;
 
+import com.colin.games.werewolf.client.gui.VotingFrame;
 import com.colin.games.werewolf.client.protocol.ClientMessageHandler;
 import com.colin.games.werewolf.client.role.*;
+import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDecoder;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import com.colin.games.werewolf.common.message.MessageEncoder;
@@ -100,6 +102,8 @@ public class Client {
     private static void initCallbacks(){
         MessageDispatch.register("kick",(ctx,msg) -> {
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"You have been kicked by the host.","Kick",JOptionPane.WARNING_MESSAGE));
+            ctx.channel().write(new Message("disconnect",Client.getCurrent().getName()));
+            ctx.channel().flush();
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
@@ -109,6 +113,7 @@ public class Client {
         });
         MessageDispatch.register("init_cache",(ctx,msg) -> PlayerCache.init(msg.getContent()));
         MessageDispatch.register("update_cache",(ctx,msg) -> PlayerCache.update(msg.getContent()));
+        MessageDispatch.register("vote_start",(ctx,msg) -> new VotingFrame());
         Roles.register("Werewolf", Werewolf::new);
         Roles.register("Guard", Guard::new);
         Roles.register("Hunter", Hunter::new);

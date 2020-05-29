@@ -1,7 +1,28 @@
+/*
+ * Netty-Wolf
+ * Copyright (C) 2020  Colin Chow
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.colin.games.werewolf.client.gui;
 
 import com.colin.games.werewolf.client.Client;
+import com.colin.games.werewolf.client.PlayerCache;
+import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
+import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.CharsetUtil;
@@ -10,13 +31,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.*;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 
 public class ChatFrame extends JFrame {
     private final PrintStream ps;
     private final JTextArea textArea;
-
     public ChatFrame(String name){
         super("Chat room");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,6 +95,14 @@ public class ChatFrame extends JFrame {
         });
         send.setMnemonic(KeyEvent.VK_ENTER);
         send.addActionListener(ae ->{
+            Player lookup = PlayerCache.lookup(Client.getCurrent().getName());
+            if (!(lookup == null)) {
+                if (PlayerCache.lookup(Client.getCurrent().getName()).isDead()) {
+                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "You are dead and cannot speak!"));
+                    msg.setText("");
+                    return;
+                }
+            }
             String output = "[" + name + "]: " + msg.getText();
             Channel chan = Client.getCurrent().getChannel();
             chan.write(new Message("chat",output));
@@ -82,6 +111,12 @@ public class ChatFrame extends JFrame {
         });
         pack();
         setVisible(true);
+        MessageDispatch.register("night",(ctx,m) -> {
+            send.setEnabled(false);
+        });
+        MessageDispatch.register("day",(ctx,m) -> {
+            send.setEnabled(true);
+        });
     }
 
     public void displayMsg(ChannelHandlerContext ignored, Message message) {

@@ -54,7 +54,7 @@ public class RoleOrder {
         List<String> toReturn = new ArrayList<>();
         String res = order.get(current);
         toReturn.add(res);
-        if(current ==  order.size() - 1){
+        if(current == (order.size() - 1)){
             current = 0;
         }else{
             current++;
@@ -66,6 +66,9 @@ public class RoleOrder {
             toReturn.add(content.get());
         }
         return toReturn;
+    }
+    public static boolean isNextLoopOver(){
+        return current == (order.size() - 1);
     }
     public static void setMessageContents(String role,Supplier<String> supp){
         associatedMsg.put(role,supp);

@@ -38,6 +38,7 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The actual server instance.
@@ -136,8 +137,20 @@ public class Server {
                 ch.flush();
             });
         });
+        //The werewolf choice callback
+        MessageDispatch.register("wolf_init",(ctx,msg) -> {
+            Connections.openChannels().forEach(ch -> {
+                ch.write(msg);
+                ch.flush();
+            });
+        });
         //The werewolf kill callback
-        MessageDispatch.register("werewolf_kill",(ctx,msg) -> GameState.killAsWolf(msg));
+        MessageDispatch.register("werewolf_kill",(ctx,msg) -> {
+            GameState.killAsWolf(msg);
+            Connections.openChannels().forEach(ch -> {
+                ch.write(new Message("werewolf_term","empty"));
+            });
+        });
         //The witch kill callback
         MessageDispatch.register("witch_kill",(ctx,msg) -> GameState.killAsWitch(msg));
         //The witch heal callback
@@ -146,16 +159,43 @@ public class Server {
         MessageDispatch.register("guard",(ctx,msg) -> GameState.protect(msg));
         //The next callback
         MessageDispatch.register("next",(ctx,msg) -> Connections.openChannels().forEach(ch -> {
-            List<String> toUnwrap = RoleOrder.next();
-            ch.write(new Message(toUnwrap.get(0),toUnwrap.get(1)));
-            ch.flush();
+            if(RoleOrder.isNextLoopOver()){
+                Connections.openChannels().forEach(chan -> {
+                    chan.write(new Message("day","empty"));
+                    chan.flush();
+                });
+                GameState.applyOutstanding();
+                GameCondition con = GameState.checkWinCon();
+                if(con.hasWon()){
+                    //abort
+                }
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(120000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Connections.openChannels().forEach(chan -> {
+                        chan.write(new Message("vote_start","empty"));
+                        chan.flush();
+                    });
+                },"waiter").start();
+            }else {
+                List<String> toUnwrap = RoleOrder.next();
+                ch.write(new Message(toUnwrap.get(0), toUnwrap.get(1)));
+                ch.flush();
+            }
         }));
         //The is full callback
         MessageDispatch.register("full_query",(ctx,msg) -> {
             ctx.channel().write(new Message("is_full_res",Server.getInstance().maxPlayers() < Connections.openChannels().size() ? "true" :"false"));
             ctx.channel().flush();
         });
-
+        RoleOrder.setAfter("empty","Werewolf","werewolf_next");
+        RoleOrder.setMessageContents("Werewolf",() -> RoleDispatch.getAllByRole("Werewolf").stream().collect(Collectors.joining(",")));
+        RoleOrder.setAfter("Werewolf","Guard","guard_next");
+        RoleOrder.setAfter("Guard","Witch","witch_next");
+        RoleOrder.setAfter("Witch","Seer","seer_callback");
     }
     public static Server getInstance(){
         return instance;
