@@ -76,11 +76,12 @@ public class GameState {
             }
             isAlive.put(ent.getKey(),killOrNot);
         }
-        Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.toString())));
+        Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.deleteCharAt(sb.length() - 1).toString())));
         cache.clear();
     }
-    public static void checkWinCon(){
+    public static GameCondition checkWinCon(){
 
+        return DefaultConditions.CONTINUE;
     }
     public static GameCondition checkWinCon(Function<Map<String,Boolean>,GameCondition> winFunction){
         return winFunction.apply(isAlive);

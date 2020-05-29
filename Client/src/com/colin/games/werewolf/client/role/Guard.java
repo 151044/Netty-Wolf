@@ -21,6 +21,7 @@ package com.colin.games.werewolf.client.role;
 import com.colin.games.werewolf.client.role.gui.GuardFrame;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
+import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -44,6 +45,11 @@ public class Guard implements Role {
     @Override
     public String callbackName() {
         return "guard_next";
+    }
+
+    @Override
+    public Group getGroup() {
+        return null;
     }
 
     public Player lastSaved(){

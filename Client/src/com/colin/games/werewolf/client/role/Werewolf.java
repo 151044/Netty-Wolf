@@ -20,6 +20,7 @@ package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.gui.WerewolfFrame;
 import com.colin.games.werewolf.common.message.Message;
+import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -46,5 +47,10 @@ public class Werewolf implements Role {
     @Override
     public String callbackName() {
         return "werewolf_next";
+    }
+
+    @Override
+    public Group getGroup() {
+        return null;
     }
 }
