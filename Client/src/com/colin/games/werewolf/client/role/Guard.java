@@ -40,6 +40,12 @@ public class Guard implements Role {
     public boolean isGood() {
         return true;
     }
+
+    @Override
+    public String callbackName() {
+        return "guard_next";
+    }
+
     public Player lastSaved(){
         return lastProtected;
     }

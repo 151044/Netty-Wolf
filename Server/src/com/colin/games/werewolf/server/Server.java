@@ -37,6 +37,8 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
+import java.util.List;
+
 /**
  * The actual server instance.
  */
@@ -143,12 +145,11 @@ public class Server {
         //The guard callback
         MessageDispatch.register("guard",(ctx,msg) -> GameState.protect(msg));
         //The next callback
-        MessageDispatch.register("next",(ctx,msg) -> {
-            Connections.openChannels().forEach(ch -> {
-                ch.write(new Message(RoleOrder.next(),"empty"));
-                ch.flush();
-            });
-        });
+        MessageDispatch.register("next",(ctx,msg) -> Connections.openChannels().forEach(ch -> {
+            List<String> toUnwrap = RoleOrder.next();
+            ch.write(new Message(toUnwrap.get(0),toUnwrap.get(1)));
+            ch.flush();
+        }));
         //The is full callback
         MessageDispatch.register("full_query",(ctx,msg) -> {
             ctx.channel().write(new Message("is_full_res",Server.getInstance().maxPlayers() < Connections.openChannels().size() ? "true" :"false"));

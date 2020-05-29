@@ -30,8 +30,6 @@ public class Main {
         clip.open(stream);
         clip.start();
         clip.loop(Clip.LOOP_CONTINUOUSLY);
-        SwingUtilities.invokeLater(() ->  {
-            JOptionPane.showMessageDialog(null,"Close to exit!");
-        });
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Close to exit!"));
     }
 }

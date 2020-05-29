@@ -22,13 +22,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class RoleOrder {
     private RoleOrder(){
         throw new AssertionError();
     }
-    private static Map<String,String> roleToCallback = new HashMap<>();
-    private static List<String> order = new ArrayList<>();
+    private static final Map<String,String> roleToCallback = new HashMap<>();
+    private static final List<String> order = new ArrayList<>();
+    private static final Map<String, Supplier<String>> associatedMsg = new HashMap<>();
     private static int current = 0;
     public static void setBefore(String before,String role,String callback){
         int pos = order.indexOf(before);
@@ -48,13 +50,24 @@ public class RoleOrder {
         }
         roleToCallback.put(role,callback);
     }
-    public static String next(){
+    public static List<String> next(){
+        List<String> toReturn = new ArrayList<>();
         String res = order.get(current);
+        toReturn.add(res);
         if(current ==  order.size() - 1){
             current = 0;
         }else{
             current++;
         }
-        return res;
+        Supplier<String> content = associatedMsg.get(res);
+        if(content == null){
+            toReturn.add("empty");
+        }else{
+            toReturn.add(content.get());
+        }
+        return toReturn;
+    }
+    public static void setMessageContents(String role,Supplier<String> supp){
+        associatedMsg.put(role,supp);
     }
 }

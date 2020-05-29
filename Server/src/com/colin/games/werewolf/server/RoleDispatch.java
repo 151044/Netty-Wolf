@@ -34,7 +34,7 @@ public class RoleDispatch {
                 res.add(ent.getKey());
             }
             return res;
-        }).flatMap(list -> list.stream()).collect(Collectors.toList());
+        }).flatMap(Collection::stream).collect(Collectors.toList());
         List<Channel> channels = Connections.openChannels();
         Collections.shuffle(pool);
         if(channels.size() != pool.size()){
@@ -45,8 +45,17 @@ public class RoleDispatch {
         for(Channel ch : channels){
             String toSend = pool.get(rand.nextInt(pool.size()));
             pool.remove(toSend);
-            sb.append(Connections.nameByChannel(ch)).append(",").append(";");
+            sb.append(Connections.nameByChannel(ch)).append(":").append(";");
         }
-        Connections.openChannels().forEach(ch -> ch.write(new Message("init_cache",sb.deleteCharAt(sb.length() - 1).toString())));
+        Connections.openChannels().forEach(ch -> {
+            ch.write(new Message("init_cache",sb.deleteCharAt(sb.length() - 1).toString()));
+            ch.flush();
+        });
+        Connections.openChannels().forEach(ch -> {
+            ch.write(new Message("chat","Night has fallen."));
+            List<String> toUnwrap = RoleOrder.next();
+            ch.write(new Message(toUnwrap.get(0),toUnwrap.get(1)));
+            ch.flush();
+        });
     }
 }

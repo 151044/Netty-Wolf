@@ -38,4 +38,9 @@ public class Hunter implements Role {
     public boolean isGood() {
         return true;
     }
+
+    @Override
+    public String callbackName() {
+        return "hunter_next";
+    }
 }

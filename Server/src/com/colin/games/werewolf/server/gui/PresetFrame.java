@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PresetFrame extends JFrame {
-    private static Map<JButton,String> lookup = new HashMap<>();
+    private static final Map<JButton,String> lookup = new HashMap<>();
     public PresetFrame(int players,List<String> presets){
         super("Presets");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

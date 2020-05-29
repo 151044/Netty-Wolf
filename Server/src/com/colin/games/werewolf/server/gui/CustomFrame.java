@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomFrame extends JFrame {
-    private Map<String,JTextField> textMap = new HashMap<>();
-    private static List<String> enforceOne = new ArrayList<>();
+    private final Map<String,JTextField> textMap = new HashMap<>();
+    private static final List<String> enforceOne = new ArrayList<>();
     static{
         enforceOne.add("Witch");
         enforceOne.add("Seer");
@@ -67,14 +67,14 @@ public class CustomFrame extends JFrame {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Invalid number of players!","Invalid options!",JOptionPane.WARNING_MESSAGE));
             }
             Map<String,Integer> map = new HashMap<>();
-            textMap.entrySet().forEach((ent) -> {
+            textMap.forEach((key, value) -> {
                 int res;
-                try{
-                    res = Integer.parseInt(ent.getValue().getText());
-                }catch(NumberFormatException nfe){
+                try {
+                    res = Integer.parseInt(value.getText());
+                } catch (NumberFormatException nfe) {
                     res = 0;
                 }
-                map.put(ent.getKey(),res);
+                map.put(key, res);
             });
             for(String s : enforceOne){
                 if(map.getOrDefault(s,1) > 1){

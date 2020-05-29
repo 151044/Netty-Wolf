@@ -20,6 +20,7 @@ package com.colin.games.werewolf.client;
 
 import com.colin.games.werewolf.client.role.Roles;
 import com.colin.games.werewolf.common.Player;
+import com.colin.games.werewolf.common.message.MessageDispatch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +35,7 @@ public class PlayerCache {
     private static List<Player> players = new ArrayList<>();
     public static void init(String fullMsg){
         players = Arrays.stream(fullMsg.split(";")).map(str -> str.split(":")).map(sArr -> new Player(sArr[0], Roles.makeNew(sArr[1]))).collect(Collectors.toList());
+        MessageDispatch.register(lookup(Client.getCurrent().getName()).getRole().callbackName(),(ctx,msg) -> lookup(Client.getCurrent().getName()).getRole().action(ctx,msg));
     }
     public static List<Player> notDead(){
         return players.stream().filter(p -> !p.isDead()).collect(Collectors.toList());

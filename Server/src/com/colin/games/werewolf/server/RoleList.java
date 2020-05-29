@@ -26,7 +26,7 @@ public class RoleList {
     private RoleList(){
         throw new AssertionError();
     }
-    private static Map<String,String> roleAbbr = new HashMap<>();
+    private static final Map<String,String> roleAbbr = new HashMap<>();
     static{
         roleAbbr.put("We","Werewolf");
         roleAbbr.put("Wi","Witch");
