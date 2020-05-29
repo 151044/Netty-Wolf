@@ -19,6 +19,7 @@
 package com.colin.games.werewolf.client;
 
 import com.colin.games.werewolf.client.protocol.ClientMessageHandler;
+import com.colin.games.werewolf.client.role.*;
 import com.colin.games.werewolf.common.message.MessageDecoder;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import com.colin.games.werewolf.common.message.MessageEncoder;
@@ -108,6 +109,12 @@ public class Client {
         });
         MessageDispatch.register("init_cache",(ctx,msg) -> PlayerCache.init(msg.getContent()));
         MessageDispatch.register("update_cache",(ctx,msg) -> PlayerCache.update(msg.getContent()));
+        Roles.register("Werewolf", Werewolf::new);
+        Roles.register("Guard", Guard::new);
+        Roles.register("Hunter", Hunter::new);
+        Roles.register("Seer", Seer::new);
+        Roles.register("Villager",Villager::new);
+        Roles.register("Witch", Witch::new);
     }
     public ChannelFuture connectFuture(){
         return connect;

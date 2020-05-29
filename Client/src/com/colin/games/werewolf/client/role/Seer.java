@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.client.role;
 
+import com.colin.games.werewolf.client.role.groups.DefaultGroups;
 import com.colin.games.werewolf.client.role.gui.SeerFrame;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
@@ -36,17 +37,12 @@ public class Seer implements Role {
     }
 
     @Override
-    public boolean isGood() {
-        return true;
-    }
-
-    @Override
     public String callbackName() {
         return "seer_next";
     }
 
     @Override
     public Group getGroup() {
-        return null;
+        return DefaultGroups.VILLAGER;
     }
 }

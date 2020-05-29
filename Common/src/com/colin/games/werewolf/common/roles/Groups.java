@@ -18,7 +18,26 @@
 
 package com.colin.games.werewolf.common.roles;
 
-public interface Group {
-    boolean isGood();
-    String getName();
+import java.util.HashMap;
+import java.util.Map;
+
+public class Groups {
+    private Groups(){
+        throw new AssertionError();
+    }
+    private static Map<String,String> roleToGroup = new HashMap<>();
+    static{
+        roleToGroup.put("Guard","Villager");
+        roleToGroup.put("Seer","Villager");
+        roleToGroup.put("Villager","Villager");
+        roleToGroup.put("Witch","Villager");
+        roleToGroup.put("Hunter","Villager");
+        roleToGroup.put("Werewolf","Werewolf");
+    }
+    public static void register(String role,String group){
+        roleToGroup.put(role,group);
+    }
+    public static String getGroup(String role){
+        return roleToGroup.get(role);
+    }
 }

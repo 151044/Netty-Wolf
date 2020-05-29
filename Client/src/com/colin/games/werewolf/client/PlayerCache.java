@@ -22,6 +22,7 @@ import com.colin.games.werewolf.client.role.Roles;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,7 @@ public class PlayerCache {
     public static void init(String fullMsg){
         players = Arrays.stream(fullMsg.split(";")).map(str -> str.split(":")).map(sArr -> new Player(sArr[0], Roles.makeNew(sArr[1]))).collect(Collectors.toList());
         MessageDispatch.register(lookup(Client.getCurrent().getName()).getRole().callbackName(),(ctx,msg) -> lookup(Client.getCurrent().getName()).getRole().action(ctx,msg));
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"You have been assigned role " + lookup(Client.getCurrent().getName()).getRole().toString()));
     }
     public static List<Player> notDead(){
         return players.stream().filter(p -> !p.isDead()).collect(Collectors.toList());

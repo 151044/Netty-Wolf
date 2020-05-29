@@ -155,6 +155,7 @@ public class Server {
             ctx.channel().write(new Message("is_full_res",Server.getInstance().maxPlayers() < Connections.openChannels().size() ? "true" :"false"));
             ctx.channel().flush();
         });
+
     }
     public static Server getInstance(){
         return instance;

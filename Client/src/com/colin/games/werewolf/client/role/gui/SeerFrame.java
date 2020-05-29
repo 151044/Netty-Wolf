@@ -39,7 +39,7 @@ public class SeerFrame extends JFrame {
         JButton submit = new JButton("Check");
         choiceP.add(submit);
         submit.addActionListener((ignored) -> SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null,((Player) players.getSelectedItem()).getName() + " is " + (((Player) players.getSelectedItem()).getRole().isGood() ? "good." : "bad."),"Information",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,((Player) players.getSelectedItem()).getName() + " is " + (((Player) players.getSelectedItem()).getRole().getGroup().isGood() ? "good." : "bad."),"Information",JOptionPane.INFORMATION_MESSAGE);
             submit.setEnabled(false);
         }));
         add(choiceP);

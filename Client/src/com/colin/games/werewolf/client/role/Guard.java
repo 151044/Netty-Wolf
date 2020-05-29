@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.client.role;
 
+import com.colin.games.werewolf.client.role.groups.DefaultGroups;
 import com.colin.games.werewolf.client.role.gui.GuardFrame;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
@@ -38,18 +39,13 @@ public class Guard implements Role {
     }
 
     @Override
-    public boolean isGood() {
-        return true;
-    }
-
-    @Override
     public String callbackName() {
         return "guard_next";
     }
 
     @Override
     public Group getGroup() {
-        return null;
+        return DefaultGroups.VILLAGER;
     }
 
     public Player lastSaved(){

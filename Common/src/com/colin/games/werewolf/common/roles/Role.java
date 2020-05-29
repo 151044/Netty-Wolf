@@ -24,7 +24,6 @@ import io.netty.channel.ChannelHandlerContext;
 public interface Role {
     String name();
     void action(ChannelHandlerContext ctx, Message msg);
-    boolean isGood();
     String callbackName();
     Group getGroup();
 }

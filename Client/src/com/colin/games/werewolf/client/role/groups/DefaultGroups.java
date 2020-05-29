@@ -16,9 +16,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.roles;
+package com.colin.games.werewolf.client.role.groups;
 
-public interface Group {
-    boolean isGood();
-    String getName();
+import com.colin.games.werewolf.common.roles.Group;
+
+public enum DefaultGroups implements Group {
+    VILLAGER(){
+        @Override
+        public boolean isGood() {
+            return true;
+        }
+
+        @Override
+        public String getName() {
+            return "Villager";
+        }
+    },WEREWOLF(){
+        @Override
+        public boolean isGood() {
+            return false;
+        }
+
+        @Override
+        public String getName() {
+            return "Werewolf";
+        }
+    };
 }

@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.client.role;
 
+import com.colin.games.werewolf.client.role.groups.DefaultGroups;
 import com.colin.games.werewolf.client.role.gui.WerewolfFrame;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
@@ -40,17 +41,12 @@ public class Werewolf implements Role {
     }
 
     @Override
-    public boolean isGood() {
-        return false;
-    }
-
-    @Override
     public String callbackName() {
         return "werewolf_next";
     }
 
     @Override
     public Group getGroup() {
-        return null;
+        return DefaultGroups.WEREWOLF;
     }
 }

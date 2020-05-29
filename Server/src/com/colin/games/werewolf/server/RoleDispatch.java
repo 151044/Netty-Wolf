@@ -27,6 +27,7 @@ public class RoleDispatch {
     private RoleDispatch(){
         throw new AssertionError();
     }
+    private static Map<String,String> playerRoleMap = new HashMap<>();
     public static void handle(Map<String,Integer> toDispatch){
         List<String> pool = toDispatch.entrySet().stream().map(ent -> {
             List<String> res = new ArrayList<>();
@@ -44,6 +45,7 @@ public class RoleDispatch {
         StringBuilder sb = new StringBuilder();
         for(Channel ch : channels){
             String toSend = pool.get(rand.nextInt(pool.size()));
+            playerRoleMap.put(Connections.nameByChannel(ch),toSend);
             pool.remove(toSend);
             sb.append(Connections.nameByChannel(ch)).append(":").append(";");
         }
@@ -57,5 +59,9 @@ public class RoleDispatch {
             ch.write(new Message(toUnwrap.get(0),toUnwrap.get(1)));
             ch.flush();
         });
+        Connections.getNames().forEach(GameState::setPlayer);
+    }
+    public static String roleFromName(String name){
+        return playerRoleMap.get(name);
     }
 }

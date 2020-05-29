@@ -53,4 +53,7 @@ public class Connections {
         }
         return "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
     }
+    public static List<String> getNames(){
+        return new ArrayList<>(channelMap.keySet());
+    }
 }

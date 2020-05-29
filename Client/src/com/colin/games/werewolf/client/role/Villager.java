@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.client.role;
 
+import com.colin.games.werewolf.client.role.groups.DefaultGroups;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
@@ -35,11 +36,6 @@ public class Villager implements Role {
     }
 
     @Override
-    public boolean isGood() {
-        return true;
-    }
-
-    @Override
     public String callbackName() {
         //no associated callback?
         return "villager_next";
@@ -47,6 +43,6 @@ public class Villager implements Role {
 
     @Override
     public Group getGroup() {
-        return null;
+        return DefaultGroups.VILLAGER;
     }
 }

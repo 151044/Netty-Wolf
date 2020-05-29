@@ -19,12 +19,14 @@
 package com.colin.games.werewolf.server;
 
 import com.colin.games.werewolf.common.message.Message;
+import com.colin.games.werewolf.common.roles.Groups;
 
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Holds information as to if the person has died or not.
@@ -35,6 +37,9 @@ public class GameState {
     }
     private static final Map<String,Boolean> isAlive = new HashMap<>();
     private static final Map<String,BitSet> cache = new HashMap<>();
+    public static void setPlayer(String name){
+        isAlive.put(name,true);
+    }
     public static void protect(Message msg){
         cache.get(msg.getContent()).set(3);
     }
@@ -80,7 +85,24 @@ public class GameState {
         cache.clear();
     }
     public static GameCondition checkWinCon(){
-
+        boolean werewolfWin = true,villagerWin = true;
+        for(String s : isAlive.entrySet().stream().filter(ent -> ent.getValue()).map(ent -> ent.getKey()).collect(Collectors.toList())){
+            String group = Groups.getGroup(RoleDispatch.roleFromName(s));
+            if(group.equals("Werewolf")){
+                villagerWin = false;
+            }else if(group.equals("Villager")){
+                werewolfWin = false;
+            }
+        }
+        if(werewolfWin){
+            return DefaultConditions.WIN_WEREWOLF;
+        }
+        if(villagerWin){
+            return DefaultConditions.WIN_VILLAGERS;
+        }
+        if(isAlive.entrySet().stream().filter(ent -> ent.getValue()).map(ent -> ent.getKey()).collect(Collectors.toList()).size() == 0){
+            return DefaultConditions.WIN_NONE;
+        }
         return DefaultConditions.CONTINUE;
     }
     public static GameCondition checkWinCon(Function<Map<String,Boolean>,GameCondition> winFunction){
