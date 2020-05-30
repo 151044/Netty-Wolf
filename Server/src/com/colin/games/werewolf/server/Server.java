@@ -167,7 +167,10 @@ public class Server {
                 GameState.applyOutstanding();
                 GameCondition con = GameState.checkWinCon();
                 if(con.hasWon()){
-                    //abort
+                    Connections.openChannels().forEach(chan -> {
+                        chan.write(new Message("end",con.reason()));
+                        chan.flush();
+                    });
                 }
                 new Thread(() -> {
                     try {

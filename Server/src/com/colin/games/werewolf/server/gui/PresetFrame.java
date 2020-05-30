@@ -18,13 +18,12 @@
 
 package com.colin.games.werewolf.server.gui;
 
+import com.colin.games.werewolf.server.RoleDispatch;
 import com.colin.games.werewolf.server.RoleList;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PresetFrame extends JFrame {
     private static final Map<JButton,String> lookup = new HashMap<>();
@@ -55,7 +54,7 @@ public class PresetFrame extends JFrame {
             button.addActionListener(ignored -> {
                 dispose();
                 String op = lookup.get(button);
-
+                RoleDispatch.handle(Arrays.stream(op.split(",")).collect(Collectors.toMap(str -> str.split(" ")[1], str -> Integer.parseInt(str.split(" ")[0]))));
             });
         }
         JButton custom = new JButton("Customize...");

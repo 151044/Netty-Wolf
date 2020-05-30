@@ -18,11 +18,14 @@
 
 package com.colin.test;
 
+import com.colin.games.werewolf.client.Client;
 import com.colin.games.werewolf.client.PlayerCache;
 import com.colin.games.werewolf.client.role.*;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Init {
     private Init(){
@@ -32,6 +35,12 @@ public class Init {
         try {
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+        try {
+            Client.setCurrent(new Client(InetAddress.getByName("127.0.0.1"),18823));
+            Client.getCurrent().setName("151044");
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
         Roles.register("Villager", Villager::new);

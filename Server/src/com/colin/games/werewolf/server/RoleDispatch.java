@@ -47,10 +47,10 @@ public class RoleDispatch {
             String toSend = pool.get(rand.nextInt(pool.size()));
             playerRoleMap.put(Connections.nameByChannel(ch),toSend);
             pool.remove(toSend);
-            sb.append(Connections.nameByChannel(ch)).append(":").append(";");
+            sb.append(Connections.nameByChannel(ch)).append(":").append(playerRoleMap.get(Connections.nameByChannel(ch))).append(";");
         }
         Connections.openChannels().forEach(ch -> {
-            ch.write(new Message("init_cache",sb.deleteCharAt(sb.length() - 1).toString()));
+            ch.write(new Message("init_cache",sb.deleteCharAt(sb.length()).toString()));
             ch.flush();
         });
         Connections.openChannels().forEach(ch -> {

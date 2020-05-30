@@ -44,7 +44,7 @@ public class WerewolfFrame extends JFrame {
             if(evt.getStateChange() == ItemEvent.SELECTED){
                 Player select = (Player) evt.getItem();
                 String send = select.getName();
-                Client.getCurrent().getChannel().write(new Message("wolf_init",send));
+                Client.getCurrent().getChannel().write(new Message("wolf_init",Client.getCurrent().getName() + ":" + send));
                 Client.getCurrent().getChannel().flush();
             }
         });
