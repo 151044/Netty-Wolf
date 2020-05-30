@@ -61,4 +61,8 @@ public class Witch implements Role {
     public void setHealStatus(boolean toSet){
         isHealUsed = toSet;
     }
+    @Override
+    public String toString() {
+        return name();
+    }
 }

@@ -49,4 +49,8 @@ public class Werewolf implements Role {
     public Group getGroup() {
         return DefaultGroups.WEREWOLF;
     }
+    @Override
+    public String toString() {
+        return name();
+    }
 }

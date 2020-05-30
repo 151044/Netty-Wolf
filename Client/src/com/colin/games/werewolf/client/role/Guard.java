@@ -54,4 +54,9 @@ public class Guard implements Role {
     public void setSaved(Player player){
         lastProtected = player;
     }
+
+    @Override
+    public String toString() {
+        return name();
+    }
 }

@@ -45,4 +45,8 @@ public class Villager implements Role {
     public Group getGroup() {
         return DefaultGroups.VILLAGER;
     }
+    @Override
+    public String toString() {
+        return name();
+    }
 }
