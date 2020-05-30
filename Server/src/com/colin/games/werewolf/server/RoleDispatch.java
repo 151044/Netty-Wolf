@@ -49,16 +49,17 @@ public class RoleDispatch {
             pool.remove(toSend);
             sb.append(Connections.nameByChannel(ch)).append(":").append(playerRoleMap.get(Connections.nameByChannel(ch))).append(";");
         }
+        String send = sb.deleteCharAt(sb.length() - 1).toString();
         Connections.openChannels().forEach(ch -> {
-            ch.write(new Message("init_cache",sb.deleteCharAt(sb.length()).toString()));
+            ch.write(new Message("init_cache",send));
             ch.flush();
         });
+        List<String> toUnwrap = RoleOrder.next();
         Connections.openChannels().forEach(ch -> {
             ch.write(new Message("chat","Night has fallen."));
             ch.flush();
             ch.write(new Message("night","empty"));
             ch.flush();
-            List<String> toUnwrap = RoleOrder.next();
             ch.write(new Message(toUnwrap.get(0),toUnwrap.get(1)));
             ch.flush();
         });
