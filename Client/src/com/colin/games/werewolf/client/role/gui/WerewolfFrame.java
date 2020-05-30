@@ -27,10 +27,14 @@ import io.netty.channel.Channel;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class WerewolfFrame extends JFrame {
-    private List<String> choices = new ArrayList<>();
+    private Map<String,String> choices = new HashMap<>();
     private final Map<String,JLabel> map = new HashMap<>();
     public WerewolfFrame(List<String> others){
         super("Your turn!");
@@ -64,7 +68,7 @@ public class WerewolfFrame extends JFrame {
         }
         ok.addActionListener(ae -> {
             Channel chan = Client.getCurrent().getChannel();
-            chan.write(new Message("werewolf_kill",choices.get(0)));
+            chan.write(new Message("werewolf_kill",choices.values().stream().findAny().orElseThrow()));
             chan.flush();
             chan.write(new Message("next","empty"));
             chan.flush();
@@ -76,15 +80,13 @@ public class WerewolfFrame extends JFrame {
         MessageDispatch.register("wolf_init",(ctx,msg) -> {
             String[] split = msg.getContent().split(":");
             setDisplay(split[0],split[1]);
-            choices.add(split[1]);
-            String comp = choices.get(0);
-            for(String s : choices){
-                if(!s.equals(comp)){
-                    ok.setEnabled(false);
-                    return;
-                }
+            choices.put(split[0],split[1]);
+            String comp = choices.values().stream().findAny().orElseThrow();
+            if(choices.values().stream().collect(Collectors.toSet()).size() != 1){
+                ok.setEnabled(false);
+            }else {
+                ok.setEnabled(true);
             }
-            ok.setEnabled(true);
         });
         MessageDispatch.register("werewolf_term",(ctx,msg) -> {
             dispose();
