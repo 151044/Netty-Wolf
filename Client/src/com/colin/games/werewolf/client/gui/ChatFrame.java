@@ -94,7 +94,10 @@ public class ChatFrame extends JFrame {
             }
         });
         send.setMnemonic(KeyEvent.VK_ENTER);
-        send.addActionListener(ae ->{
+        send.addActionListener(ae -> {
+            if(!PlayerCache.isInitialized()){
+                return;
+            }
             Player lookup = PlayerCache.lookup(Client.getCurrent().getName());
             if (!(lookup == null)) {
                 if (PlayerCache.lookup(Client.getCurrent().getName()).isDead()) {

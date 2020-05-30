@@ -34,9 +34,11 @@ public class PlayerCache {
         throw new AssertionError();
     }
     private static List<Player> players = new ArrayList<>();
+    private static boolean init = false;
     public static void init(String fullMsg){
         players = Arrays.stream(fullMsg.split(";")).map(str -> str.split(":")).map(sArr -> new Player(sArr[0], Roles.makeNew(sArr[1]))).collect(Collectors.toList());
         MessageDispatch.register(lookup(Client.getCurrent().getName()).getRole().callbackName(),(ctx,msg) -> lookup(Client.getCurrent().getName()).getRole().action(ctx,msg));
+        init = true;
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"You have been assigned role " + lookup(Client.getCurrent().getName()).getRole().toString()));
     }
     public static List<Player> notDead(){
@@ -55,5 +57,8 @@ public class PlayerCache {
     }
     public static Player lookup(String s){
         return players.stream().filter(play -> play.getName().equals(s)).findFirst().orElseThrow(() -> new NoSuchElementException("No such player found for input string " + s + "."));
+    }
+    public static boolean isInitialized(){
+        return init;
     }
 }
