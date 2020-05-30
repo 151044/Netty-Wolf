@@ -59,7 +59,7 @@ public class WerewolfFrame extends JFrame {
         }
         add(otherP);
         JButton ok = new JButton("OK");
-        if(!(others.size() == 0)){
+        if(!(others.size() == 1)){
             ok.setEnabled(false);
         }
         ok.addActionListener(ae -> {
@@ -74,7 +74,7 @@ public class WerewolfFrame extends JFrame {
         pack();
         setVisible(true);
         MessageDispatch.register("wolf_init",(ctx,msg) -> {
-            String[] split = msg.getContent().split(",");
+            String[] split = msg.getContent().split(":");
             setDisplay(split[0],split[1]);
             choices.add(split[1]);
             String comp = choices.get(0);

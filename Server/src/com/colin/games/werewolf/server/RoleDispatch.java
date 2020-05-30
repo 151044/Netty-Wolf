@@ -69,6 +69,6 @@ public class RoleDispatch {
         return playerRoleMap.get(name);
     }
     public static List<String> getAllByRole(String name){
-        return playerRoleMap.entrySet().stream().filter(ent -> ent.getValue().equals(name)).map(ent -> ent.getValue()).collect(Collectors.toList());
+        return playerRoleMap.entrySet().stream().filter(ent -> ent.getValue().equals(name)).map(ent -> ent.getKey()).collect(Collectors.toList());
     }
 }

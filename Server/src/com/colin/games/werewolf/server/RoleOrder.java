@@ -46,14 +46,14 @@ public class RoleOrder {
         if(pos == -1){
             order.add(role);
         }else{
-            order.add(pos,role);
+            order.add(pos + 1,role);
         }
         roleToCallback.put(role,callback);
     }
     public static List<String> next(){
         List<String> toReturn = new ArrayList<>();
         String res = order.get(current);
-        toReturn.add(res);
+        toReturn.add(roleToCallback.get(res));
         if(current == (order.size() - 1)){
             current = 0;
         }else{
