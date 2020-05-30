@@ -73,6 +73,12 @@ public class NameFrame extends JFrame {
             MessageDispatch.register("is_full_res",(ignore,res)-> {
                 if(Boolean.parseBoolean(res.getContent())){
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Server is full. Please try again later", "Server Full!", JOptionPane.WARNING_MESSAGE));
+                    try{
+                        Thread.sleep(6000);
+                    }catch(InterruptedException ie){
+                        ie.printStackTrace();
+                    }
+                    System.exit(0);
                 }
                 try{
                     await.await();
