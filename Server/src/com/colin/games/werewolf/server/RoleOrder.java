@@ -68,9 +68,17 @@ public class RoleOrder {
         return toReturn;
     }
     public static boolean isNextLoopOver(){
-        return current == (order.size() - 1);
+        return current == order.size();
     }
     public static void setMessageContents(String role,Supplier<String> supp){
         associatedMsg.put(role,supp);
+    }
+    public static String roleFromCallback(String call){
+        for(Map.Entry<String,String> ent : roleToCallback.entrySet()){
+            if(ent.getValue().equals(call)){
+                return ent.getKey();
+            }
+        }
+        return "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
     }
 }

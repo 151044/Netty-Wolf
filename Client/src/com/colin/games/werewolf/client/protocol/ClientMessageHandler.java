@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.client.protocol;
 
+import com.colin.games.werewolf.client.gui.ExceptionFrame;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.ChannelHandlerContext;
@@ -32,5 +33,15 @@ public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
             System.out.println(m.getContent() + " " + m.getType());
         }
         MessageDispatch.dispatch(ctx,m);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        if(cause instanceof Error){
+            cause.printStackTrace();
+            System.exit(2);
+        }else{
+            new ExceptionFrame((Exception) cause,Thread.currentThread());
+        }
     }
 }

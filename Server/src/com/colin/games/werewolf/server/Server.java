@@ -158,20 +158,19 @@ public class Server {
         //The guard callback
         MessageDispatch.register("guard",(ctx,msg) -> GameState.protect(msg));
         //The next callback
-        MessageDispatch.register("next",(ctx,msg) -> Connections.openChannels().forEach(ch -> {
-            if(RoleOrder.isNextLoopOver()){
-                Connections.openChannels().forEach(chan -> {
-                    chan.write(new Message("day","empty"));
-                    chan.flush();
-                });
+        MessageDispatch.register("next",(ctx,msg) -> {
+            if(RoleOrder.isNextLoopOver()) {
                 GameState.applyOutstanding();
                 GameCondition con = GameState.checkWinCon();
-                if(con.hasWon()){
-                    Connections.openChannels().forEach(chan -> {
-                        chan.write(new Message("end",con.reason()));
-                        chan.flush();
+                Connections.openChannels().forEach(ch -> {
+                    ch.write(new Message("day", "empty"));
+                    ch.flush();
+                    if (con.hasWon()) {
+                        ch.write(new Message("end", con.reason()));
+                        ch.flush();
+                        System.exit(0);
+                    }
                     });
-                }
                 new Thread(() -> {
                     try {
                         Thread.sleep(120000);
@@ -179,16 +178,23 @@ public class Server {
                         e.printStackTrace();
                     }
                     Connections.openChannels().forEach(chan -> {
-                        chan.write(new Message("vote_start","empty"));
+                        chan.write(new Message("vote_start", "empty"));
                         chan.flush();
                     });
-                },"waiter").start();
-            }else {
-                List<String> toUnwrap = RoleOrder.next();
-                ch.write(new Message(toUnwrap.get(0), toUnwrap.get(1)));
-                ch.flush();
+                }, "waiter").start();
+            }else{
+                List<String> next = RoleOrder.next();
+                while(!RoleDispatch.hasRole(RoleOrder.roleFromCallback(next.get(0)))){
+                    next = RoleOrder.next();
+                }
+                //Must be final or effectively final
+                List<String> finalNext = next;
+                Connections.openChannels().forEach(ch -> {
+                    ch.write(new Message(finalNext.get(0), finalNext.get(1)));
+                    ch.flush();
+                });
             }
-        }));
+        });
         //The is full callback
         MessageDispatch.register("full_query",(ctx,msg) -> {
             ctx.channel().write(new Message("is_full_res",Server.getInstance().maxPlayers() < Connections.openChannels().size() ? "true" :"false"));
@@ -198,7 +204,8 @@ public class Server {
         RoleOrder.setMessageContents("Werewolf",() -> RoleDispatch.getAllByRole("Werewolf").stream().collect(Collectors.joining(",")));
         RoleOrder.setAfter("Werewolf","Guard","guard_next");
         RoleOrder.setAfter("Guard","Witch","witch_next");
-        RoleOrder.setAfter("Witch","Seer","seer_callback");
+        RoleOrder.setAfter("Witch","Seer","seer_next");
+        RoleOrder.setMessageContents("Witch",() -> GameState.getWolfKill());
     }
     public static Server getInstance(){
         return instance;

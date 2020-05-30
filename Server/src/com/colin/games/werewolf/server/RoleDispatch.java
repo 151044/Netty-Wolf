@@ -71,4 +71,7 @@ public class RoleDispatch {
     public static List<String> getAllByRole(String name){
         return playerRoleMap.entrySet().stream().filter(ent -> ent.getValue().equals(name)).map(ent -> ent.getKey()).collect(Collectors.toList());
     }
+    public static boolean hasRole(String name){
+        return playerRoleMap.values().contains(name);
+    }
 }

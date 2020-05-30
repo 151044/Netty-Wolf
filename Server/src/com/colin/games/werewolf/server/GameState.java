@@ -36,9 +36,11 @@ public class GameState {
         throw new AssertionError();
     }
     private static final Map<String,Boolean> isAlive = new HashMap<>();
+    private static String killedByWolf = "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
     private static final Map<String,BitSet> cache = new HashMap<>();
     public static void setPlayer(String name){
         isAlive.put(name,true);
+        cache.put(name,new BitSet());
     }
     public static void protect(Message msg){
         cache.get(msg.getContent()).set(3);
@@ -48,6 +50,7 @@ public class GameState {
     }
     public static void killAsWolf(Message msg){
         cache.get(msg.getContent()).set(0);
+        killedByWolf = msg.getContent();
     }
     public static void killAsWitch(Message msg){
         cache.get(msg.getContent()).set(1);
@@ -82,7 +85,9 @@ public class GameState {
             isAlive.put(ent.getKey(),killOrNot);
         }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.deleteCharAt(sb.length() - 1).toString())));
-        cache.clear();
+        cache.forEach((str,bs) -> {
+            bs.clear();
+        });
     }
     public static GameCondition checkWinCon(){
         boolean werewolfWin = true,villagerWin = true;
@@ -107,5 +112,9 @@ public class GameState {
     }
     public static GameCondition checkWinCon(Function<Map<String,Boolean>,GameCondition> winFunction){
         return winFunction.apply(isAlive);
+    }
+
+    public static String getWolfKill() {
+        return killedByWolf;
     }
 }

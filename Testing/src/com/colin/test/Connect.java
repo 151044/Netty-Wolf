@@ -18,8 +18,22 @@
 
 package com.colin.test;
 
-public class Connect {
-    public static void main(String[] args) {
+import com.colin.games.werewolf.client.Client;
+import com.colin.games.werewolf.client.gui.NameFrame;
+import com.colin.games.werewolf.common.Environment;
 
+import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class Connect {
+    public static void main(String[] args) throws UnknownHostException, UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        Environment.setSide(Environment.Side.SERVER);
+        Client cli = new Client(InetAddress.getByName("61.18.35.8"),18823);
+        Client.setCurrent(cli);
+        cli.run();
+        new NameFrame();
     }
 }

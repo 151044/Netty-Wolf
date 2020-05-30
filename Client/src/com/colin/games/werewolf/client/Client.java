@@ -120,6 +120,15 @@ public class Client {
         Roles.register("Seer", Seer::new);
         Roles.register("Villager",Villager::new);
         Roles.register("Witch", Witch::new);
+        MessageDispatch.register("end",(ctx,msg) -> {
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Game ended! Reason: " + msg.getContent(),"Game Ended",JOptionPane.INFORMATION_MESSAGE));
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.exit(0);
+        });
     }
     public ChannelFuture connectFuture(){
         return connect;
