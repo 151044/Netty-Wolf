@@ -95,15 +95,14 @@ public class ChatFrame extends JFrame {
         });
         send.setMnemonic(KeyEvent.VK_ENTER);
         send.addActionListener(ae -> {
-            if(!PlayerCache.isInitialized()){
-                return;
-            }
-            Player lookup = PlayerCache.lookup(Client.getCurrent().getName());
-            if (!(lookup == null)) {
-                if (PlayerCache.lookup(Client.getCurrent().getName()).isDead()) {
-                    SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "You are dead and cannot speak!"));
-                    msg.setText("");
-                    return;
+            if(PlayerCache.isInitialized()) {
+                Player lookup = PlayerCache.lookup(Client.getCurrent().getName());
+                if (!(lookup == null)) {
+                    if (PlayerCache.lookup(Client.getCurrent().getName()).isDead()) {
+                        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "You are dead and cannot speak!"));
+                        msg.setText("");
+                        return;
+                    }
                 }
             }
             String output = "[" + name + "]: " + msg.getText();
