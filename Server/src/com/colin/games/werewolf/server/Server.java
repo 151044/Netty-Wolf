@@ -165,12 +165,16 @@ public class Server {
                 Connections.openChannels().forEach(ch -> {
                     ch.write(new Message("day", "empty"));
                     ch.flush();
+                    ch.write(new Message("chat","Day has broken."));
+                    ch.flush();
+                    ch.write(new Message("chat","[Server]: "));
                     if (con.hasWon()) {
                         ch.write(new Message("end", con.reason()));
                         ch.flush();
                         System.exit(0);
                     }
                     });
+                GameState.clearKilled();
                 new Thread(() -> {
                     try {
                         Thread.sleep(120000);
