@@ -50,9 +50,9 @@ public class ConnectFrame extends JFrame {
                 cli.run();
                 new NameFrame();
             }catch(NumberFormatException nfe){
-                JOptionPane.showMessageDialog(null,"Invalid port number entered!","Please try again.",JOptionPane.INFORMATION_MESSAGE);
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Invalid port number entered!","Please try again.",JOptionPane.INFORMATION_MESSAGE));
             }catch(UnknownHostException uhe){
-                JOptionPane.showMessageDialog(null,"Invalid IP entered!","Please try again.",JOptionPane.INFORMATION_MESSAGE);
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Invalid IP entered!","Please try again.",JOptionPane.INFORMATION_MESSAGE));
             }
             dispose();
         });

@@ -54,7 +54,7 @@ public class RoleOrder {
         List<String> toReturn = new ArrayList<>();
         String res = order.get(current);
         toReturn.add(roleToCallback.get(res));
-        if(current == (order.size() - 1)){
+        if(current == (order.size())){
             current = 0;
         }else{
             current++;
