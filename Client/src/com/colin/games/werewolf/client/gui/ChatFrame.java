@@ -99,6 +99,7 @@ public class ChatFrame extends JFrame {
                 Player lookup = PlayerCache.lookup(Client.getCurrent().getName());
                 if (!(lookup == null)) {
                     if (PlayerCache.lookup(Client.getCurrent().getName()).isDead()) {
+                        send.setEnabled(false);
                         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "You are dead and cannot speak!"));
                         msg.setText("");
                         return;

@@ -81,7 +81,6 @@ public class WerewolfFrame extends JFrame {
             String[] split = msg.getContent().split(":");
             setDisplay(split[0],split[1]);
             choices.put(split[0],split[1]);
-            String comp = choices.values().stream().findAny().orElseThrow();
             ok.setEnabled(choices.values().stream().collect(Collectors.toSet()).size() == 1);
         });
         MessageDispatch.register("werewolf_term",(ctx,msg) -> dispose());
