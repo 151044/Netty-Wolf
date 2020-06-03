@@ -22,6 +22,7 @@ import com.colin.games.werewolf.client.Client;
 import com.colin.games.werewolf.client.PlayerCache;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
+import com.colin.games.werewolf.common.message.MessageDispatch;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -42,11 +43,14 @@ public class VotingFrame extends JFrame {
         voteP.add(players);
         players.addItemListener(ae -> {
             if(ae.getStateChange() == ItemEvent.SELECTED) {
-                Client.getCurrent().writeAndFlush(new Message("vote_init", ((Player) players.getSelectedItem()).getName()));
+                Client.getCurrent().writeAndFlush(new Message("vote_init", Client.getCurrent().getName() + "," + ((Player) players.getSelectedItem()).getName()));
             }
         });
         JButton submit = new JButton("Submit");
         voteP.add(submit);
+        if(PlayerCache.lookup(Client.getCurrent().getName()).isDead()){
+            submit.setEnabled(false);
+        }
         submit.addActionListener(ae -> Client.getCurrent().writeAndFlush(new Message("vote_final",((Player) players.getSelectedItem()).getName())));
         add(voteP);
         JPanel otherVotes = new JPanel();
@@ -58,6 +62,14 @@ public class VotingFrame extends JFrame {
         }
         add(otherVotes);
         pack();
+        MessageDispatch.register("vote_init",(ctx,msg) -> {
+            String[] split = msg.getContent().split(",");
+            setSelection(split[0],split[1]);
+        });
+        MessageDispatch.register("vote_final",(ctx,msg) -> {
+            String[] split = msg.getContent().split(",");
+            setSelection(split[0],split[1] + "(Final)");
+        });
         setVisible(true);
     }
     public void setSelection(String player,String choice){

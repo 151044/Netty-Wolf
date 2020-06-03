@@ -38,7 +38,6 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The actual server instance.
@@ -138,18 +137,14 @@ public class Server {
             });
         });
         //The werewolf choice callback
-        MessageDispatch.register("wolf_init",(ctx,msg) -> {
-            Connections.openChannels().forEach(ch -> {
-                ch.write(msg);
-                ch.flush();
-            });
-        });
+        MessageDispatch.register("wolf_init",(ctx,msg) -> Connections.openChannels().forEach(ch -> {
+            ch.write(msg);
+            ch.flush();
+        }));
         //The werewolf kill callback
         MessageDispatch.register("werewolf_kill",(ctx,msg) -> {
             GameState.killAsWolf(msg);
-            Connections.openChannels().forEach(ch -> {
-                ch.write(new Message("werewolf_term","empty"));
-            });
+            Connections.openChannels().forEach(ch -> ch.write(new Message("werewolf_term","empty")));
         });
         //The witch kill callback
         MessageDispatch.register("witch_kill",(ctx,msg) -> GameState.killAsWitch(msg));
@@ -167,12 +162,15 @@ public class Server {
                     ch.flush();
                     ch.write(new Message("chat","Day has broken."));
                     ch.flush();
-                    ch.write(new Message("chat","[Server]: "));
+                    ch.write(new Message("chat","[Server]: "  + String.join(" and ", GameState.getKilled()) + "has died!"));
                     if (con.hasWon()) {
                         ch.write(new Message("end", con.reason()));
                         ch.flush();
                         System.exit(0);
                     }
+                    ch.flush();
+                    ch.write(new Message("chat","Please discuss. You have 2 minutes."));
+                    ch.flush();
                     });
                 GameState.clearKilled();
                 new Thread(() -> {
@@ -205,11 +203,17 @@ public class Server {
             ctx.channel().flush();
         });
         RoleOrder.setAfter("empty","Werewolf","werewolf_next");
-        RoleOrder.setMessageContents("Werewolf",() -> RoleDispatch.getAllByRole("Werewolf").stream().collect(Collectors.joining(",")));
+        RoleOrder.setMessageContents("Werewolf",() -> String.join(",", RoleDispatch.getAllByRole("Werewolf")));
         RoleOrder.setAfter("Werewolf","Guard","guard_next");
         RoleOrder.setAfter("Guard","Witch","witch_next");
         RoleOrder.setAfter("Witch","Seer","seer_next");
-        RoleOrder.setMessageContents("Witch",() -> GameState.getWolfKill());
+        RoleOrder.setMessageContents("Witch", GameState::getWolfKill);
+        MessageDispatch.register("vote_init",(ctx,msg) -> {
+            Connections.openChannels().forEach(ch -> {
+                ch.write(msg);
+                ch.flush();
+            });
+        });
     }
     public static Server getInstance(){
         return instance;
