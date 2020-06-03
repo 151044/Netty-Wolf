@@ -113,12 +113,8 @@ public class ChatFrame extends JFrame {
         });
         pack();
         setVisible(true);
-        MessageDispatch.register("night",(ctx,m) -> {
-            send.setEnabled(false);
-        });
-        MessageDispatch.register("day",(ctx,m) -> {
-            send.setEnabled(true);
-        });
+        MessageDispatch.register("night",(ctx,m) -> send.setEnabled(false));
+        MessageDispatch.register("day",(ctx,m) -> send.setEnabled(true));
     }
 
     public void displayMsg(ChannelHandlerContext ignored, Message message) {

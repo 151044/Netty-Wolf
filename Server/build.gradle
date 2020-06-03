@@ -20,6 +20,7 @@ plugins {
     id 'java-library'
 }
 sourceSets{
+    //noinspection GroovyAssignabilityCheck
     main {
         java {
             srcDirs = ['src']

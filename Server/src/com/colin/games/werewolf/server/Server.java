@@ -162,7 +162,7 @@ public class Server {
                     ch.flush();
                     ch.write(new Message("chat","Day has broken."));
                     ch.flush();
-                    ch.write(new Message("chat","[Server]: "  + String.join(" and ", GameState.getKilled()) + "has died!"));
+                    ch.write(new Message("chat","[Server]: "  + String.join(" and ", GameState.getKilled()) + " has died!"));
                     if (con.hasWon()) {
                         ch.write(new Message("end", con.reason()));
                         ch.flush();

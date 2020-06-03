@@ -86,13 +86,11 @@ public class GameState {
             isAlive.put(ent.getKey(),killOrNot);
         }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.deleteCharAt(sb.length() - 1).toString())));
-        cache.forEach((str,bs) -> {
-            bs.clear();
-        });
+        cache.forEach((str,bs) -> bs.clear());
     }
     public static GameCondition checkWinCon(){
         boolean werewolfWin = true,villagerWin = true;
-        for(String s : isAlive.entrySet().stream().filter(ent -> ent.getValue()).map(ent -> ent.getKey()).collect(Collectors.toList())){
+        for(String s : isAlive.entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).collect(Collectors.toList())){
             String group = Groups.getGroup(RoleDispatch.roleFromName(s));
             if(group.equals("Werewolf")){
                 villagerWin = false;
@@ -106,7 +104,7 @@ public class GameState {
         if(villagerWin){
             return DefaultConditions.WIN_VILLAGERS;
         }
-        if(isAlive.entrySet().stream().filter(ent -> ent.getValue()).map(ent -> ent.getKey()).collect(Collectors.toList()).size() == 0){
+        if(isAlive.entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).count() == 0){
             return DefaultConditions.WIN_NONE;
         }
         return DefaultConditions.CONTINUE;

@@ -34,7 +34,7 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 
 public class WerewolfFrame extends JFrame {
-    private Map<String,String> choices = new HashMap<>();
+    private final Map<String,String> choices = new HashMap<>();
     private final Map<String,JLabel> map = new HashMap<>();
     public WerewolfFrame(List<String> others){
         super("Your turn!");
@@ -82,15 +82,9 @@ public class WerewolfFrame extends JFrame {
             setDisplay(split[0],split[1]);
             choices.put(split[0],split[1]);
             String comp = choices.values().stream().findAny().orElseThrow();
-            if(choices.values().stream().collect(Collectors.toSet()).size() != 1){
-                ok.setEnabled(false);
-            }else {
-                ok.setEnabled(true);
-            }
+            ok.setEnabled(choices.values().stream().collect(Collectors.toSet()).size() == 1);
         });
-        MessageDispatch.register("werewolf_term",(ctx,msg) -> {
-            dispose();
-        });
+        MessageDispatch.register("werewolf_term",(ctx,msg) -> dispose());
     }
     public void setDisplay(String player,String decide){
         SwingUtilities.invokeLater(() -> map.get(player).setText(player + ": " + decide));

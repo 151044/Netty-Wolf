@@ -25,7 +25,7 @@ public class Groups {
     private Groups(){
         throw new AssertionError();
     }
-    private static Map<String,String> roleToGroup = new HashMap<>();
+    private static final Map<String,String> roleToGroup = new HashMap<>();
     static{
         roleToGroup.put("Guard","Villager");
         roleToGroup.put("Seer","Villager");

@@ -27,12 +27,12 @@ public class VotingState {
     private VotingState(){
         throw new AssertionError();
     }
-    private static Map<String,String> votes = new HashMap<>();
+    private static final Map<String,String> votes = new HashMap<>();
     public static void setVote(String name,String vote){
         votes.put(name,vote);
     }
     public static void collect(){
-        List<String> vote = votes.entrySet().stream().map(ent -> ent.getValue()).collect(Collectors.toList());
+        List<String> vote = votes.values().stream().collect(Collectors.toList());
         Map<String,Integer> map = new HashMap<>();
         for(String s : vote){
             if(map.containsKey(s)){
@@ -41,7 +41,7 @@ public class VotingState {
                 map.put(s,1);
             }
         }
-        Optional<Map.Entry<String,Integer>> opt = map.entrySet().stream().sorted(Comparator.comparingInt(Map.Entry::getValue)).findFirst();
+        Optional<Map.Entry<String,Integer>> opt = map.entrySet().stream().min(Comparator.comparingInt(Map.Entry::getValue));
         if(opt.isEmpty() || opt.get().getKey().equals("Abstain")){
             Connections.openChannels().forEach(ch -> {
                 ch.write(new Message("chat","No one is killed!"));

@@ -27,7 +27,7 @@ public class RoleDispatch {
     private RoleDispatch(){
         throw new AssertionError();
     }
-    private static Map<String,String> playerRoleMap = new HashMap<>();
+    private static final Map<String,String> playerRoleMap = new HashMap<>();
     public static void handle(Map<String,Integer> toDispatch){
         List<String> pool = toDispatch.entrySet().stream().map(ent -> {
             List<String> res = new ArrayList<>();
@@ -69,9 +69,9 @@ public class RoleDispatch {
         return playerRoleMap.get(name);
     }
     public static List<String> getAllByRole(String name){
-        return playerRoleMap.entrySet().stream().filter(ent -> ent.getValue().equals(name)).map(ent -> ent.getKey()).collect(Collectors.toList());
+        return playerRoleMap.entrySet().stream().filter(ent -> ent.getValue().equals(name)).map(Map.Entry::getKey).collect(Collectors.toList());
     }
     public static boolean hasRole(String name){
-        return playerRoleMap.values().contains(name);
+        return playerRoleMap.containsValue(name);
     }
 }

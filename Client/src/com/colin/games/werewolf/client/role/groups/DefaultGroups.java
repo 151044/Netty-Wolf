@@ -41,5 +41,5 @@ public enum DefaultGroups implements Group {
         public String getName() {
             return "Werewolf";
         }
-    };
+    }
 }

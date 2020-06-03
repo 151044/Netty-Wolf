@@ -25,7 +25,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
-    private static boolean debug = true;
+    private static final boolean debug = true;
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         Message m = (Message) msg;
