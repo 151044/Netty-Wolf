@@ -54,6 +54,14 @@ public class VotingState {
                 ch.flush();
             });
         }
+        GameCondition con = GameState.checkWinCon();
+        if(con.hasWon()){
+            Connections.openChannels().forEach(ch -> {
+                ch.write(new Message("end",con.reason()));
+                ch.flush();
+            });
+            System.exit(0);
+        }
         List<String> toUnwrap = RoleOrder.next();
         Connections.openChannels().forEach(ch -> {
             ch.write(new Message("chat","Night has fallen."));
