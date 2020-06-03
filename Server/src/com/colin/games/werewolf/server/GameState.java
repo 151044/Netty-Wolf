@@ -45,7 +45,7 @@ public class GameState {
         cache.get(msg.getContent()).set(3);
     }
     public static void heal(Message msg){
-        cache.get(msg.getContent()).set(2);
+        cache.get(killedByWolf).set(2);
     }
     public static void killAsWolf(Message msg){
         cache.get(msg.getContent()).set(0);

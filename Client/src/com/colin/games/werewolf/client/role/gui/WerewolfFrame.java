@@ -44,12 +44,14 @@ public class WerewolfFrame extends JFrame {
         you.setLayout(new BoxLayout(you,BoxLayout.X_AXIS));
         you.add(new JLabel("Select a person to kill:"));
         JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
+        JButton ok = new JButton("OK");
         players.addItemListener(evt -> {
             if(evt.getStateChange() == ItemEvent.SELECTED){
                 Player select = (Player) evt.getItem();
                 String send = select.getName();
                 Client.getCurrent().getChannel().write(new Message("wolf_init",Client.getCurrent().getName() + ":" + send));
                 Client.getCurrent().getChannel().flush();
+                ok.setEnabled(true);
             }
         });
         you.add(players);
@@ -62,7 +64,6 @@ public class WerewolfFrame extends JFrame {
             map.put(s,label);
         }
         add(otherP);
-        JButton ok = new JButton("OK");
         if(!(others.size() == 1)){
             ok.setEnabled(false);
         }
@@ -74,6 +75,7 @@ public class WerewolfFrame extends JFrame {
             chan.flush();
             dispose();
         });
+        ok.setEnabled(false);
         add(ok);
         pack();
         setVisible(true);

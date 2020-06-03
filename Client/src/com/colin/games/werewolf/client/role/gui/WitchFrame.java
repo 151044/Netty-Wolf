@@ -57,7 +57,7 @@ public class WitchFrame extends JFrame {
         submitKill.addActionListener(ignored -> {
             Player p = (Player) choice.getSelectedItem();
             context.setKillStatus(true);
-            submitKill.setEnabled(true);
+            submitKill.setEnabled(false);
             Client.getCurrent().writeAndFlush(new Message("witch_kill",p.getName()));
         });
         JButton pass = new JButton("Pass");
