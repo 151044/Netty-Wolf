@@ -20,6 +20,7 @@ package com.colin.games.werewolf.client.gui;
 
 import com.colin.games.werewolf.client.Client;
 import com.colin.games.werewolf.client.PlayerCache;
+import com.colin.games.werewolf.client.role.Villager;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
@@ -40,7 +41,7 @@ public class VotingFrame extends JFrame {
         voteP.setLayout(new BoxLayout(voteP,BoxLayout.X_AXIS));
         voteP.add(new JLabel("Select who to vote for: "));
         JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
-        players.addItem(new Player("Abstain",null));
+        players.addItem(new Player("Abstain",new Villager()));
         voteP.add(players);
         players.addItemListener(ae -> {
             if(ae.getStateChange() == ItemEvent.SELECTED) {
