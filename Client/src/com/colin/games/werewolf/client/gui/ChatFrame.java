@@ -39,7 +39,7 @@ public class ChatFrame extends JFrame {
     private final PrintStream ps;
     private final JTextArea textArea;
     public ChatFrame(String name){
-        super("Chat room");
+        super(name + "'s Chat room");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         textArea = new JTextArea();
         JPanel pane = new JPanel();
