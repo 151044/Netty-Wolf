@@ -40,6 +40,7 @@ public class VotingFrame extends JFrame {
         voteP.setLayout(new BoxLayout(voteP,BoxLayout.X_AXIS));
         voteP.add(new JLabel("Select who to vote for: "));
         JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
+        players.addItem(new Player("Abstain",null));
         voteP.add(players);
         players.addItemListener(ae -> {
             if(ae.getStateChange() == ItemEvent.SELECTED) {
@@ -51,7 +52,7 @@ public class VotingFrame extends JFrame {
         if(PlayerCache.lookup(Client.getCurrent().getName()).isDead()){
             submit.setEnabled(false);
         }
-        submit.addActionListener(ae -> Client.getCurrent().writeAndFlush(new Message("vote_final",((Player) players.getSelectedItem()).getName())));
+        submit.addActionListener(ae -> Client.getCurrent().writeAndFlush(new Message("vote_final",Client.getCurrent().getName() + "," + ((Player) players.getSelectedItem()).getName())));
         add(voteP);
         JPanel otherVotes = new JPanel();
         otherVotes.setLayout(new BoxLayout(otherVotes,BoxLayout.Y_AXIS));

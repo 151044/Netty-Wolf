@@ -113,12 +113,12 @@ public class Server {
             if (!Connections.has(req)) {
                 Connections.add(req, ctx.channel());
                 Server.getInstance().statusFrame().updatePlayers(req);
-                Server.getInstance().statusFrame().enableStart();
                 Connections.openChannels().forEach(ch -> {
                     ch.write(new Message("chat", "[Server]: " + req + " has joined!"));
                     int left = Server.getInstance().maxPlayers - Connections.openChannels().size();
                     if(left < 1){
                         ch.write(new Message("chat","Ready to start at the host's command!"));
+                        Server.getInstance().statusFrame().enableStart();
                     }else{
                         ch.write(new Message("chat","[Server]: Waiting for " + left + " more players."));
                     }
@@ -208,11 +208,20 @@ public class Server {
         RoleOrder.setAfter("Guard","Witch","witch_next");
         RoleOrder.setAfter("Witch","Seer","seer_next");
         RoleOrder.setMessageContents("Witch", GameState::getWolfKill);
-        MessageDispatch.register("vote_init",(ctx,msg) -> {
+        MessageDispatch.register("vote_init",(ctx,msg) -> Connections.openChannels().forEach(ch -> {
+            ch.write(msg);
+            ch.flush();
+        }));
+        MessageDispatch.register("vote_final",(ctx,msg) -> {
             Connections.openChannels().forEach(ch -> {
                 ch.write(msg);
                 ch.flush();
             });
+            String[] split = msg.getContent().split(",");
+            VotingState.setVote(split[0],split[1]);
+            if(VotingState.isDone()){
+                VotingState.collect();
+            }
         });
     }
     public static Server getInstance(){
