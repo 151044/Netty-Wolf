@@ -25,6 +25,10 @@ import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * The Hunter role.<br>
+ * A Hunter can take revenge by killing another player when they are killed.
+ */
 public class Hunter implements Role {
     @Override
     public String name() {

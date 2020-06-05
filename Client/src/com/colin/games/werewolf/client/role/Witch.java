@@ -25,6 +25,10 @@ import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * The witch role.<br>
+ * The witch can heal and kill a player, but only once.
+ */
 public class Witch implements Role {
     private boolean isHealUsed = false;
     private boolean isKillUsed = false;
@@ -49,15 +53,34 @@ public class Witch implements Role {
         return DefaultGroups.VILLAGER;
     }
 
+    /**
+     * Gets if the heal is used.
+     * @return True if the heal of the witch is used, false otherwise
+     */
     public boolean isHealUsed(){
         return isHealUsed;
     }
+
+    /**
+     * Gets if the killing ability is used.
+     * @return True if the killing ability of the witch is used, false otherwise
+     */
     public boolean isKillUsed(){
         return isKillUsed;
     }
+
+    /**
+     * Sets the heal ability to the given state.
+     * @param toSet The state of the ability to set
+     */
     public void setKillStatus(boolean toSet){
         isKillUsed = toSet;
     }
+
+    /**
+     * Sets the kill ability to the given state.
+     * @param toSet The state of the ability to set
+     */
     public void setHealStatus(boolean toSet){
         isHealUsed = toSet;
     }

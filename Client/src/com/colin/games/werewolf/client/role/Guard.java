@@ -26,6 +26,10 @@ import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * The guard role.<br>
+ * The guard role can protect any player from being killed, but cannot protect the same person twice in a row.
+ */
 public class Guard implements Role {
     private Player lastProtected = null;
     @Override
@@ -48,9 +52,18 @@ public class Guard implements Role {
         return DefaultGroups.VILLAGER;
     }
 
+    /**
+     * Gets the last protected player.
+     * @return The last protected player, and null if it does not exist
+     */
     public Player lastSaved(){
         return lastProtected;
     }
+
+    /**
+     * Sets the last protected player
+     * @param player The player to set
+     */
     public void setSaved(Player player){
         lastProtected = player;
     }

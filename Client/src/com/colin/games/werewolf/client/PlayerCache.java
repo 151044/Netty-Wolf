@@ -52,12 +52,20 @@ public class PlayerCache {
     }
 
     /**
-     *
-     * @return
+     * Returns the list of players which are not dead.
+     * @return The list of not-dead players
      */
     public static List<Player> notDead(){
         return players.stream().filter(p -> !p.isDead()).collect(Collectors.toList());
     }
+
+    /**
+     * Updates the cache with the supplied String. <br>
+     * Warning: Care must be taken to synchronize the state between the server and the client
+     * should you choose to use this method. <br>
+     * You are strongly discouraged to use this from application code.
+     * @param fullMsg The message to update the cache with
+     */
     public static void update(String fullMsg){
         for(String s : fullMsg.split(";")){
             String[] arr = s.split(":");
@@ -69,9 +77,21 @@ public class PlayerCache {
             }
         }
     }
-    public static Player lookup(String s){
+
+    /**
+     * Looks up a player by its name.
+     * @param s The name of the player to search for
+     * @return The player, if found
+     * @throws NoSuchElementException If no player is found for this input String
+     */
+    public static Player lookup(String s) throws NoSuchElementException{
         return players.stream().filter(play -> play.getName().equals(s)).findFirst().orElseThrow(() -> new NoSuchElementException("No such player found for input string " + s + "."));
     }
+
+    /**
+     * Tests if the cache is initialized by the {@link com.colin.games.werewolf.client.PlayerCache#init init()} method.
+     * @return Whether the cache is initialized
+     */
     public static boolean isInitialized(){
         return init;
     }

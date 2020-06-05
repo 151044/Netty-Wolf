@@ -60,7 +60,10 @@ public class VotingFrame extends JFrame {
         if(PlayerCache.lookup(Client.getCurrent().getName()).isDead()){
             submit.setEnabled(false);
         }
-        submit.addActionListener(ae -> Client.getCurrent().writeAndFlush(new Message("vote_final",Client.getCurrent().getName() + "," + ((Player) players.getSelectedItem()).getName())));
+        submit.addActionListener(ae -> {
+            Client.getCurrent().writeAndFlush(new Message("vote_final",Client.getCurrent().getName() + "," + ((Player) players.getSelectedItem()).getName()));
+            submit.setEnabled(true);
+        });
         add(voteP);
         JPanel otherVotes = new JPanel();
         otherVotes.setLayout(new BoxLayout(otherVotes,BoxLayout.Y_AXIS));

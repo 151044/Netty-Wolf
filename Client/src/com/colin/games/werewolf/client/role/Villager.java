@@ -24,6 +24,10 @@ import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * The Villager role.<br>
+ * It has no special abilities.
+ */
 public class Villager implements Role {
     @Override
     public String name() {

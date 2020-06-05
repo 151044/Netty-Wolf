@@ -38,6 +38,9 @@ import io.netty.util.CharsetUtil;
 import javax.swing.*;
 import java.net.InetAddress;
 
+/**
+ * The main client class.
+ */
 public class Client {
     private final InetAddress addr;
     private final int port;
@@ -46,6 +49,11 @@ public class Client {
     private String name;
     private ChannelFuture connect;
 
+    /**
+     * Constructs a new Client.
+     * @param addr
+     * @param port
+     */
     public Client(InetAddress addr,int port){
         this.addr = addr;
         this.port = port;

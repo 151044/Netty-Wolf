@@ -28,6 +28,10 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The werewolf role.<br>
+ * The werewolves can kill one player per night.
+ */
 public class Werewolf implements Role {
     @Override
     public String name() {

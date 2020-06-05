@@ -25,6 +25,10 @@ import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
+/**
+ * The Seer role.<br>
+ * The Seer can lookup whether a person is good or bad once per night.
+ */
 public class Seer implements Role {
     @Override
     public String name() {
