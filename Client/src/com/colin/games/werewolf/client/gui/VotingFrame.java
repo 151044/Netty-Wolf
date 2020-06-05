@@ -62,7 +62,7 @@ public class VotingFrame extends JFrame {
         }
         submit.addActionListener(ae -> {
             Client.getCurrent().writeAndFlush(new Message("vote_final",Client.getCurrent().getName() + "," + ((Player) players.getSelectedItem()).getName()));
-            submit.setEnabled(true);
+            submit.setEnabled(false);
         });
         add(voteP);
         JPanel otherVotes = new JPanel();
