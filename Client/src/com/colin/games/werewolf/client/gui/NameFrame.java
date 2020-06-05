@@ -27,10 +27,17 @@ import javax.swing.*;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
+/**
+ * A GUI for choosing your name in the game.
+ */
 public class NameFrame extends JFrame {
     private final CyclicBarrier await = new CyclicBarrier(2);
     private boolean success = false;
     private String requested = "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
+
+    /**
+     * Constructs a new NameFrame.
+     */
     public NameFrame(){
         super("Choose your name");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,6 +113,11 @@ public class NameFrame extends JFrame {
         pack();
         setVisible(true);
     }
+
+    /**
+     * Gets the requested name.
+     * @return The requested name
+     */
     public String getName(){
         return requested;
     }

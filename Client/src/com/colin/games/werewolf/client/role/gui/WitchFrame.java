@@ -27,6 +27,10 @@ import com.colin.games.werewolf.common.message.Message;
 import javax.swing.*;
 import java.util.Vector;
 
+/**
+ * Shows the window for the witch to take action.
+ * @see com.colin.games.werewolf.client.role.Witch Witch
+ */
 public class WitchFrame extends JFrame {
     public WitchFrame(String dead, Witch context){
         super("Your turn!");

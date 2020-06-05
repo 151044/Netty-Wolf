@@ -35,9 +35,17 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
+/**
+ * The GUI for the chat window.
+ */
 public class ChatFrame extends JFrame {
     private final PrintStream ps;
     private final JTextArea textArea;
+
+    /**
+     * Constructs a new ChatFrame with the specified player name.
+     * @param name
+     */
     public ChatFrame(String name){
         super(name + "'s Chat room");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,6 +126,11 @@ public class ChatFrame extends JFrame {
         MessageDispatch.register("day",(ctx,m) -> send.setEnabled(true));
     }
 
+    /**
+     * Displays the given message.
+     * @param ignored ChannelHandlerContext which is not used
+     * @param message The message to display
+     */
     public void displayMsg(ChannelHandlerContext ignored, Message message) {
         ps.println(message.getContent());
         ps.flush();

@@ -31,8 +31,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * The GUI for voting after discussion.
+ */
 public class VotingFrame extends JFrame {
     private final Map<String,JLabel> map = new HashMap<>();
+
+    /**
+     * Constructs a new VotingFrame.
+     */
     public VotingFrame(){
         super("Vote!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,6 +81,12 @@ public class VotingFrame extends JFrame {
         });
         setVisible(true);
     }
+
+    /**
+     * Sets the choice of player of the given player.
+     * @param player The player whose choice to set
+     * @param choice The chosen player
+     */
     public void setSelection(String player,String choice){
         map.get(player).setText(player + " : " + choice);
     }

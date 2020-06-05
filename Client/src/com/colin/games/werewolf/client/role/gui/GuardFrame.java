@@ -28,7 +28,15 @@ import javax.swing.*;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+/**
+ * Shows the window for the guard to take action.
+ * @see com.colin.games.werewolf.client.role.Guard Guard
+ */
 public class GuardFrame extends JFrame {
+    /**
+     * Constructs a new GuardFrame with the specified guard as context.
+     * @param context The guard to take action
+     */
     public GuardFrame(Guard context){
         super("Your turn!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

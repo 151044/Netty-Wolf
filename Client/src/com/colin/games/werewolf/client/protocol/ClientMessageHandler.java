@@ -24,6 +24,9 @@ import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+/**
+ * Handles incoming messages.
+ */
 public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
     private static final boolean debug = true;
     @Override

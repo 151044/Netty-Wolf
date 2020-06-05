@@ -28,7 +28,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A GUI for showing an error to the user.
+ */
 public class ExceptionFrame extends JFrame {
+    /**
+     * Constructs a new ExceptionFrame.
+     * @param ex The exception's stack trace to display
+     * @param t The thread where the exception occured
+     */
     public ExceptionFrame(Exception ex,Thread t){
         super("Oops!");
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));

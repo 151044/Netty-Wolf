@@ -20,7 +20,15 @@ package com.colin.games.werewolf.client.role.groups;
 
 import com.colin.games.werewolf.common.roles.Group;
 
+/**
+ * The default groups.
+ * @see com.colin.games.werewolf.common.roles.Group Group
+ */
 public enum DefaultGroups implements Group {
+    /**
+     * The Villager group.
+     * @see com.colin.games.werewolf.client.role.Villager Villager
+     */
     VILLAGER(){
         @Override
         public boolean isGood() {
@@ -31,7 +39,12 @@ public enum DefaultGroups implements Group {
         public String getName() {
             return "Villager";
         }
-    },WEREWOLF(){
+    },
+    /**
+     * The Villager group.
+     * @see com.colin.games.werewolf.client.role.Werewolf Werewolf
+     */
+    WEREWOLF(){
         @Override
         public boolean isGood() {
             return false;

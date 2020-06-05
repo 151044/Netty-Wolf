@@ -24,10 +24,20 @@ import javax.swing.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * The GUI for connecting to a server.
+ */
 public class ConnectFrame extends JFrame {
+    /**
+     * Constructs a new ConnectFrame.
+     */
     public ConnectFrame(){
         super("Connect to a Server");
     }
+
+    /**
+     * Initializes the GUI.
+     */
     public void init(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BoxLayout(getContentPane(),BoxLayout.X_AXIS));

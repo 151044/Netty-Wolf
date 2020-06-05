@@ -26,7 +26,14 @@ import com.colin.games.werewolf.common.message.Message;
 import javax.swing.*;
 import java.util.Vector;
 
+/**
+ * Shows the window for the seer to take action.
+ * @see com.colin.games.werewolf.client.role.Seer Seer
+ */
 public class SeerFrame extends JFrame {
+    /**
+     * Constructs a new SeerFrame.
+     */
     public SeerFrame(){
         super("Your turn!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -29,18 +29,32 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+/**
+ * A cache to hold player status.
+ */
 public class PlayerCache {
     private PlayerCache(){
         throw new AssertionError();
     }
     private static List<Player> players = new ArrayList<>();
     private static boolean init = false;
+
+    /**
+     * Initializes the cache. <br>
+     * This should not be calle from application code.
+     * @param fullMsg The message to initialize the cache with
+     */
     public static void init(String fullMsg){
         players = Arrays.stream(fullMsg.split(";")).map(str -> str.split(":")).map(sArr -> new Player(sArr[0], Roles.makeNew(sArr[1]))).collect(Collectors.toList());
         MessageDispatch.register(lookup(Client.getCurrent().getName()).getRole().callbackName(),(ctx,msg) -> lookup(Client.getCurrent().getName()).getRole().action(ctx,msg));
         init = true;
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"You have been assigned role " + lookup(Client.getCurrent().getName()).getRole().toString()));
     }
+
+    /**
+     *
+     * @return
+     */
     public static List<Player> notDead(){
         return players.stream().filter(p -> !p.isDead()).collect(Collectors.toList());
     }

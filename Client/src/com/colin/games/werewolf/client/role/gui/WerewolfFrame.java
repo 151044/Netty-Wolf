@@ -33,9 +33,18 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
+/**
+ * Shows the window for the werewolf to take action.
+ * @see com.colin.games.werewolf.client.role.Werewolf Werewolf
+ */
 public class WerewolfFrame extends JFrame {
     private final Map<String,String> choices = new HashMap<>();
     private final Map<String,JLabel> map = new HashMap<>();
+
+    /**
+     * Constructs a new WerewolfFrame.
+     * @param others The list of wolves
+     */
     public WerewolfFrame(List<String> others){
         super("Your turn!");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,6 +96,12 @@ public class WerewolfFrame extends JFrame {
         });
         MessageDispatch.register("werewolf_term",(ctx,msg) -> dispose());
     }
+
+    /**
+     * Sets the decision of a player.
+     * @param player The player to set the decision
+     * @param decide The player that the werewolf has decided to kill.
+     */
     public void setDisplay(String player,String decide){
         SwingUtilities.invokeLater(() -> map.get(player).setText(player + ": " + decide));
     }

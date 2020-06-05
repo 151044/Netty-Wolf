@@ -24,6 +24,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+/**
+ * Sends messages to their destination. <br>
+ *
+ */
 public class MessageDispatch {
     private MessageDispatch(){
         throw new AssertionError();
