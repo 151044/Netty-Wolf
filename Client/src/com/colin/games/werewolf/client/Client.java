@@ -137,6 +137,12 @@ public class Client {
             }
             System.exit(0);
         });
+        Runtime.getRuntime().addShutdownHook(new Thread(()-> {
+            if(Client.getCurrent() != null) {
+                Client.getCurrent().getChannel().write(new Message("disconnect", Client.getCurrent().getName()));
+                Client.getCurrent().getChannel().flush();
+            }
+        }));
     }
     public ChannelFuture connectFuture(){
         return connect;

@@ -21,7 +21,6 @@ package com.colin.games.werewolf.client;
 import com.colin.games.werewolf.client.gui.ExceptionFrame;
 import com.colin.games.werewolf.client.gui.StartMenu;
 import com.colin.games.werewolf.common.Environment;
-import com.colin.games.werewolf.common.message.Message;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -38,11 +37,5 @@ public class ClientMain {
             new ExceptionFrame((Exception) ex,t);
         });
         new StartMenu();
-        Runtime.getRuntime().addShutdownHook(new Thread(()-> {
-            if(Client.getCurrent() != null) {
-                Client.getCurrent().getChannel().write(new Message("disconnect", Client.getCurrent().getName()));
-                Client.getCurrent().getChannel().flush();
-            }
-         }));
     }
 }

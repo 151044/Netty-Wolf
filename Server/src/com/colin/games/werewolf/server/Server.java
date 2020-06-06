@@ -163,6 +163,12 @@ public class Server {
                     ch.write(new Message("chat","Day has broken."));
                     ch.flush();
                     List<String> killed = GameState.getKilled();
+                    for(String s : killed){
+                        if(RoleDispatch.roleFromName(s).equals("Hunter")){
+                            ch.write(new Message("hunter_next","empty"));
+                            ch.flush();
+                        }
+                    }
                     ch.write(new Message("chat","[Server]: "  + ((killed.size() == 0) ? "No one" : String.join(" and ", killed)) + " has died!"));
                     if (con.hasWon()) {
                         ch.write(new Message("end", con.reason()));
@@ -224,6 +230,22 @@ public class Server {
             VotingState.setVote(split[0],split[1]);
             if(VotingState.isDone()){
                 VotingState.collect();
+            }
+        });
+        MessageDispatch.register("hunter_kill",(ctx,msg) -> {
+            GameState.directKill(msg.getContent());
+            GameCondition con = GameState.checkWinCon();
+            if(con.hasWon()){
+                Connections.openChannels().forEach(ch -> {
+                    ch.write(new Message("end",con.reason()));
+                    ch.flush();
+                });
+                System.exit(0);
+            }else{
+                Connections.openChannels().forEach(ch -> {
+                    ch.write(new Message("chat","The hunter has killed" + msg.getContent() + " from beyond the grave!"));
+                    ch.flush();
+                });
             }
         });
     }

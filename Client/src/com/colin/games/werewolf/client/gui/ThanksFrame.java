@@ -30,12 +30,13 @@ public class ThanksFrame extends JFrame {
         dedication.put("Lio","Lio, thank you for inspiring me to make this game.");
         dedication.put("HYWong","HYWong, thank you for your support and being an incredible tester.");
         dedication.put("Eric","Eric, thank you for donating your name for the cause!");
+        dedication.put("XDGUY","To XDGUY: So long, and thanks for all the memes. And the time spent helping me debug. And the new ideas given.");
         dedication.put("You","Dear player, thank you for supporting me!");
     }
     public ThanksFrame(){
         super("Thank you!");
         java.util.List<String> list = new ArrayList<>(dedication.keySet());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
         DefaultListModel<String> lm = new DefaultListModel<>();
         list.forEach(lm::addElement);
