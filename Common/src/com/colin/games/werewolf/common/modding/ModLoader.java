@@ -19,4 +19,7 @@
 package com.colin.games.werewolf.common.modding;
 
 public class ModLoader {
+    private ModLoader(){
+        throw new AssertionError();
+    }
 }
