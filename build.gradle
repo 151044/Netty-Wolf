@@ -53,7 +53,7 @@ task clientJar(type:Jar,dependsOn:assemble){
         }
     }).collect(Collectors.toList()).each { sub ->
         from sub.configurations.archives.artifacts.files.collect { zipTree(it) }
-        from sub.configurations.runtimeClasspath.toSet().collect { it.isDirectory() ?  it : zipTree(it)}
+        from sub.configurations.runtimeClasspath.toSet().collect { it.isDirectory() ?  it : zipTree(it) }
     }
 }
 task serverJar(type:Jar,dependsOn:assemble){
