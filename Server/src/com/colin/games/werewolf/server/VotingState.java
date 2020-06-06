@@ -41,7 +41,7 @@ public class VotingState {
                 map.put(s,1);
             }
         }
-        Optional<Map.Entry<String,Integer>> opt = map.entrySet().stream().min(Comparator.comparingInt(Map.Entry::getValue));
+        Optional<Map.Entry<String,Integer>> opt = map.entrySet().stream().max(Comparator.comparingInt(Map.Entry::getValue));
         if(opt.isEmpty() || opt.get().getKey().equals("Abstain")){
             Connections.openChannels().forEach(ch -> {
                 ch.write(new Message("chat","No one is killed!"));
@@ -62,6 +62,10 @@ public class VotingState {
             });
             System.exit(0);
         }
+        Connections.openChannels().forEach(ch -> {
+            ch.write(new Message("vote_term","empty"));
+            ch.flush();
+        });
         List<String> toUnwrap = RoleOrder.next();
         Connections.openChannels().forEach(ch -> {
             ch.write(new Message("chat","Night has fallen."));

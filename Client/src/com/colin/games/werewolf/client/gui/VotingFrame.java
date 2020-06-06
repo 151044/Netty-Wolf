@@ -76,12 +76,15 @@ public class VotingFrame extends JFrame {
         pack();
         MessageDispatch.register("vote_init",(ctx,msg) -> {
             String[] split = msg.getContent().split(",");
-            setSelection(split[0],split[1]);
+            if(!map.get(split[0]).getText().contains("(Final)")){
+                setSelection(split[0],split[1]);
+            }
         });
         MessageDispatch.register("vote_final",(ctx,msg) -> {
             String[] split = msg.getContent().split(",");
             setSelection(split[0],split[1] + "(Final)");
         });
+        MessageDispatch.register("vote_term",(ctx,msg) -> dispose());
         setVisible(true);
     }
 

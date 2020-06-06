@@ -51,14 +51,13 @@ public class RoleOrder {
         roleToCallback.put(role,callback);
     }
     public static List<String> next(){
+        if(current == (order.size())){
+            current = 0;
+        }
         List<String> toReturn = new ArrayList<>();
         String res = order.get(current);
         toReturn.add(roleToCallback.get(res));
-        if(current == (order.size())){
-            current = 0;
-        }else{
-            current++;
-        }
+        current++;
         Supplier<String> content = associatedMsg.get(res);
         if(content == null){
             toReturn.add("empty");

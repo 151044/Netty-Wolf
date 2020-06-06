@@ -20,6 +20,7 @@ package com.colin.games.werewolf.client;
 
 import com.colin.games.werewolf.client.role.Roles;
 import com.colin.games.werewolf.common.Player;
+import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 
 import javax.swing.*;
@@ -41,12 +42,20 @@ public class PlayerCache {
 
     /**
      * Initializes the cache. <br>
-     * This should not be calle from application code.
+     * This should not be called from application code.
      * @param fullMsg The message to initialize the cache with
      */
     public static void init(String fullMsg){
         players = Arrays.stream(fullMsg.split(";")).map(str -> str.split(":")).map(sArr -> new Player(sArr[0], Roles.makeNew(sArr[1]))).collect(Collectors.toList());
-        MessageDispatch.register(lookup(Client.getCurrent().getName()).getRole().callbackName(),(ctx,msg) -> lookup(Client.getCurrent().getName()).getRole().action(ctx,msg));
+        MessageDispatch.register(lookup(Client.getCurrent().getName()).getRole().callbackName(),(ctx,msg) -> {
+            Player p = lookup(Client.getCurrent().getName());
+            if(p.isDead()){
+                ctx.channel().write(new Message("next","empty"));
+                ctx.channel().flush();
+            }else{
+                p.getRole().action(ctx,msg);
+            }
+        });
         init = true;
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"You have been assigned role " + lookup(Client.getCurrent().getName()).getRole().toString()));
     }

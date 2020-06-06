@@ -73,9 +73,14 @@ public class GameState {
                 killed.add(ent.getKey());
             }
         }
-        String str = sb.deleteCharAt(sb.length() - 1).toString();
+        String str;
+        if(sb.length() == 0) {
+            str = sb.toString();
+        }else {
+            str = sb.deleteCharAt(sb.length() - 1).toString();
+        }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",str.isBlank() ? "empty" : str)));
-        cache.clear();
+        cache.forEach((string,bs) -> bs.clear());
     }
     public static void applyOutstanding(BiFunction<String,BitSet,Boolean> func){
         StringBuilder sb = new StringBuilder();
@@ -86,7 +91,12 @@ public class GameState {
             }
             isAlive.put(ent.getKey(),killOrNot);
         }
-        String str = sb.deleteCharAt(sb.length() - 1).toString();
+        String str;
+        if(sb.length() == 0) {
+            str = sb.toString();
+        }else {
+            str = sb.deleteCharAt(sb.length() - 1).toString();
+        }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",str.isBlank() ? "empty" : str)));
         cache.forEach((string,bs) -> bs.clear());
     }
@@ -120,6 +130,7 @@ public class GameState {
     }
     public static void directKill(String name){
         isAlive.put(name,false);
+        Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",name + ":kill")));
     }
     public static List<String> getKilled(){
         return killed;

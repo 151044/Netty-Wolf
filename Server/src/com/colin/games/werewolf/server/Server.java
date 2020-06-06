@@ -178,7 +178,7 @@ public class Server {
                 GameState.clearKilled();
                 new Thread(() -> {
                     try {
-                        Thread.sleep(120000);
+                        Thread.sleep(1200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
