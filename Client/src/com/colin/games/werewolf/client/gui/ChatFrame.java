@@ -44,7 +44,7 @@ public class ChatFrame extends JFrame {
 
     /**
      * Constructs a new ChatFrame with the specified player name.
-     * @param name
+     * @param name The name of the player
      */
     public ChatFrame(String name){
         super(name + "'s Chat room");
