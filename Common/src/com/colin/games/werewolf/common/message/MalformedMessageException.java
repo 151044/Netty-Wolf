@@ -24,7 +24,7 @@ package com.colin.games.werewolf.common.message;
  */
 public class MalformedMessageException extends RuntimeException{
     /**
-     * Constructs a new MalformedMessageException with the specified erroring string.
+     * Constructs a new MalformedMessageException with the specified offending string.
      * @param s The string which is malformed
      */
     public MalformedMessageException(String s){

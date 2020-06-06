@@ -18,7 +18,20 @@
 
 package com.colin.games.werewolf.common.roles;
 
+/**
+ * Describes a group.<br>
+ * When only members of a group remain alive, the group wins.
+ */
 public interface Group {
+    /**
+     * Tests if this group is benign.
+     * @return True if this group is good, false otherwise
+     */
     boolean isGood();
+
+    /**
+     * Gets the name of this group.
+     * @return The name of this group
+     */
     String getName();
 }

@@ -26,7 +26,7 @@ import java.util.function.BiConsumer;
 
 /**
  * Sends messages to their destination. <br>
- *
+ * Mods should register their own callbacks here.
  */
 public class MessageDispatch {
     private MessageDispatch(){
@@ -34,6 +34,12 @@ public class MessageDispatch {
     }
     private static final boolean debug = true;
     private static final Map<String, BiConsumer<ChannelHandlerContext,Message>> lookup = new HashMap<>();
+
+    /**
+     * Dispatches a message (calls its callback) with the specified ChannelHandlerContext and Message.
+     * @param ctx The context to use while invoking the callback
+     * @param m The message to handle
+     */
     public static void dispatch(ChannelHandlerContext ctx,Message m){
         lookup.getOrDefault(m.getType(),(c,msg) -> {/*No op */
         if(debug){
@@ -41,6 +47,12 @@ public class MessageDispatch {
         }
         }).accept(ctx,m);
     }
+
+    /**
+     * Registers a callback to be invoked.
+     * @param str The name of the callback
+     * @param cons The consumer to receive the {@link com.colin.games.werewolf.common.message.Message Message}.
+     */
     public static void register(String str, BiConsumer<ChannelHandlerContext,Message> cons){
         lookup.put(str,cons);
     }

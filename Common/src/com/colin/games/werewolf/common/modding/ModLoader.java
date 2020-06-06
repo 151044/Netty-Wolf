@@ -16,17 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.roles;
+package com.colin.games.werewolf.common.modding;
 
-import com.colin.games.werewolf.common.message.Message;
-import io.netty.channel.ChannelHandlerContext;
-
-/**
- *
- */
-public interface Role {
-    String name();
-    void action(ChannelHandlerContext ctx, Message msg);
-    String callbackName();
-    Group getGroup();
+public class ModLoader {
 }

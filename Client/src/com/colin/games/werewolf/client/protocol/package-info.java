@@ -16,17 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.roles;
-
-import com.colin.games.werewolf.common.message.Message;
-import io.netty.channel.ChannelHandlerContext;
-
 /**
- *
+ * Holds the client-side protocol for reading {@link com.colin.games.werewolf.common.message.Message Message}s.
  */
-public interface Role {
-    String name();
-    void action(ChannelHandlerContext ctx, Message msg);
-    String callbackName();
-    Group getGroup();
-}
+package com.colin.games.werewolf.client.protocol;

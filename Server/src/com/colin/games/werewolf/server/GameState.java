@@ -73,7 +73,8 @@ public class GameState {
                 killed.add(ent.getKey());
             }
         }
-        Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.toString())));
+        String str = sb.deleteCharAt(sb.length() - 1).toString();
+        Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",str.isBlank() ? "empty" : str)));
         cache.clear();
     }
     public static void applyOutstanding(BiFunction<String,BitSet,Boolean> func){
@@ -85,8 +86,9 @@ public class GameState {
             }
             isAlive.put(ent.getKey(),killOrNot);
         }
-        Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",sb.deleteCharAt(sb.length() - 1).toString())));
-        cache.forEach((str,bs) -> bs.clear());
+        String str = sb.deleteCharAt(sb.length() - 1).toString();
+        Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",str.isBlank() ? "empty" : str)));
+        cache.forEach((string,bs) -> bs.clear());
     }
     public static GameCondition checkWinCon(){
         boolean werewolfWin = true,villagerWin = true;

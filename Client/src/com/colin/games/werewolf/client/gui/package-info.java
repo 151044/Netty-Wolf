@@ -16,17 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.roles;
-
-import com.colin.games.werewolf.common.message.Message;
-import io.netty.channel.ChannelHandlerContext;
-
 /**
- *
+ * This package holds GUI classes.<br>
+ * These include: Connecting to a server, reporting exceptions and the chatroom.
  */
-public interface Role {
-    String name();
-    void action(ChannelHandlerContext ctx, Message msg);
-    String callbackName();
-    Group getGroup();
-}
+package com.colin.games.werewolf.client.gui;

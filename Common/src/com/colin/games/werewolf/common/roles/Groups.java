@@ -21,6 +21,9 @@ package com.colin.games.werewolf.common.roles;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Registry for {@link com.colin.games.werewolf.common.roles.Group Group}s.
+ */
 public class Groups {
     private Groups(){
         throw new AssertionError();
@@ -34,6 +37,12 @@ public class Groups {
         roleToGroup.put("Hunter","Villager");
         roleToGroup.put("Werewolf","Werewolf");
     }
+
+    /**
+     * Registers a role to belong to the specified group.
+     * @param role The role which should be set to this group
+     * @param group The group to set this role to
+     */
     public static void register(String role,String group){
         roleToGroup.put(role,group);
     }
