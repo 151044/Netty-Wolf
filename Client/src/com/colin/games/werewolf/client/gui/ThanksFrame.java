@@ -30,7 +30,7 @@ public class ThanksFrame extends JFrame {
         dedication.put("Lio","Lio, thank you for inspiring me to make this game.");
         dedication.put("HYWong","HYWong, thank you for your support and being an incredible tester.");
         dedication.put("Eric","Eric, thank you for donating your name for the cause!");
-        dedication.put("You","Dea player, thank you for supporting me!");
+        dedication.put("You","Dear player, thank you for supporting me!");
     }
     public ThanksFrame(){
         super("Thank you!");
