@@ -29,7 +29,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -89,7 +88,7 @@ public class ReflectUtils {
                 if(superclass.isAssignableFrom(cs)){
                     @SuppressWarnings("unchecked")
                     //isAssignableFrom() guards that it is a subclass of T
-                            Class<T> cls = (Class<T>) cs;
+                    Class<T> cls = (Class<T>) cs;
                     noDup.add(cls);
                 }
             }
@@ -139,7 +138,7 @@ public class ReflectUtils {
                 if (superclass.isAssignableFrom(cs)) {
                     @SuppressWarnings("unchecked")
                     //isAssignableFrom() guards that it is a subclass of T
-                            Class<T> cls = (Class<T>) cs;
+                    Class<T> cls = (Class<T>) cs;
                     noDup.add(cls);
                 }
             }
@@ -182,19 +181,6 @@ public class ReflectUtils {
                 .filter(cls -> !cls.isSynthetic())
                 .filter(cls -> !cls.isAnonymousClass())
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Provides a list of concrete subclasses to the given callback function.
-     * @param p The path to load classes from
-     * @param superclass The superclass to filter loaded classes
-     * @param callback The callback to pass the loaded classes to
-     * @param <T> The supertype to load; the type of the superclass
-     * @throws IOException If an I/O error occurs
-     * @throws ClassNotFoundException If the superclass is not found
-     */
-    public static <T> void loadConcreteCallback(Path p, Class<T> superclass, Consumer<List<Class<T>>> callback) throws IOException, ClassNotFoundException {
-        callback.accept(loadConcreteSubclasses(p,superclass));
     }
 
     //Helpers
