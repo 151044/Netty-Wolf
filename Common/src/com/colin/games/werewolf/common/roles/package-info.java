@@ -16,17 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.modding;
-
-import java.util.List;
-
 /**
- * The mod interface. All modifications must implement this interface to be recognized as a mod and loaded.
+ * Holds common information for roles.
  */
-public interface Mod {
-    boolean isServer();
-    boolean isClient();
-    List<ModType> modified();
-    void init();
-    void cleanup();
-}
+package com.colin.games.werewolf.common.roles;

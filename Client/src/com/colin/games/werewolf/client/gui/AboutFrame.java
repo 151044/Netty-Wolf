@@ -18,7 +18,6 @@
 
 package com.colin.games.werewolf.client.gui;
 
-
 import javax.swing.*;
 
 public class AboutFrame extends JFrame {
