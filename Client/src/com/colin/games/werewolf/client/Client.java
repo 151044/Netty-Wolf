@@ -58,6 +58,10 @@ public class Client {
         this.addr = addr;
         this.port = port;
     }
+
+    /**
+     * Connects to the server on a separate thread.
+     */
     public void run() {
         Thread t = new Thread(() -> {
             EventLoopGroup group = new NioEventLoopGroup();
@@ -88,22 +92,52 @@ public class Client {
         },"client");
         t.start();
     }
+
+    /**
+     * Gets the communication channel with the server.
+     * @return The channel requested
+     */
     public Channel getChannel(){
         return chan;
     }
+
+    /**
+     * Sets the name of the client.
+     * @param name The name to set
+     */
     public void setName(String name){
         this.name = name;
     }
+
+    /**
+     * Gets the name of the client.
+     * @return The name of this client
+     */
     public String getName(){
         return name;
     }
+
+    /**
+     * Writes and flushes an object to the channel.
+     * @param target The object to write
+     */
     public void writeAndFlush(Object target){
         chan.write(target);
         chan.flush();
     }
+
+    /**
+     * Sets the current client.
+     * @param cli The client to set
+     */
     public static void setCurrent(Client cli){
         current = cli;
     }
+
+    /**
+     * Gets the current running client.
+     * @return The client instance
+     */
     public static Client getCurrent(){
         return current;
     }

@@ -16,13 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.client;
-
 /**
- * Thrown to indicate that an error has occurred while loading the game.
+ * The main modding API.
  */
-public class LoadingException extends RuntimeException {
-    public LoadingException(Exception e) {
-        super(e);
-    }
-}
+package com.colin.games.werewolf.common.modding;

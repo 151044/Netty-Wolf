@@ -23,6 +23,7 @@ import com.colin.games.werewolf.common.utils.ReflectUtils;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,12 @@ public class ModLoader {
     private ModLoader(){
         throw new AssertionError();
     }
-    public static List<Mod> loadMods() throws IOException, ClassNotFoundException {
-        List<Mod> mods = ReflectUtils.loadConcreteSubclasses(Path.of("./mods"),Mod.class).stream().map(cls -> {
+    private static List<Mod> mods = new ArrayList<>();
+    public static List<Mod> loadMods(Path path) throws IOException, ClassNotFoundException {
+        if(mods.size() != 0){
+            return mods;
+        }
+        mods = ReflectUtils.loadConcreteSubclasses(path,Mod.class).stream().map(cls -> {
             try {
                 return cls.getConstructor().newInstance();
             } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -40,5 +45,9 @@ public class ModLoader {
             return null;
         }).filter(mod -> mod != null).collect(Collectors.toList());
         return mods;
+    }
+    public static List<Mod> reloadMods(Path path) throws IOException, ClassNotFoundException {
+        mods.clear();
+        return loadMods(path);
     }
 }
