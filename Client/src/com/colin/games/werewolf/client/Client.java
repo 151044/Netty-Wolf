@@ -34,6 +34,8 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.net.InetAddress;
@@ -48,6 +50,7 @@ public class Client {
     private static Client current;
     private String name;
     private ChannelFuture connect;
+    private Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Client"));
 
     /**
      * Constructs a new Client.
@@ -82,9 +85,12 @@ public class Client {
                     });
             try {
                 connect = boot.connect(addr, port);
+                log.info("Connecting to " + addr + " at port " + port + " ...");
                 connect.sync();
+                log.info("Connected!");
                 chan = connect.channel();
                 initCallbacks();
+                log.info("Initialized callbacks!");
                 connect.channel().closeFuture().sync();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

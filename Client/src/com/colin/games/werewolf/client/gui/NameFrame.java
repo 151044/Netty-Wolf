@@ -19,9 +19,12 @@
 package com.colin.games.werewolf.client.gui;
 
 import com.colin.games.werewolf.client.Client;
+import com.colin.games.werewolf.client.ClientMain;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.Channel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.util.concurrent.BrokenBarrierException;
@@ -34,6 +37,7 @@ public class NameFrame extends JFrame {
     private final CyclicBarrier await = new CyclicBarrier(2);
     private boolean success = false;
     private String requested = "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
+    private Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Pre-Connection"));
 
     /**
      * Constructs a new NameFrame.
@@ -53,14 +57,18 @@ public class NameFrame extends JFrame {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Please enter a valid name!", "Name taken!", JOptionPane.WARNING_MESSAGE));
                 return;
             }
+            log.info("Awaiting for connection to server!");
             Client.getCurrent().connectFuture().syncUninterruptibly();
             Channel chan = Client.getCurrent().getChannel();
+            log.info("Asking for name " + requested);
             chan.write(new Message("query_name",requested));
             chan.flush();
             MessageDispatch.register("name_res",(ignore,res) -> {
                 if(Boolean.parseBoolean(res.getContent())){
+                    log.info("Name successfully set as " + requested);
                     success = true;
                 }else{
+                    log.info("Name " + requested + " is not available.");
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Name is already taken. Please try another one!", "Name taken!", JOptionPane.WARNING_MESSAGE));
                 }
                 try {
@@ -75,10 +83,12 @@ public class NameFrame extends JFrame {
                 e.printStackTrace();
             }
             await.reset();
+            log.info("Querying if the server is full...");
             chan.write(new Message("full_query","empty"));
             chan.flush();
             MessageDispatch.register("is_full_res",(ignore,res)-> {
                 if(Boolean.parseBoolean(res.getContent())){
+                    log.info("Server is full! Exiting...");
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Server is full. Please try again later", "Server Full!", JOptionPane.WARNING_MESSAGE));
                     try{
                         Thread.sleep(6000);
@@ -86,6 +96,8 @@ public class NameFrame extends JFrame {
                         ie.printStackTrace();
                     }
                     System.exit(0);
+                }else{
+                    log.info("Joining!");
                 }
                 try{
                     await.await();

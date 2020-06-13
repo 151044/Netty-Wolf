@@ -41,13 +41,13 @@ import java.nio.file.Path;
  * The main class.
  */
 public class ClientMain {
+    private static OutputFrame log;
+    private static Config conf;
     /**
      * The main method.
      * @param args Application parameters --- see above
      * @throws UnsupportedLookAndFeelException If Nimbus Look and Feel is unsupported
      */
-    private static OutputFrame log;
-    private static Config conf;
     public static void main(String[] args) throws UnsupportedLookAndFeelException, IOException, ClassNotFoundException {
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
         if(args.length != 0){

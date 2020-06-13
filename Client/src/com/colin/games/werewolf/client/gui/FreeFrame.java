@@ -18,6 +18,10 @@
 
 package com.colin.games.werewolf.client.gui;
 
+import com.colin.games.werewolf.client.ClientMain;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -31,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FreeFrame extends JFrame {
+    private static Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("About"));
     public FreeFrame(){
         super("License");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -40,6 +45,7 @@ public class FreeFrame extends JFrame {
                 "This is not a license in the conventional sense. While a software license seeks to limit your, the user, of their rights, this license " +
                 "aims to provide you with indisputable rights to modify, to distribute, and to share, given that the resulting product also follows this license" +
                 "in order to preserve the rights that are given to you by this document.\n\n\n");
+        log.info("Loading GPL...");
         try {
             final URI uri = getClass().getResource("/resources").toURI();
             Map<String, String> env = new HashMap<>();
@@ -47,6 +53,7 @@ public class FreeFrame extends JFrame {
             FileSystem zip = FileSystems.newFileSystem(uri, env);
             jta.append(String.join("\n",Files.readAllLines(Path.of(ClassLoader.getSystemResource("resources/GPL.txt").toURI()))));
         } catch (IOException | URISyntaxException e) {
+            log.info("Failed to load GPL!");
             throw new RuntimeException(e);
         }
         jta.setEditable(false);
