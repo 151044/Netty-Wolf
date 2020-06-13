@@ -57,6 +57,10 @@ public class NameFrame extends JFrame {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Please enter a valid name!", "Name taken!", JOptionPane.WARNING_MESSAGE));
                 return;
             }
+            if(requested.contains("://:") || requested.contains(";") || requested.contains(",")){
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Name contains invalid characters!", "Name taken!", JOptionPane.WARNING_MESSAGE));
+                return;
+            }
             log.info("Awaiting for connection to server!");
             Client.getCurrent().connectFuture().syncUninterruptibly();
             Channel chan = Client.getCurrent().getChannel();

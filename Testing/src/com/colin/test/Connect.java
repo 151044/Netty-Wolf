@@ -30,7 +30,7 @@ import java.net.UnknownHostException;
 public class Connect {
     public static void main(String[] args) throws UnknownHostException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
-        Environment.setSide(Environment.Side.SERVER);
+        Environment.setSide(Environment.Side.CLIENT);
         Client cli = new Client(InetAddress.getByName("61.18.35.8"),18823);
         Client.setCurrent(cli);
         cli.run();

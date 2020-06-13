@@ -114,6 +114,10 @@ public class ChatFrame extends JFrame {
                     }
                 }
             }
+            if(msg.getText().contains("://:")){
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Message cannot be entered!", "Name taken!", JOptionPane.WARNING_MESSAGE));
+                return;
+            }
             String output = "[" + name + "]: " + msg.getText();
             Channel chan = Client.getCurrent().getChannel();
             chan.write(new Message("chat",output));
