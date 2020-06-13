@@ -16,18 +16,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.modding;
+plugins {
+    id 'java'
+}
 
-import java.util.List;
+version '0.1.0'
 
-/**
- * The mod interface. All modifications must implement this interface to be recognized as a mod and loaded.
- */
-public interface Mod {
-    boolean isServer();
-    boolean isClient();
-    List<ModType> modified();
-    void init();
-    void cleanup();
-    String name();
+repositories {
+    mavenCentral()
+}
+
+dependencies{
+    compile project(':Common')
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.50.Final'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+version = '0.0.1'
+jar{
+    baseName = 'ModStub'
 }

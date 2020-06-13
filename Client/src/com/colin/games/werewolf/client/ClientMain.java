@@ -106,7 +106,7 @@ public class ClientMain {
         if(Environment.isModded()){
             logger.info("Mod option enabled in settings. Attempting to discover mods.");
             Path modDir = root.resolve("mods");
-            if(!modDir.toFile().exists() && modDir.toFile().isDirectory()){
+            if(!modDir.toFile().exists() || modDir.toFile().isDirectory()){
                 if(!modDir.toFile().mkdir()){
                     logger.error("No mod directory and unable to create one! Exiting....");
                     System.exit(1);

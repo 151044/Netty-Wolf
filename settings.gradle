@@ -20,3 +20,5 @@ include ':Common'
 include ':Server'
 include ':Client'
 include ':Testing'
+include 'ModStub'
+

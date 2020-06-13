@@ -16,18 +16,41 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.modding;
+package com.colin.games.werewolf.mod;
+
+import com.colin.games.werewolf.common.modding.Mod;
+import com.colin.games.werewolf.common.modding.ModType;
 
 import java.util.List;
 
-/**
- * The mod interface. All modifications must implement this interface to be recognized as a mod and loaded.
- */
-public interface Mod {
-    boolean isServer();
-    boolean isClient();
-    List<ModType> modified();
-    void init();
-    void cleanup();
-    String name();
+public class ModStub implements Mod {
+    @Override
+    public boolean isServer() {
+        return true;
+    }
+
+    @Override
+    public boolean isClient() {
+        return true;
+    }
+
+    @Override
+    public List<ModType> modified() {
+        return List.of();
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
+    public String name() {
+        return "Test Mod";
+    }
 }

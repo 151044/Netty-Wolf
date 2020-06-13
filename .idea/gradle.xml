@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Client" />
             <option value="$PROJECT_DIR$/Common" />
+            <option value="$PROJECT_DIR$/ModStub" />
             <option value="$PROJECT_DIR$/Server" />
             <option value="$PROJECT_DIR$/Testing" />
           </set>
