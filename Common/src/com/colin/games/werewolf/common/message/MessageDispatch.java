@@ -42,9 +42,6 @@ public class MessageDispatch {
      */
     public static void dispatch(ChannelHandlerContext ctx,Message m){
         lookup.getOrDefault(m.getType(),(c,msg) -> {/*No op */
-        if(debug){
-            System.out.println(msg);
-        }
         }).accept(ctx,m);
     }
 

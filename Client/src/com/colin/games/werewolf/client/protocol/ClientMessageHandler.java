@@ -23,18 +23,18 @@ import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Handles incoming messages.
  */
 public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
-    private static final boolean debug = true;
+    private static final Logger allMsg = LogManager.getFormatterLogger("MessageHandler");
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         Message m = (Message) msg;
-        if(debug) {
-            System.out.println(m.getContent() + " " + m.getType());
-        }
+        allMsg.debug("Received message " + m.getType() + " , content " + m.getContent());
         MessageDispatch.dispatch(ctx,m);
     }
 

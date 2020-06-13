@@ -62,7 +62,7 @@ public class ClientMain {
             if(args[1] != null){
                 String setVisible = args[1];
                 if(setVisible.equals("--show-log")){
-                    log = new OutputFrame("Log");
+                    log = new OutputFrame("Client Log");
                 }
             }
         }else{
@@ -91,6 +91,7 @@ public class ClientMain {
                 logger.warn("Cannot find config file! Creating new...");
                 initConfig(root);
             }else{
+                logger.info("Loading config file...");
                 Config load = Config.read(root.resolve("config.cfg"));
                 Environment.setModded(load.fromString("mods",Boolean::parseBoolean));
                 if(load.fromString("debug",Boolean::parseBoolean)){
@@ -99,10 +100,19 @@ public class ClientMain {
             }
         }
         if(Environment.isModded()){
+            logger.info("Mod option enabled in settings. Attempting to discover mods.");
             Path modDir = root.resolve("mods");
-            if(modDir.toFile().exists() && modDir.toFile().isDirectory() && modDir.toFile().list().length != 0){
+            if(!modDir.toFile().exists() && modDir.toFile().isDirectory()){
+                if(!modDir.toFile().mkdir()){
+                    logger.error("No mod directory and unable to create one! Exiting....");
+                    System.exit(1);
+                }
+            }
+            if(modDir.toFile().list().length != 0){
                 ModLoader.loadMods(modDir);
+                logger.info("Found " + ModLoader.loadedMods() + " mods!");
             }else{
+                logger.info("Cannot find any mods. Reverting to non-modded mode!");
                 Environment.setModded(false);
             }
         }

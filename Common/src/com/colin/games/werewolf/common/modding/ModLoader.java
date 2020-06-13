@@ -50,4 +50,7 @@ public class ModLoader {
         mods.clear();
         return loadMods(path);
     }
+    public static int loadedMods(){
+        return mods.size();
+    }
 }
