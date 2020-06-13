@@ -114,7 +114,12 @@ public class ClientMain {
             }
             if(modDir.toFile().list().length != 0){
                 ModLoader.loadMods(modDir);
-                logger.info("Found " + ModLoader.loadedMods() + " mods!");
+                if(ModLoader.loadedMods() == 0){
+                    logger.info("Cannot find any mods. Reverting to non-modded mode!");
+                    Environment.setModded(false);
+                }else {
+                    logger.info("Found " + ModLoader.loadedMods() + " mods!");
+                }
             }else{
                 logger.info("Cannot find any mods. Reverting to non-modded mode!");
                 Environment.setModded(false);
