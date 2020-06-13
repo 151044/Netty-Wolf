@@ -63,6 +63,8 @@ public class ClientMain {
                 String setVisible = args[1];
                 if(setVisible.equals("--show-log")){
                     log = new OutputFrame("Client Log");
+                    log.setVisible(true);
+                    log.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 }
             }
         }else{
@@ -81,10 +83,12 @@ public class ClientMain {
         });
         Path root = Environment.workingDir().resolve("netty-wolf");
         if(!root.toFile().exists()){
+            logger.info("Creating game directory...");
             if(!root.toFile().mkdir()){
                 logger.error("Cannot write to the current directory and no game files detected!\n Exiting...");
                 System.exit(1);
             }
+            logger.info("Initializing configuration files...");
             initConfig(root);
         }else{
             if(!root.resolve("config.cfg").toFile().exists()){
@@ -129,7 +133,9 @@ public class ClientMain {
             return logging;
         }
         org.apache.logging.log4j.core.Logger temp = (org.apache.logging.log4j.core.Logger) logging;
-        temp.addAppender(OutputStreamAppender.newBuilder().setLayout(PatternLayout.newBuilder().withPattern(DefaultConfiguration.DEFAULT_PATTERN).build()).setTarget(log.getPrintStream()).setName("Output").build());
+        OutputStreamAppender appender = OutputStreamAppender.newBuilder().setLayout(PatternLayout.newBuilder().withPattern(DefaultConfiguration.DEFAULT_PATTERN).build()).setTarget(log.getPrintStream()).setName("Output").build();
+        appender.start();
+        temp.addAppender(appender);
         return logging;
     }
 }
