@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.client.gui;
+package com.colin.games.werewolf.common.utils;
 
 import com.colin.games.werewolf.common.Environment;
 

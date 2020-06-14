@@ -19,5 +19,31 @@
 package com.colin.games.werewolf.common.modding;
 
 public enum ModType {
-    ROLE,GROUP,PRESET,WIN_CONDITION,OTHER
+    ROLE(){
+        @Override
+        public String getName() {
+            return "Role";
+        }
+    },GROUP(){
+        @Override
+        public String getName() {
+            return "Group";
+        }
+    },PRESET(){
+        @Override
+        public String getName() {
+            return "Preset";
+        }
+    },WIN_CONDITION(){
+        @Override
+        public String getName() {
+            return "Win condition";
+        }
+    },OTHER(){
+        @Override
+        public String getName() {
+            return "Other Mod Type";
+        }
+    };
+    public abstract String getName();
 }

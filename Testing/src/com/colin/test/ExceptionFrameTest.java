@@ -19,7 +19,7 @@
 package com.colin.test;
 
 import com.colin.games.werewolf.client.LoadingException;
-import com.colin.games.werewolf.client.gui.ExceptionFrame;
+import com.colin.games.werewolf.common.utils.ExceptionFrame;
 
 public class ExceptionFrameTest {
     public static void main(String[] args) {

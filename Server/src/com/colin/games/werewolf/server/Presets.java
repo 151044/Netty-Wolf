@@ -18,11 +18,19 @@
 
 package com.colin.games.werewolf.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,16 +39,33 @@ public class Presets {
     private Presets(){
         throw new AssertionError();
     }
-    private static final Map<Integer, List<String>> presets;
+    private static final Map<Integer, List<String>> presets = new HashMap<>();
+    private static final Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Presets"));
     static{
         try {
-            presets = Files.readAllLines(Paths.get("./assets/DefaultLoad.txt")).stream().map(str -> str.split("\\|"))
-                    .collect(Collectors.toMap(sArr -> Integer.parseInt(sArr[0]),sArr -> Arrays.asList(sArr[1].split(":"))));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            log.info("Loading presets...");
+            final URI uri = Presets.class.getResource("/resources").toURI();
+            Map<String, String> env = new HashMap<>();
+            env.put("create", "true");
+            FileSystem zip = FileSystems.newFileSystem(uri, env);
+            setPresets(Path.of(Presets.class.getResource("resources/DefaultLoad.txt").toURI()));
+        } catch (IOException | URISyntaxException e) {
+            log.error("Preset file failed to be loaded!");
+            throw new RuntimeException(e);
         }
     }
     public static List<String> presetFor(int lookup){
         return presets.get(lookup);
+    }
+    public static void addPresets(Path file){
+        setPresets(file);
+    }
+    private static void setPresets(Path path){
+        try {
+            presets.putAll(Files.readAllLines(path).stream().map(str -> str.split("\\|"))
+                    .collect(Collectors.toMap(sArr -> Integer.parseInt(sArr[0]),sArr -> Arrays.asList(sArr[1].split(":")))));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

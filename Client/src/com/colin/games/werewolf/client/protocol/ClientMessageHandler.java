@@ -18,9 +18,9 @@
 
 package com.colin.games.werewolf.client.protocol;
 
-import com.colin.games.werewolf.client.gui.ExceptionFrame;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
+import com.colin.games.werewolf.common.utils.ExceptionFrame;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.apache.logging.log4j.LogManager;

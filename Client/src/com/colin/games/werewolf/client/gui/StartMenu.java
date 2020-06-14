@@ -18,6 +18,8 @@
 
 package com.colin.games.werewolf.client.gui;
 
+import com.colin.games.werewolf.common.Environment;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -48,6 +50,13 @@ public class StartMenu extends JFrame {
         JButton about = new JButton("About");
         about.addActionListener(ignored -> new AboutFrame());
         buttons.add(about);
+        if(Environment.isModded()){
+            JButton mods = new JButton("Mods");
+            buttons.add(mods);
+            mods.addActionListener(ignored -> {
+
+            });
+        }
         add(buttons);
         pack();
         setVisible(true);

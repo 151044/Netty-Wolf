@@ -18,11 +18,11 @@
 
 package com.colin.games.werewolf.client;
 
-import com.colin.games.werewolf.client.gui.ExceptionFrame;
 import com.colin.games.werewolf.client.gui.StartMenu;
 import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.modding.ModLoader;
 import com.colin.games.werewolf.common.utils.Config;
+import com.colin.games.werewolf.common.utils.ExceptionFrame;
 import com.colin.games.werewolf.common.utils.OutputFrame;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

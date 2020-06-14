@@ -1,0 +1,8 @@
+5|Wi,V,V,We,S:Wi,V,S,H,We
+6|We,V,V,S,Wi,G:We,We,V,V,S,Wi:We,We,H,V,Wi,G
+7|We,We,V,V,S,Wi,G:We,We,V,V,V,Wi,G:We,We,We,V,V,S,Wi:We,We,We,H,S,Wi,G
+8|We,We,We,V,V,G,Wi,S:We,We,V,V,G,Wi,S,H:We,We,V,V,V,Wi,S,H:We,We,V,V,V,Wi,G,Wi
+9|We,We,We,V,V,V,G,Wi,S:We,We,We,V,V,Wi,G,H,S:We,We,V,V,V,G,Wi,S,H:We,We,V,V,V,V,Wi,S,G
+10|We,We,We,V,V,V,G,W,Wi,S,H:We,We,We,We,V,V,V,Wi,G,S:We,We,We,V,V,V,V,Wi,G,S:We,We,H,Wi,G,S,V,V,V,V
+11|We,We,We,We,V,V,V,V,G,Wi,S:We,We,We,V,V,V,V,V,G,Wi,S:We,We,We,V,V,V,V,V,G,H,S:We,We,V,V,V,V,V,G,H,Wi,S
+12|We,We,We,We,V,V,V,V,G,Wi,S,H:We,We,We,We,We,V,V,V,V,S,G,Wi:We,We,We,V,V,V,V,V,G,H,Wi,S:We,We,We,We,V,V,V,V,V,V,Wi,S

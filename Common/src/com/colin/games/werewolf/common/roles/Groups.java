@@ -46,6 +46,12 @@ public class Groups {
     public static void register(String role,String group){
         roleToGroup.put(role,group);
     }
+
+    /**
+     * Gets the group that this role belongs to.
+     * @param role The role to lookup its group
+     * @return The group, in the form of a String
+     */
     public static String getGroup(String role){
         return roleToGroup.get(role);
     }
