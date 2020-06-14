@@ -54,7 +54,7 @@ public class StartMenu extends JFrame {
             JButton mods = new JButton("Mods");
             buttons.add(mods);
             mods.addActionListener(ignored -> {
-
+                new ModList();
             });
         }
         add(buttons);

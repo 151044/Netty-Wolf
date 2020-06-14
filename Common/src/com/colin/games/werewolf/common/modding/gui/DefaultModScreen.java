@@ -16,46 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.mod;
+package com.colin.games.werewolf.common.modding.gui;
 
 import com.colin.games.werewolf.common.modding.Mod;
-import com.colin.games.werewolf.common.modding.ModType;
 
-import java.util.List;
+import javax.swing.*;
 
-public class ModStub implements Mod {
-    @Override
-    public boolean isServer() {
-        return false;
-    }
-
-    @Override
-    public boolean isClient() {
-        return false;
-    }
-
-    @Override
-    public List<ModType> modified() {
-        return List.of();
-    }
-
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void cleanup() {
-
-    }
-
-    @Override
-    public String name() {
-        return "Test Mod";
-    }
-
-    @Override
-    public String author() {
-        return "151044";
+public class DefaultModScreen extends JFrame {
+    public DefaultModScreen(Mod mod){
+        super(mod.name());
     }
 }

@@ -30,4 +30,11 @@ public interface Mod {
     void init();
     void cleanup();
     String name();
+    String author();
+    default String desc(){
+        return "The default description. Shouldn't you change it?";
+    }
+    default void infoScreen(){
+
+    }
 }
