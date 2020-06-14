@@ -24,7 +24,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.concurrent.Semaphore;
 import java.util.function.Consumer;
 
 /**
@@ -33,10 +32,8 @@ import java.util.function.Consumer;
  */
 public class OutputFrame extends JFrame {
     private boolean echoToSysOut = false;
-    private final JScrollPane textScroll;
     private final JTextArea textArea;
     private final PrintStream ps;
-    private Semaphore lock;
 
     /**
      * Constructs a new output frame.
@@ -59,7 +56,7 @@ public class OutputFrame extends JFrame {
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textScroll = new JScrollPane(textArea);
+        JScrollPane textScroll = new JScrollPane(textArea);
         setLayout(new BorderLayout());
         pane.add(textScroll);
         add(pane);
@@ -101,18 +98,11 @@ public class OutputFrame extends JFrame {
      * @param s The string to print
      */
     public void println(String s) {
-        try {
-            lock.acquire();
-        } catch (InterruptedException e) {
-            //What is happening here?
-            e.printStackTrace();
-        }
         if (echoToSysOut) {
             System.out.println(s);
         }
         ps.println(s);
         ps.flush();
-        lock.release();
     }
 
     /**
@@ -154,22 +144,14 @@ public class OutputFrame extends JFrame {
 
     /**
      * Prints a string to this instance's output frame.
-     *
      * @param s The string to print
      */
     public void print(String s) {
-        try {
-            lock.acquire();
-        } catch (InterruptedException e) {
-            //What is happening here?
-            e.printStackTrace();
-        }
         if (echoToSysOut) {
             System.out.print(s);
         }
         ps.print(s);
         ps.flush();
-        lock.release();
     }
 
     /**

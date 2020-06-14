@@ -35,7 +35,7 @@ public class ExceptionFrame extends JFrame {
     /**
      * Constructs a new ExceptionFrame.
      * @param ex The exception's stack trace to display
-     * @param t The thread where the exception occured
+     * @param t The thread where the exception occurred
      */
     public ExceptionFrame(Exception ex,Thread t){
         super("Oops!");

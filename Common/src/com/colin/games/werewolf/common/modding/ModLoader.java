@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ModLoader {
@@ -32,7 +33,7 @@ public class ModLoader {
         throw new AssertionError();
     }
     private static List<Mod> mods = new ArrayList<>();
-    public static List<Mod> loadMods(Path path) throws IOException, ClassNotFoundException {
+    public static List<Mod> loadMods(Path path, boolean throwOnInvalid) throws IOException, ClassNotFoundException {
         if(mods.size() != 0){
             return mods;
         }
@@ -43,12 +44,15 @@ public class ModLoader {
                 e.printStackTrace();
             }
             return null;
-        }).filter(mod -> mod != null).collect(Collectors.toList());
+        }).filter(Objects::nonNull).collect(Collectors.toList());
+        for(Mod m : mods){
+
+        }
         return mods;
     }
-    public static List<Mod> reloadMods(Path path) throws IOException, ClassNotFoundException {
+    public static List<Mod> reloadMods(Path path,boolean throwOnInvalid) throws IOException, ClassNotFoundException {
         mods.clear();
-        return loadMods(path);
+        return loadMods(path,throwOnInvalid);
     }
     public static int loadedMods(){
         return mods.size();

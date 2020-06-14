@@ -46,16 +46,10 @@ public class ThanksFrame extends JFrame {
         show.setModel(lm);
         JButton info = new JButton("Show info");
         info.setMaximumSize(info.getPreferredSize());
-        info.addActionListener((ignored) ->{
-            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,dedication.get(show.getSelectedValue()),"Thank you!",JOptionPane.PLAIN_MESSAGE));
-        });
+        info.addActionListener((ignored) -> SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,dedication.get(show.getSelectedValue()),"Thank you!",JOptionPane.PLAIN_MESSAGE)));
         show.addListSelectionListener((lse) ->{
             if(!lse.getValueIsAdjusting()){
-                if(show.getSelectedIndex() == -1){
-                    info.setEnabled(false);
-                }else {
-                    info.setEnabled(true);
-                }
+                info.setEnabled(show.getSelectedIndex() != -1);
             }
         });
         JScrollPane jsp = new JScrollPane(show);

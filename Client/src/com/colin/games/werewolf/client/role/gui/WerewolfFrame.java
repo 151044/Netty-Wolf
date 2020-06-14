@@ -27,11 +27,7 @@ import io.netty.channel.Channel;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * Shows the window for the werewolf to take action.
@@ -92,7 +88,7 @@ public class WerewolfFrame extends JFrame {
             String[] split = msg.getContent().split(":");
             setDisplay(split[0],split[1]);
             choices.put(split[0],split[1]);
-            ok.setEnabled(choices.values().stream().collect(Collectors.toSet()).size() == 1);
+            ok.setEnabled(new HashSet<>(choices.values()).size() == 1);
         });
         MessageDispatch.register("werewolf_term",(ctx,msg) -> dispose());
     }

@@ -138,7 +138,7 @@ public class Config {
     public <T> T fromString(String key,Function<String,T> mapper){
         String before = map.get(key);
         if(before == null){
-            throw new MalformedConfigException("Value of " + key + " cannot be parsed to an appropriate value.");
+            throw new MalformedConfigException("Value of " + key + " does not exist.");
         }
         return mapper.apply(map.get(key));
     }
@@ -168,5 +168,55 @@ public class Config {
      */
     public Map<String,String> getAsMap(){
         return new HashMap<>(map);
+    }
+
+    /**
+     * Tests if the config file has this key.
+     * @param s The key to test for
+     * @return True if the key exists, false otherwise
+     */
+    public boolean hasKey(String s){
+        return map.containsKey(s);
+    }
+
+    /**
+     * Creates the key in this config file if it does not exist, then returns the value associated with the key.
+     * @param s The key to search for
+     * @param fallback The fallback value if the key does not exist
+     * @return The value associated with the key
+     */
+    public String get(String s,String fallback) {
+        String str = map.get(s);
+        if(str == null){
+            map.put(s,fallback);
+            try {
+                write();
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+            return fallback;
+        }else{
+            return str;
+        }
+    }
+    /**
+     * Converts the String related to this key to T with the given function, creating the key if it does not exist.
+     * @param <T> The type to change to
+     * @param key The key to get the property from
+     * @param mapper The function which can be applied to transform String to T
+     * @param fallback The fallback value if the key does not exist
+     * @return The transformed type
+     */
+    public <T> T fromString(String key,Function<String,T> mapper,String fallback){
+        String before = map.get(key);
+        if(before == null){
+            map.put(key,fallback);
+            try {
+                write();
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+        return mapper.apply(map.get(key));
     }
 }

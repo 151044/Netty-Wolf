@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FreeFrame extends JFrame {
-    private static Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("About"));
+    private static final Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("About"));
     public FreeFrame(){
         super("License");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

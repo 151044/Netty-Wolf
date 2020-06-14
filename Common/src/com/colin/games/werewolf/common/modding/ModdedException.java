@@ -16,28 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-plugins {
-    id 'java-library'
-}
-sourceSets {
-    //noinspection GroovyAssignabilityCheck
-    main {
-        java {
-            srcDirs = ['src']
-        }
-        //noinspection GroovyAssignabilityCheck
-        resources{
-            srcDirs = ['resources']
-        }
+package com.colin.games.werewolf.common.modding;
+
+/**
+ * Thrown to indicate that a mod has crashed while loading.
+ */
+public class ModdedException extends RuntimeException {
+    public ModdedException(Mod mod, Exception ex){
+        super("Mod " + mod.name() + " has crashed while loading.",ex);
+    }
+    public ModdedException(Mod mod,String msg){
+        super("Mod " + mod.name() + " has crashed. Reason:" + msg);
+    }
+    public ModdedException(String msg){
+        super(msg);
     }
 }
-dependencies{
-    compile project(':Common')
-    implementation group: 'io.netty', name: 'netty-all', version: '4.1.50.Final'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
-}
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-version = '0.0.1'

@@ -36,6 +36,7 @@ import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * The main class.
@@ -96,9 +97,9 @@ public class ClientMain {
                 initConfig(root);
             }else{
                 logger.info("Loading config file...");
-                Config load = Config.read(root.resolve("config.cfg"));
-                Environment.setModded(load.fromString("mods",Boolean::parseBoolean));
-                if(load.fromString("debug",Boolean::parseBoolean)){
+                conf = Config.read(root.resolve("config.cfg"));
+                Environment.setModded(conf.fromString("mods",Boolean::parseBoolean,"false"));
+                if(conf.fromString("debug",Boolean::parseBoolean,"false")){
                     Configurator.setRootLevel(Level.DEBUG);
                 }
             }
@@ -112,8 +113,8 @@ public class ClientMain {
                     System.exit(1);
                 }
             }
-            if(modDir.toFile().list().length != 0){
-                ModLoader.loadMods(modDir);
+            if(Objects.requireNonNull(modDir.toFile().list()).length != 0){
+                ModLoader.loadMods(modDir,conf.fromString("throwOnInvalidMod",Boolean::parseBoolean,"false"));
                 if(ModLoader.loadedMods() == 0){
                     logger.info("Cannot find any mods. Reverting to non-modded mode!");
                     Environment.setModded(false);
@@ -131,6 +132,7 @@ public class ClientMain {
         conf = new Config(root.resolve("config.cfg"));
         conf.store("mods","false");
         conf.store("debug","false");
+        conf.store("throwOnInvalidMod","false");
         conf.write();
     }
     public static Logger appendLog(Logger logging){

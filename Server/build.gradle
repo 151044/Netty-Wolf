@@ -25,6 +25,7 @@ sourceSets{
         java {
             srcDirs = ['src']
         }
+        //noinspection GroovyAssignabilityCheck
         resources{
             srcDirs = ['resources']
         }

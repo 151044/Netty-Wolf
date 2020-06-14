@@ -37,5 +37,6 @@ java {
 }
 version = '0.0.1'
 jar{
+    //noinspection GrDeprecatedAPIUsage
     baseName = 'ModStub'
 }

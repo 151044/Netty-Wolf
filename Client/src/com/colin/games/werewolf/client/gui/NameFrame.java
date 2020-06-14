@@ -37,7 +37,7 @@ public class NameFrame extends JFrame {
     private final CyclicBarrier await = new CyclicBarrier(2);
     private boolean success = false;
     private String requested = "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
-    private Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Pre-Connection"));
+    private final Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Pre-Connection"));
 
     /**
      * Constructs a new NameFrame.

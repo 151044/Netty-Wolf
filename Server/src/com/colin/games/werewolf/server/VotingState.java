@@ -21,7 +21,6 @@ package com.colin.games.werewolf.server;
 import com.colin.games.werewolf.common.message.Message;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class VotingState {
     private VotingState(){
@@ -32,7 +31,7 @@ public class VotingState {
         votes.put(name,vote);
     }
     public static void collect(){
-        List<String> vote = votes.values().stream().collect(Collectors.toList());
+        List<String> vote = new ArrayList<>(votes.values());
         Map<String,Integer> map = new HashMap<>();
         for(String s : vote){
             if(map.containsKey(s)){

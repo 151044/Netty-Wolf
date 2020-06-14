@@ -50,12 +50,12 @@ public class Client {
     private static Client current;
     private String name;
     private ChannelFuture connect;
-    private Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Client"));
+    private final Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Client"));
 
     /**
      * Constructs a new Client.
-     * @param addr
-     * @param port
+     * @param addr The IP to connect to
+     * @param port The port to connect to
      */
     public Client(InetAddress addr,int port){
         this.addr = addr;
