@@ -18,7 +18,10 @@
 
 package com.colin.games.werewolf.common.modding;
 
+import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.utils.ReflectUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -33,6 +36,7 @@ public class ModLoader {
         throw new AssertionError();
     }
     private static List<Mod> mods = new ArrayList<>();
+    private static final Logger log = LogManager.getFormatterLogger("Mod Loader");
     public static List<Mod> loadMods(Path path, boolean throwOnInvalid) throws IOException, ClassNotFoundException {
         if(mods.size() != 0){
             return mods;
@@ -45,9 +49,34 @@ public class ModLoader {
             }
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toList());
+        List<Mod> rem = new ArrayList<>();
         for(Mod m : mods){
-
+            Environment.Side s = Environment.getSide();
+            if(s.equals(Environment.Side.CLIENT)){
+                if(!m.isClient()){
+                    if(throwOnInvalid){
+                        throw new ModdedException(m,"The mod is not client-side!");
+                    }else{
+                        log.warn("Mod " + m.name() + " is not client-side! Removing from mod list!");
+                        rem.add(m);
+                    }
+                }else{
+                    log.info("Mod " + m.name() + " is successfully loaded!");
+                }
+            }else{
+                if(!m.isServer()){
+                    if(throwOnInvalid){
+                        throw new ModdedException(m,"The mod is not server-side!");
+                    }else{
+                        log.warn("Mod " + m.name() + " is not server-side! Removing from mod list!");
+                        rem.add(m);
+                    }
+                }else{
+                    log.info("Mod " + m.name() + " is successfully loaded!");
+                }
+            }
         }
+        mods.removeAll(rem);
         return mods;
     }
     public static List<Mod> reloadMods(Path path,boolean throwOnInvalid) throws IOException, ClassNotFoundException {

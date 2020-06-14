@@ -48,6 +48,9 @@ public class Environment {
     public static void setModded(boolean toSet){
         isModded = toSet;
     }
+    public static Side getSide(){
+        return side;
+    }
     public enum Side{
         SERVER,CLIENT
     }

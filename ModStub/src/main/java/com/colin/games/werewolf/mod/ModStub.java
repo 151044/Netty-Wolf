@@ -26,12 +26,12 @@ import java.util.List;
 public class ModStub implements Mod {
     @Override
     public boolean isServer() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isClient() {
-        return true;
+        return false;
     }
 
     @Override
