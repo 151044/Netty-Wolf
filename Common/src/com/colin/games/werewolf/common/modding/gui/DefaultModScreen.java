@@ -19,11 +19,23 @@
 package com.colin.games.werewolf.common.modding.gui;
 
 import com.colin.games.werewolf.common.modding.Mod;
+import com.colin.games.werewolf.common.modding.ModType;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultModScreen extends JFrame {
     public DefaultModScreen(Mod mod){
         super(mod.name());
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+        add(new JLabel("Name: " + mod.name()));
+        add(new JLabel("Version: " + mod.version()));
+        add(new JLabel("Author: " + mod.author()));
+        add(new JLabel("Description: " + mod.desc()));
+        add(new JLabel("Changed Modules: " + String.join(",",mod.modified().isEmpty() ? List.of("None") : mod.modified().stream().map(ModType::getName).collect(Collectors.toList()))));
+        pack();
+        setVisible(true);
     }
 }

@@ -18,26 +18,27 @@
 
 package com.colin.games.werewolf.common.modding;
 
-import com.colin.games.werewolf.common.modding.gui.DefaultModScreen;
-
 import java.util.List;
 
-/**
- * The mod interface. All modifications must implement this interface to be recognized as a mod and loaded.
- */
-public interface Mod {
-    boolean isServer();
-    boolean isClient();
-    List<ModType> modified();
-    void init();
-    void cleanup();
-    String name();
-    String author();
-    String version();
-    default String desc(){
-        return "The default description. Shouldn't you change it?";
+public abstract class AbstractMod implements Mod{
+
+    @Override
+    public List<ModType> modified() {
+        return List.of();
     }
-    default void infoScreen(){
-        new DefaultModScreen(this);
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void cleanup() {
+
+    }
+
+    @Override
+    public String toString() {
+        return name() + " " + version();
     }
 }

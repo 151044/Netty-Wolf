@@ -18,35 +18,25 @@
 
 package com.colin.games.werewolf.mod;
 
-import com.colin.games.werewolf.common.modding.Mod;
+import com.colin.games.werewolf.common.modding.AbstractMod;
 import com.colin.games.werewolf.common.modding.ModType;
 
 import java.util.List;
 
-public class ModStub implements Mod {
+public class ModStub extends AbstractMod {
     @Override
     public boolean isServer() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isClient() {
-        return false;
+        return true;
     }
 
     @Override
     public List<ModType> modified() {
         return List.of();
-    }
-
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void cleanup() {
-
     }
 
     @Override
@@ -57,5 +47,10 @@ public class ModStub implements Mod {
     @Override
     public String author() {
         return "151044";
+    }
+
+    @Override
+    public String version() {
+        return "v0.0.1";
     }
 }
