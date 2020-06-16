@@ -44,7 +44,7 @@ public class GuardFrame extends JFrame {
         JPanel choiceP = new JPanel();
         choiceP.setLayout(new BoxLayout(choiceP,BoxLayout.X_AXIS));
         choiceP.add(new JLabel("Choose a person to guard: "));
-        JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead().stream().filter(pla -> !pla.equals(context.lastSaved())).collect(Collectors.toList())));
+        JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead().stream().filter(pla -> (pla != null) && !pla.equals(context.lastSaved())).collect(Collectors.toList())));
         choiceP.add(players);
         JButton submit = new JButton("Protect");
         choiceP.add(submit);

@@ -16,11 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-include ':Common'
-include ':Server'
-include ':Client'
-include ':Testing'
-include 'ModStub'
-include 'Killer-Mod-Client'
-include 'KillerModServer'
+package com.colin.games.werewolf.mod.killer.client;
 
+import com.colin.games.werewolf.common.message.Message;
+import com.colin.games.werewolf.common.roles.Group;
+import com.colin.games.werewolf.common.roles.Role;
+import io.netty.channel.ChannelHandlerContext;
+
+public class Killer implements Role {
+    @Override
+    public String name() {
+        return "Killer";
+    }
+
+    @Override
+    public void action(ChannelHandlerContext ctx, Message msg) {
+
+    }
+
+    @Override
+    public String callbackName() {
+        return "killer_role";
+    }
+
+    @Override
+    public Group getGroup() {
+        return new KillerGroup();
+    }
+}

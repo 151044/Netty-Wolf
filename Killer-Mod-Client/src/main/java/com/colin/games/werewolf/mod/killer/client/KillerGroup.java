@@ -16,11 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-include ':Common'
-include ':Server'
-include ':Client'
-include ':Testing'
-include 'ModStub'
-include 'Killer-Mod-Client'
-include 'KillerModServer'
+package com.colin.games.werewolf.mod.killer.client;
 
+import com.colin.games.werewolf.common.roles.Group;
+
+public class KillerGroup implements Group {
+    @Override
+    public boolean isGood() {
+        return false;
+    }
+
+    @Override
+    public String getName() {
+        return "Killer";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof KillerGroup;
+    }
+}

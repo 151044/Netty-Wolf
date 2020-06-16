@@ -16,11 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-include ':Common'
-include ':Server'
-include ':Client'
-include ':Testing'
-include 'ModStub'
-include 'Killer-Mod-Client'
-include 'KillerModServer'
+package com.colin.games.werewolf.mod.killer.client.gui;
 
+import javax.swing.*;
+
+public class KillerFrame extends JFrame{
+    public KillerFrame(){
+        super("Your turn!");
+    }
+}
