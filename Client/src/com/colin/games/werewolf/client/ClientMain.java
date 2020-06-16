@@ -20,6 +20,7 @@ package com.colin.games.werewolf.client;
 
 import com.colin.games.werewolf.client.gui.StartMenu;
 import com.colin.games.werewolf.common.Environment;
+import com.colin.games.werewolf.common.modding.Mod;
 import com.colin.games.werewolf.common.modding.ModLoader;
 import com.colin.games.werewolf.common.utils.Config;
 import com.colin.games.werewolf.common.utils.ExceptionFrame;
@@ -126,6 +127,7 @@ public class ClientMain {
                 Environment.setModded(false);
             }
         }
+        ModLoader.getLoaded().forEach(Mod::init);
         new StartMenu();
     }
     private static void initConfig(Path root) throws IOException {

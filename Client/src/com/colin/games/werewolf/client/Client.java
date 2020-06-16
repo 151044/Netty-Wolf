@@ -21,10 +21,13 @@ package com.colin.games.werewolf.client;
 import com.colin.games.werewolf.client.gui.VotingFrame;
 import com.colin.games.werewolf.client.protocol.ClientMessageHandler;
 import com.colin.games.werewolf.client.role.*;
+import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDecoder;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import com.colin.games.werewolf.common.message.MessageEncoder;
+import com.colin.games.werewolf.common.modding.Mod;
+import com.colin.games.werewolf.common.modding.ModLoader;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -91,6 +94,10 @@ public class Client {
                 chan = connect.channel();
                 initCallbacks();
                 log.info("Initialized callbacks!");
+                if(Environment.isModded()){
+                    lateInitMods();
+                    log.info("Successfully completed init phase 2 of mods.");
+                }
                 connect.channel().closeFuture().sync();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
@@ -183,6 +190,9 @@ public class Client {
                 Client.getCurrent().getChannel().flush();
             }
         }));
+    }
+    private static void lateInitMods(){
+        ModLoader.getLoaded().forEach(Mod::lateInit);
     }
     public ChannelFuture connectFuture(){
         return connect;

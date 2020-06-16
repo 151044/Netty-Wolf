@@ -30,6 +30,7 @@ public interface Mod {
     boolean isClient();
     List<ModType> modified();
     void init();
+    void lateInit();
     void cleanup();
     String name();
     String author();

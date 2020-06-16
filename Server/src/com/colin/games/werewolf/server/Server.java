@@ -18,10 +18,13 @@
 
 package com.colin.games.werewolf.server;
 
+import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDecoder;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import com.colin.games.werewolf.common.message.MessageEncoder;
+import com.colin.games.werewolf.common.modding.Mod;
+import com.colin.games.werewolf.common.modding.ModLoader;
 import com.colin.games.werewolf.server.gui.ServerStatusFrame;
 import com.colin.games.werewolf.server.protocol.ServerMessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -36,6 +39,8 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -47,6 +52,7 @@ public class Server {
     private final int maxPlayers;
     private static Server instance;
     private final ServerStatusFrame status = new ServerStatusFrame();
+    private final Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Server"));
     /**
      * Creates a new, but not started, server with the specified port.
      * @param port The port to host this server at
@@ -63,7 +69,6 @@ public class Server {
     public void run() {
         new Thread(() -> {
             System.out.println("Starting at port " + port + "!");
-            registerCallbacks();
             EventLoopGroup receive = new NioEventLoopGroup();
             EventLoopGroup worker = new NioEventLoopGroup();
             try {
@@ -84,6 +89,12 @@ public class Server {
 
                         });
                 try {
+                    registerCallbacks();
+                    log.info("Successfully initialized callbacks.");
+                    if(Environment.isModded()) {
+                        lateInitMods();
+                        log.info("Phase 2 of initialization complete.");
+                    }
                     ChannelFuture future = boot.bind(port).sync();
                     if(!future.isSuccess()){
                         future.cause().printStackTrace();
@@ -206,11 +217,12 @@ public class Server {
                 });
             }
         });
-        //The is full callback
+        //The is the full callback
         MessageDispatch.register("full_query",(ctx,msg) -> {
             ctx.channel().write(new Message("is_full_res",Server.getInstance().maxPlayers() < Connections.openChannels().size() ? "true" :"false"));
             ctx.channel().flush();
         });
+        //Registers role order
         RoleOrder.setAfter("empty","Werewolf","werewolf_next");
         RoleOrder.setMessageContents("Werewolf",() -> String.join(",", RoleDispatch.getAllByRole("Werewolf")));
         RoleOrder.setAfter("Werewolf","Guard","guard_next");
@@ -248,6 +260,9 @@ public class Server {
                 });
             }
         });
+    }
+    private static void lateInitMods(){
+        ModLoader.getLoaded().forEach(Mod::lateInit);
     }
     public static Server getInstance(){
         return instance;

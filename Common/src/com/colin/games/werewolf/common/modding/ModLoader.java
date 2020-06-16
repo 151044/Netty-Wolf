@@ -89,4 +89,7 @@ public class ModLoader {
     public static boolean hasMod(String name){
         return mods.stream().filter(m -> m.name().equals(name)).findFirst().isPresent();
     }
+    public static List<Mod> getLoaded(){
+        return new ArrayList<>(mods);
+    }
 }

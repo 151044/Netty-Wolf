@@ -41,4 +41,9 @@ public abstract class AbstractMod implements Mod{
     public String toString() {
         return name() + " " + version();
     }
+
+    @Override
+    public void lateInit() {
+
+    }
 }
