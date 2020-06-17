@@ -25,8 +25,17 @@ import javax.swing.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Allows users to select a preset.
+ */
 public class PresetFrame extends JFrame {
     private static final Map<JButton,String> lookup = new HashMap<>();
+
+    /**
+     * Constructs a new PresetFrame.
+     * @param players The number to players
+     * @param presets The list of presets
+     */
     public PresetFrame(int players,List<String> presets){
         super("Presets");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

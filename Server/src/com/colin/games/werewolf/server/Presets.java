@@ -35,6 +35,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Gets the game presets.
+ * A preset is a predefined list of roles.
+ */
 public class Presets {
     private Presets(){
         throw new AssertionError();
@@ -54,9 +58,20 @@ public class Presets {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Gets the list of presets for the given number of players.
+     * @param lookup The number of players to lookup
+     * @return The list of presets
+     */
     public static List<String> presetFor(int lookup){
         return presets.get(lookup);
     }
+
+    /**
+     * Adds presets from a file.
+     * @param file The path of the preset file
+     */
     public static void addPresets(Path file){
         setPresets(file);
     }

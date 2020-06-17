@@ -24,10 +24,17 @@ import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * The server options screen.
+ */
 public class InitFrame extends JFrame {
     private int ports = -1;
     private int players = -1;
     private final boolean noLim = false;
+
+    /**
+     * Constructs a new InitFrame.
+     */
     public InitFrame(){
         super("Server Options");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

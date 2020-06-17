@@ -23,11 +23,20 @@ import io.netty.channel.Channel;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Allocates roles.
+ */
 public class RoleDispatch {
     private RoleDispatch(){
         throw new AssertionError();
     }
     private static final Map<String,String> playerRoleMap = new HashMap<>();
+
+    /**
+     * Sends random roles to every player, using the map supplied.
+     * A role, in the form of a String, is randomly assigned to every player.
+     * @param toDispatch The map of number of roles
+     */
     public static void handle(Map<String,Integer> toDispatch){
         List<String> pool = toDispatch.entrySet().stream().map(ent -> {
             List<String> res = new ArrayList<>();
@@ -65,12 +74,30 @@ public class RoleDispatch {
         });
         Connections.getNames().forEach(GameState::setPlayer);
     }
+
+    /**
+     * Gets the role of a person by name.
+     * @param name The name of the player to try to find a role for
+     * @return The role of the player
+     */
     public static String roleFromName(String name){
         return playerRoleMap.get(name);
     }
+
+    /**
+     * Gets all the players of a given role.
+     * @param name The name of the role to lookup
+     * @return The list of players with that role
+     */
     public static List<String> getAllByRole(String name){
         return playerRoleMap.entrySet().stream().filter(ent -> ent.getValue().equals(name)).map(Map.Entry::getKey).collect(Collectors.toList());
     }
+
+    /**
+     * Check if a role exist.
+     * @param name The name of the role to lookup
+     * @return True if the role exists, false otherwise
+     */
     public static boolean hasRole(String name){
         return playerRoleMap.containsValue(name);
     }

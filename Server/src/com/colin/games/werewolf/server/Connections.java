@@ -25,26 +25,63 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The pool of connected clients.
+ */
 public class Connections {
     private Connections(){
         throw new AssertionError();
     }
     private static final Map<String,Channel> channelMap = new HashMap<>();
+
+    /**
+     * Adds a channel to the pool.
+     * @param s The name of the connection
+     * @param ch The channel of the connection
+     */
     public static void add(String s, Channel ch){
         channelMap.put(s,ch);
     }
+
+    /**
+     * Checks if a client of the given name exists.
+     * @param s The name to check
+     * @return True if the name exists in the pool, false otherwise
+     */
     public static boolean has(String s){
         return channelMap.containsKey(s);
     }
+
+    /**
+     * Gets the list of channels which are currently active.
+     * @return A list of active channels
+     */
     public static List<Channel> openChannels(){
         return new ArrayList<>(channelMap.values());
     }
+
+    /**
+     * Removes a name and its associated channel from the pool.
+     * @param name The name to remove
+     */
     public static void removeName(String name){
         channelMap.remove(name);
     }
+
+    /**
+     * Finds the channel associated with this name.
+     * @param name The name to search for
+     * @return The requested channel, or null if it does not exist
+     */
     public static Channel lookup(String name){
         return channelMap.get(name);
     }
+
+    /**
+     * Gets the name associated with this channel.
+     * @param name The channel to lookup
+     * @return The name of that channel, or an error string otherwise
+     */
     public static String nameByChannel(Channel name){
         for(Map.Entry<String,Channel> ent : channelMap.entrySet()){
             if(ent.getValue().equals(name)){
@@ -53,6 +90,11 @@ public class Connections {
         }
         return "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
     }
+
+    /**
+     * Gets the list of names in this pool.
+     * @return The list of player names
+     */
     public static List<String> getNames(){
         return new ArrayList<>(channelMap.keySet());
     }

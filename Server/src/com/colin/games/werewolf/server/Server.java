@@ -264,15 +264,36 @@ public class Server {
     private static void lateInitMods(){
         ModLoader.getLoaded().forEach(Mod::lateInit);
     }
+
+    /**
+     * Gets the current running instance of the server.
+     * @return The server instance
+     */
     public static Server getInstance(){
         return instance;
     }
+
+    /**
+     * Sets the current running instance of the server.
+     * Should not be called from application code
+     * @param s The server to set
+     */
     public static void setInstance(Server s){
         instance = s;
     }
+
+    /**
+     * Gets the maximum number of players for this server.
+     * @return The maximum number of players
+     */
     public int maxPlayers(){
         return maxPlayers;
     }
+
+    /**
+     * Gets the status frame of this server.
+     * @return The status frame associated with this server
+     */
     public ServerStatusFrame statusFrame(){
         return status;
     }

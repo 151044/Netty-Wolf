@@ -22,6 +22,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Holds a list of roles and their abbreviations.
+ */
 public class RoleList {
     private RoleList(){
         throw new AssertionError();
@@ -35,12 +38,29 @@ public class RoleList {
         roleAbbr.put("S","Seer");
         roleAbbr.put("V","Villager");
     }
+
+    /**
+     * Registers a role.
+     * @param full The full name of the role
+     * @param abbreviation The abbreviation of the role
+     */
     public static void register(String full,String abbreviation){
         roleAbbr.put(abbreviation,full);
     }
+
+    /**
+     * Gets roles from their abbreviation.
+     * @param abbreviate The short form to look up the long form opf
+     * @return The full role name, from the abbreviation
+     */
     public static String getFromAbbreviation(String abbreviate){
         return roleAbbr.get(abbreviate);
     }
+
+    /**
+     * Gets a list of roles.
+     * @return The list of registered roles
+     */
     public static Collection<String> getRoles(){
         return roleAbbr.values();
     }

@@ -23,7 +23,16 @@ import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+/**
+ * Handles incoming messages.
+ */
 public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
+    /**
+     * Constructs a fresh ServerMessageHandler.
+     */
+    public ServerMessageHandler(){
+
+    }
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         Message m = (Message) msg;

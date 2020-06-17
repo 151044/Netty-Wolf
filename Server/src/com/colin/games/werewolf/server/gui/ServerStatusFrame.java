@@ -26,11 +26,17 @@ import com.colin.games.werewolf.server.Server;
 import javax.swing.*;
 import java.util.List;
 
+/**
+ * Shows server status, including people who have joined.
+ */
 public class ServerStatusFrame extends JFrame {
     private final JList<String> players;
     private final DefaultListModel<String> model = new DefaultListModel<>();
     private final JButton start;
 
+    /**
+     * Constructs a new ServerStatusFrame.
+     */
     public ServerStatusFrame(){
         super("Server Status");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,14 +75,27 @@ public class ServerStatusFrame extends JFrame {
         pack();
         setVisible(true);
     }
+
+    /**
+     * Adds a player to this frame.
+     * @param toAdd The player to add
+     */
     public void updatePlayers(String toAdd){
         model.addElement(toAdd);
         pack();
     }
+
+    /**
+     * Removes a player from this frame
+     * @param toRemove The player to remove
+     */
     public void removePlayers(String toRemove){
         model.removeElement(toRemove);
         pack();
     }
+    /**
+     * Enables the start button.
+     */
     public void enableStart(){
         start.setEnabled(true);
     }

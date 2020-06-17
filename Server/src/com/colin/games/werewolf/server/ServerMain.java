@@ -38,9 +38,24 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
 
+/**
+ * The main class.
+ */
 public class ServerMain {
     private static OutputFrame log;
     private static Config conf;
+
+    /**
+     * The main method.<br>
+     * Currently, only two arguments are accepted.<br>
+     * The first argument is one of: debug/info, which sets the level of logging of the application.<br>
+     * The second argument is --show-log, which opens a dedicated GUI with the log.<br>
+     * Please note that all of the above are optional.
+     * @param args Application parameters --- see above
+     * @throws UnsupportedLookAndFeelException If Nimbus Look and Feel is unsupported
+     * @throws IOException When an I/O error occurs
+     * @throws ClassNotFoundException Lint
+     */
     public static void main(String[] args) throws Exception{
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
         Environment.setSide(Environment.Side.SERVER);
@@ -128,6 +143,12 @@ public class ServerMain {
         conf.store("throwOnInvalidMod","false");
         conf.write();
     }
+    /**
+     * Allows loggers to print to the log provided by the {@code --show-log} option.
+     * Please note that this method returns silently when the {@code --show-log} option is not used.
+     * @param logging The logger to set as printing to the log
+     * @return The logger instance
+     */
     public static Logger appendLog(Logger logging){
         if(log == null){
             return logging;

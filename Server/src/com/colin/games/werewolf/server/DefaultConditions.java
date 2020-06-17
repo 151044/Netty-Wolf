@@ -18,7 +18,14 @@
 
 package com.colin.games.werewolf.server;
 
+/**
+ * The list of default game conditions.
+ */
 public enum DefaultConditions implements GameCondition{
+    /**
+     * The Continue condition.
+     * The game continues if this game condition is used.
+     */
     CONTINUE(){
         @Override
         public boolean hasWon() {
@@ -30,17 +37,32 @@ public enum DefaultConditions implements GameCondition{
             return "empty";
         }
     }
-    ,WIN_WEREWOLF {
+    ,
+    /**
+     * The Werewolf win condition.
+     * Occurs when the wolves win.
+     */
+    WIN_WEREWOLF {
         @Override
         public String reason() {
             return "The werewolves have killed everyone!";
         }
-    },WIN_VILLAGERS {
+    },
+    /**
+     * The Villager win condition.
+     * Occurs when the villagers win.
+     */
+    WIN_VILLAGERS {
         @Override
         public String reason() {
             return "The villagers have unmasked all werewolves!";
         }
-    },WIN_NONE{
+    },
+    /**
+     * The None win condition.
+     * Everyone has died.
+     */
+    WIN_NONE{
         @Override
         public String reason() {
             return "Everyone has died! Sad!";

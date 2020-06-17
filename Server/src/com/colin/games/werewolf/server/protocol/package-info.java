@@ -15,24 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-package com.colin.games.werewolf.server;
-
 /**
- * A game condition is returned when a call to {@link GameState#applyOutstanding()} and its overloads are used.
- * It determines if the game continues.
- * The game checks if hasWon() returns true. If so, the game terminates.
+ * Holds the server-side protocol for reading {@link com.colin.games.werewolf.common.message.Message Message}s.
  */
-public interface GameCondition {
-    /**
-     * Tests if the game is finished.
-     * @return True if the game is complete, false otherwise
-     */
-    boolean hasWon();
-
-    /**
-     * Gets the reason for the game ending.
-     * @return The reason for completion of this game
-     */
-    String reason();
-}
+package com.colin.games.werewolf.server.protocol;

@@ -22,6 +22,9 @@ import com.colin.games.werewolf.common.message.Message;
 
 import java.util.*;
 
+/**
+ * Maintains the state of voting.
+ */
 public class VotingState {
     private VotingState(){
         throw new AssertionError();
@@ -30,6 +33,10 @@ public class VotingState {
     public static void setVote(String name,String vote){
         votes.put(name,vote);
     }
+
+    /**
+     * Aggregates votes and sends a final result to all client.
+     */
     public static void collect(){
         List<String> vote = new ArrayList<>(votes.values());
         Map<String,Integer> map = new HashMap<>();
@@ -75,6 +82,11 @@ public class VotingState {
             ch.flush();
         });
     }
+
+    /**
+     * Checks if the vote is completed.
+     * @return True if the vote is done, false otherwise
+     */
     public static boolean isDone(){
         return votes.size() == Connections.openChannels().size();
     }
