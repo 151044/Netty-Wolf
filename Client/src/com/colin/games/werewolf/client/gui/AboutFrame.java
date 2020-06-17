@@ -20,7 +20,13 @@ package com.colin.games.werewolf.client.gui;
 
 import javax.swing.*;
 
+/**
+ * Shows the About GUI.
+ */
 public class AboutFrame extends JFrame {
+    /**
+     * Constructs a new AboutFrame.
+     */
     public AboutFrame() {
         super("About");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

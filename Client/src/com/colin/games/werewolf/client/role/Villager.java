@@ -29,6 +29,12 @@ import io.netty.channel.ChannelHandlerContext;
  * It has no special abilities.
  */
 public class Villager implements Role {
+    /**
+     * Constructs a new Villager instance.
+     */
+    public Villager(){
+
+    }
     @Override
     public String name() {
         return "Villager";

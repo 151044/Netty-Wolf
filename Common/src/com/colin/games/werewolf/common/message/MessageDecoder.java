@@ -27,6 +27,12 @@ import java.util.List;
  * Decodes the message received into a Message instance.
  */
 public class MessageDecoder extends MessageToMessageDecoder<String> {
+    /**
+     * Constructs a new MessageDecoder.
+     */
+    public MessageDecoder(){
+
+    }
     @Override
     @SuppressWarnings("unchecked")
     protected void decode(ChannelHandlerContext channelHandlerContext, String str, List list) {

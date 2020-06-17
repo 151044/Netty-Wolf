@@ -22,12 +22,28 @@ package com.colin.games.werewolf.common.modding;
  * Thrown to indicate that a mod has crashed while loading.
  */
 public class ModdedException extends RuntimeException {
+    /**
+     * Constructs a new ModdedException with the specified mod and the failing cause.
+     * @param mod The mod which produced this crash
+     * @param ex The exception thrown
+     */
     public ModdedException(Mod mod, Exception ex){
         super("Mod " + mod.name() + " has crashed while loading.",ex);
     }
+
+    /**
+     * Constructs a new ModdedException with the specified mod and reason.
+     * @param mod The mod which produced this crash
+     * @param msg The cause of this exception
+     */
     public ModdedException(Mod mod,String msg){
         super("Mod " + mod.name() + " has crashed. Reason:" + msg);
     }
+
+    /**
+     * Constructs a new ModdedException with the specified reason.
+     * @param msg The cause of this exception
+     */
     public ModdedException(String msg){
         super(msg);
     }

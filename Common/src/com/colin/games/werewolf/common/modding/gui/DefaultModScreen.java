@@ -25,7 +25,14 @@ import javax.swing.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The default info screen of mods if no custom implementation is provided.
+ */
 public class DefaultModScreen extends JFrame {
+    /**
+     * Constructs a new GUI for displaying mod information.
+     * @param mod The mod whose information to display
+     */
     public DefaultModScreen(Mod mod){
         super(mod.name());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

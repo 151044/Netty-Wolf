@@ -26,7 +26,13 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Shows the list of mods.
+ */
 public class ModList extends JFrame {
+    /**
+     * Constructs a new ModList.
+     */
     public ModList(){
         super("Mods Installed");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

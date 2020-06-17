@@ -22,6 +22,10 @@ package com.colin.games.werewolf.client;
  * Thrown to indicate that an error has occurred while loading the game.
  */
 public class LoadingException extends RuntimeException {
+    /**
+     * Constructs a LoadingException with the specified cause.
+     * @param e The exception to set as the cause
+     */
     public LoadingException(Exception e) {
         super(e);
     }

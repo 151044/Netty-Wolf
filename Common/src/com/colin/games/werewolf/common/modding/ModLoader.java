@@ -31,12 +31,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * A loader for mods.
+ */
 public class ModLoader {
     private ModLoader(){
         throw new AssertionError();
     }
     private static List<Mod> mods = new ArrayList<>();
     private static final Logger log = LogManager.getFormatterLogger("Mod Loader");
+
+    /**
+     * Loads classes implementing the Mod interface from the specified path.
+     * This method does not reload mods for each invocation. The cache of the last results will be used if possible.
+     * @param path The path to load mods from
+     * @param throwOnInvalid Whether to throw a {@link ModdedException} if an error occurs.
+     * @return A list of loaded mods, or an empty list if none exist at the target directory
+     * @throws IOException If an I/O error occurs
+     * @throws ClassNotFoundException Lint
+     */
     public static List<Mod> loadMods(Path path, boolean throwOnInvalid) throws IOException, ClassNotFoundException {
         if(mods.size() != 0){
             return mods;
@@ -79,16 +92,41 @@ public class ModLoader {
         mods.removeAll(rem);
         return mods;
     }
+
+    /**
+     * Reloads mods by invalidating the cache and reloading.
+     * @param path The path to load mods from
+     * @param throwOnInvalid Whether to throw a {@link ModdedException} if an error occurs.
+     * @return A list of loaded mods, or an empty list if none exist at the target directory
+     * @throws IOException If an I/O error occurs
+     * @throws ClassNotFoundException Lint
+     */
     public static List<Mod> reloadMods(Path path,boolean throwOnInvalid) throws IOException, ClassNotFoundException {
         mods.clear();
         return loadMods(path,throwOnInvalid);
     }
+
+    /**
+     * Gets the number of loaded mods.
+     * @return The number of mods loaded
+     */
     public static int loadedMods(){
         return mods.size();
     }
+
+    /**
+     * Tests if a mod with the given name exists.
+     * @param name The name of the mod to find
+     * @return True if the mod exists and is loaded, false otherwise
+     */
     public static boolean hasMod(String name){
         return mods.stream().filter(m -> m.name().equals(name)).findFirst().isPresent();
     }
+
+    /**
+     * Gets a list of loaded mods.
+     * @return The cached list of mods
+     */
     public static List<Mod> getLoaded(){
         return new ArrayList<>(mods);
     }

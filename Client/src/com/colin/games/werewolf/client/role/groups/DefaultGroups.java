@@ -41,7 +41,7 @@ public enum DefaultGroups implements Group {
         }
     },
     /**
-     * The Villager group.
+     * The Werewolf group.
      * @see com.colin.games.werewolf.client.role.Werewolf Werewolf
      */
     WEREWOLF(){

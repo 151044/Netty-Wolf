@@ -27,6 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A GUI for customizing your game.
+ */
 public class CustomFrame extends JFrame {
     private final Map<String,JTextField> textMap = new HashMap<>();
     private static final List<String> enforceOne = new ArrayList<>();
@@ -36,6 +39,11 @@ public class CustomFrame extends JFrame {
         enforceOne.add("Guard");
         enforceOne.add("Hunter");
     }
+
+    /**
+     * Constructs a new CustomFrame with the specified amount of players.
+     * @param players The maximum number of players
+     */
     public CustomFrame(int players){
         super("Customize Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,5 +95,13 @@ public class CustomFrame extends JFrame {
         add(submit);
         pack();
         setVisible(true);
+    }
+
+    /**
+     * Adds roles to a list to prevent duplicates of that role.
+     * @param toEnforce The role to enforce a single-instance restriction
+     */
+    public static void addEnforceOneEntry(String toEnforce){
+        enforceOne.add(toEnforce);
     }
 }

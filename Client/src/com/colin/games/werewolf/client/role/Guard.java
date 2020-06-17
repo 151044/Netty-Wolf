@@ -27,11 +27,18 @@ import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * The guard role.<br>
- * The guard role can protect any player from being killed, but cannot protect the same person twice in a row.
+ * The Guard role.<br>
+ * The Guard role can protect any player from being killed, but cannot protect the same person twice in a row.
  */
 public class Guard implements Role {
     private Player lastProtected = null;
+
+    /**
+     * Constructs a new Guard instance.
+     */
+    public Guard(){
+
+    }
     @Override
     public String name() {
         return "Guard";

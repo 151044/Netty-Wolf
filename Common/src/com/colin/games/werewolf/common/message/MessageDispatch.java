@@ -46,7 +46,7 @@ public class MessageDispatch {
     }
 
     /**
-     * Registers a callback to be invoked.
+     * Registers a callback to be invoked once the String has been received.
      * @param str The name of the callback
      * @param cons The consumer to receive the {@link com.colin.games.werewolf.common.message.Message Message}.
      */

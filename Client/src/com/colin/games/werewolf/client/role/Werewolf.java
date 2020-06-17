@@ -29,10 +29,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The werewolf role.<br>
- * The werewolves can kill one player per night.
+ * The Werewolf role.<br>
+ * The Werewolves can kill one player per night.
  */
 public class Werewolf implements Role {
+    /**
+     * Constructs a new Werewolf instance.
+     */
+    public Werewolf(){
+
+    }
     @Override
     public String name() {
         return "Werewolf";

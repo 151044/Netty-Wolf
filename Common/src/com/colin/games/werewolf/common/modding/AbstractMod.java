@@ -20,6 +20,9 @@ package com.colin.games.werewolf.common.modding;
 
 import java.util.List;
 
+/**
+ * Provides a minimally implemented mod.
+ */
 public abstract class AbstractMod implements Mod{
 
     @Override

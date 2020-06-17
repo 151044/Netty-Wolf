@@ -31,6 +31,13 @@ import org.apache.logging.log4j.Logger;
  */
 public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
     private static final Logger allMsg = LogManager.getFormatterLogger("MessageHandler");
+
+    /**
+     * Constructs a new ClientMessageHandler.
+     */
+    public ClientMessageHandler(){
+        super();
+    }
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         Message m = (Message) msg;

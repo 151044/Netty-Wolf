@@ -16,25 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.message;
-
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToMessageEncoder;
-
-import java.util.List;
-
 /**
- * Encodes a message into a String.
+ * Default GUI for mods.
  */
-public class MessageEncoder extends MessageToMessageEncoder<Message> {
-    /**
-     * Constructs a new MessageEncoder.
-     */
-    public MessageEncoder(){
-
-    }
-    @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, Message s, List<Object> list) {
-        list.add(s.toString() + "\n");
-    }
-}
+package com.colin.games.werewolf.common.modding.gui;

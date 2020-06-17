@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Holds dedications to several people.
+ */
 public class ThanksFrame extends JFrame {
     private static final Map<String,String> dedication = new HashMap<>();
     static{
@@ -33,6 +36,10 @@ public class ThanksFrame extends JFrame {
         dedication.put("XDGUY","To XDGUY: So long, and thanks for all the memes. And the time spent helping me debug. And the new ideas given.");
         dedication.put("You","Dear player, thank you for supporting me!");
     }
+
+    /**
+     * Constructs a new ThanksFrame.
+     */
     public ThanksFrame(){
         super("Thank you!");
         java.util.List<String> list = new ArrayList<>(dedication.keySet());

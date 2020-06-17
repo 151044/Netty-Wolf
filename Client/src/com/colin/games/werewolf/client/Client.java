@@ -194,6 +194,12 @@ public class Client {
     private static void lateInitMods(){
         ModLoader.getLoaded().forEach(Mod::lateInit);
     }
+
+    /**
+     * Gets the future of connecting to the server.
+     * Provided as a synchronization aid for applications to wait for the connection to succeed.
+     * @return The future of the connection
+     */
     public ChannelFuture connectFuture(){
         return connect;
     }

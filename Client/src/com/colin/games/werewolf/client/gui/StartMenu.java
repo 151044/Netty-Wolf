@@ -23,7 +23,13 @@ import com.colin.games.werewolf.common.Environment;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The starting menu. The first GUI of the game.
+ */
 public class StartMenu extends JFrame {
+    /**
+     * Constructs a mew StartMenu.
+     */
     public StartMenu(){
         super("Start Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -26,12 +26,19 @@ import com.colin.games.werewolf.common.roles.Role;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * The witch role.<br>
- * The witch can heal and kill a player, but only once.
+ * The Witch role.<br>
+ * The Witch can heal and kill a player, but only once.
  */
 public class Witch implements Role {
     private boolean isHealUsed = false;
     private boolean isKillUsed = false;
+
+    /**
+     * Constructs a new Witch instance.
+     */
+    public Witch(){
+
+    }
     @Override
     public String name() {
         return "Witch";

@@ -18,32 +18,59 @@
 
 package com.colin.games.werewolf.common.modding;
 
+/**
+ * The modules that a Mod modifies.
+ */
 public enum ModType {
+    /**
+     *  The Role module.
+     */
     ROLE(){
         @Override
         public String getName() {
             return "Role";
         }
-    },GROUP(){
+    },
+    /**
+     *  The Group module.
+     */
+    GROUP(){
         @Override
         public String getName() {
             return "Group";
         }
-    },PRESET(){
+    },
+    /**
+     *  The Preset module.
+     */
+    PRESET(){
         @Override
         public String getName() {
             return "Preset";
         }
-    },WIN_CONDITION(){
+    },
+    /**
+     *  The Win Condition module.
+     */
+    WIN_CONDITION(){
         @Override
         public String getName() {
             return "Win condition";
         }
-    },OTHER(){
+    },
+    /**
+     * The Other module.
+     */
+    OTHER(){
         @Override
         public String getName() {
             return "Other Mod Type";
         }
     };
+
+    /**
+     * Gets the name of the module which has been changed.
+     * @return A user-readable string describing what has been changed.
+     */
     public abstract String getName();
 }
