@@ -63,9 +63,7 @@ public class ModList extends JFrame {
         JScrollPane jsp = new JScrollPane(show);
         jsp.setPreferredSize(jsp.getPreferredSize());
         JButton back = new JButton("Back to Menu");
-        back.addActionListener((ignored) ->{
-            dispose();
-        });
+        back.addActionListener((ignored) -> dispose());
         info.setEnabled(false);
         JPanel buttons = new JPanel();
         buttons.setLayout(new FlowLayout());

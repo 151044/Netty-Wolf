@@ -120,7 +120,7 @@ public class ModLoader {
      * @return True if the mod exists and is loaded, false otherwise
      */
     public static boolean hasMod(String name){
-        return mods.stream().filter(m -> m.name().equals(name)).findFirst().isPresent();
+        return mods.stream().anyMatch(m -> m.name().equals(name));
     }
 
     /**

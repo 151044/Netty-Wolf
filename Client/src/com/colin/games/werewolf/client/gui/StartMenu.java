@@ -59,9 +59,7 @@ public class StartMenu extends JFrame {
         if(Environment.isModded()){
             JButton mods = new JButton("Mods");
             buttons.add(mods);
-            mods.addActionListener(ignored -> {
-                new ModList();
-            });
+            mods.addActionListener(ignored -> new ModList());
         }
         add(buttons);
         pack();
