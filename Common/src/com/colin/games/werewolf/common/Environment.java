@@ -18,9 +18,14 @@
 
 package com.colin.games.werewolf.common;
 
+import com.colin.games.werewolf.common.modding.ModType;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A utility class for learning about the running environment.
@@ -28,6 +33,7 @@ import java.util.Objects;
 public class Environment {
     private static boolean isModded = false;
     private static Side side;
+    private static Set<ModType> modified = new HashSet<>();
     private Environment(){
         throw new AssertionError();
     }
@@ -105,5 +111,13 @@ public class Environment {
          * The Client side.
          */
         CLIENT
+    }
+
+    /**
+     * Adds these modules to the modified list.
+     * @param modified The list of modified modules
+     */
+    public void addModified(List<ModType> modified){
+        this.modified.addAll(modified);
     }
 }

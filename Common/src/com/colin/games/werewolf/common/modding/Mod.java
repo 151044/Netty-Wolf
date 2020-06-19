@@ -89,9 +89,19 @@ public interface Mod {
     }
 
     /**
-     * Shows information about your mod.
+     * Shows a screen for displaying information about your mod.
      */
     default void infoScreen(){
         new DefaultModScreen(this);
+    }
+
+    /**
+     * Gets a list of mod names in the form of a String required on the other side.
+     * For servers, this means a connecting client;
+     * For clients, this means the server to connect to.
+     * @return A list, holding required mod names
+     */
+    default List<String> depsOnOtherSide(){
+        return List.of();
     }
 }

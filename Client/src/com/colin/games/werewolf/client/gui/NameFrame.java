@@ -20,6 +20,7 @@ package com.colin.games.werewolf.client.gui;
 
 import com.colin.games.werewolf.client.Client;
 import com.colin.games.werewolf.client.ClientMain;
+import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.Channel;
@@ -93,6 +94,7 @@ public class NameFrame extends JFrame {
             MessageDispatch.register("is_full_res",(ignore,res)-> {
                 if(Boolean.parseBoolean(res.getContent())){
                     log.info("Server is full! Exiting...");
+                    success = false;
                     SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Server is full. Please try again later", "Server Full!", JOptionPane.WARNING_MESSAGE));
                     try{
                         Thread.sleep(6000);
@@ -101,7 +103,7 @@ public class NameFrame extends JFrame {
                     }
                     System.exit(0);
                 }else{
-                    log.info("Joining!");
+                    log.info("Server is not full!");
                 }
                 try{
                     await.await();
@@ -109,6 +111,16 @@ public class NameFrame extends JFrame {
                     e.printStackTrace();
                 }
             });
+            try{
+                await.await();
+            } catch (InterruptedException | BrokenBarrierException e) {
+                e.printStackTrace();
+            }
+            await.reset();
+            if(Environment.isModded()){
+                log.info("Asking server about mods...");
+
+            }
             try{
                 await.await();
             } catch (InterruptedException | BrokenBarrierException e) {
