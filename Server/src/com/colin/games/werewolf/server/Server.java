@@ -121,21 +121,6 @@ public class Server {
             String req = msg.getContent();
             ctx.channel().write(new Message("name_res", Connections.has(req) ? "false" : "true"));
             ctx.channel().flush();
-            if (!Connections.has(req)) {
-                Connections.add(req, ctx.channel());
-                Server.getInstance().statusFrame().updatePlayers(req);
-                Connections.openChannels().forEach(ch -> {
-                    ch.write(new Message("chat", "[Server]: " + req + " has joined!"));
-                    int left = Server.getInstance().maxPlayers - Connections.openChannels().size();
-                    if(left < 1){
-                        ch.write(new Message("chat","Ready to start at the host's command!"));
-                        Server.getInstance().statusFrame().enableStart();
-                    }else{
-                        ch.write(new Message("chat","[Server]: Waiting for " + left + " more players."));
-                    }
-                    ch.flush();
-                });
-            }
         });
         //The disconnect callback
         MessageDispatch.register("disconnect", (ctx, msg) -> {
@@ -258,6 +243,33 @@ public class Server {
                     ch.write(new Message("chat","The hunter has killed" + msg.getContent() + " from beyond the grave!"));
                     ch.flush();
                 });
+            }
+        });
+        MessageDispatch.register("join_game",(ctx,msg) -> {
+            String req = msg.getContent();
+            if (!Connections.has(req)) {
+                Connections.add(req, ctx.channel());
+                Server.getInstance().statusFrame().updatePlayers(req);
+                Connections.openChannels().forEach(ch -> {
+                    ch.write(new Message("chat", "[Server]: " + req + " has joined!"));
+                    int left = Server.getInstance().maxPlayers - Connections.openChannels().size();
+                    if(left < 1){
+                        ch.write(new Message("chat","Ready to start at the host's command!"));
+                        Server.getInstance().statusFrame().enableStart();
+                    }else{
+                        ch.write(new Message("chat","[Server]: Waiting for " + left + " more players."));
+                    }
+                    ch.flush();
+                });
+            }
+        });
+        MessageDispatch.register("mods_query",(ctx,msg) -> {
+            if(Environment.isModded()){
+
+            }else{
+                //sanity
+                ctx.write(new Message("mod_response","true"));
+                ctx.flush();
             }
         });
     }

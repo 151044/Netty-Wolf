@@ -23,7 +23,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew compileJava jar clientJar serverJar --stacktrace --info
+      run: ./gradlew compileJava jar clientJar serverJar modStubJar killerClientJar--stacktrace --info
     - name: Create Release
       id: create_release
       uses: "marvinpinto/action-automatic-releases@latest"
@@ -36,3 +36,5 @@ jobs:
             LICENSE.md
             ./build/libs/Server-0.1.0.jar
             ./build/libs/Client-0.1.0.jar
+            ./build/libs/ModStub-1.0.0.jar
+            ./build/libs/Killer-Mod-Client-0.0.1.jar

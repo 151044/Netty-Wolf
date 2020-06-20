@@ -129,6 +129,8 @@ public class NameFrame extends JFrame {
             await.reset();
             if(success){
                 dispose();
+                Client.getCurrent().getChannel().write(new Message("join_game",requested));
+                Client.getCurrent().getChannel().flush();
                 MessageDispatch.register("name_res",null);
                 MessageDispatch.register("is_full_res",null);
                 Client.getCurrent().setName(requested);
