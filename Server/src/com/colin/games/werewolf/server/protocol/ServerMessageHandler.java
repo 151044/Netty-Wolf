@@ -20,13 +20,17 @@ package com.colin.games.werewolf.server.protocol;
 
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
+import com.colin.games.werewolf.server.ServerMain;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Handles incoming messages.
  */
 public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
+    private Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Message Handler"));
     /**
      * Constructs a fresh ServerMessageHandler.
      */
@@ -36,6 +40,7 @@ public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         Message m = (Message) msg;
+        log.debug("Received message " + m.getType() + " , content " + m.getContent());
         MessageDispatch.dispatch(ctx,m);
     }
 

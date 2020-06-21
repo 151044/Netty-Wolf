@@ -43,6 +43,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The actual server instance.
@@ -52,7 +53,7 @@ public class Server {
     private final int maxPlayers;
     private static Server instance;
     private final ServerStatusFrame status = new ServerStatusFrame();
-    private final Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Server"));
+    private static final Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Server"));
     /**
      * Creates a new, but not started, server with the specified port.
      * @param port The port to host this server at
@@ -68,7 +69,7 @@ public class Server {
      */
     public void run() {
         new Thread(() -> {
-            System.out.println("Starting at port " + port + "!");
+            log.info("Starting at port " + port + "!");
             EventLoopGroup receive = new NioEventLoopGroup();
             EventLoopGroup worker = new NioEventLoopGroup();
             try {
@@ -263,14 +264,19 @@ public class Server {
                 });
             }
         });
-        MessageDispatch.register("mods_query",(ctx,msg) -> {
+        MessageDispatch.register("mod_query",(ctx,msg) -> {
+            log.debug("Mod query received! Content: " + msg.getContent() + " as compared with local " + ModLoader.getLoaded().stream().map(Mod::name).collect(Collectors.toList()));
             if(Environment.isModded()){
-
+                ctx.channel().write(new Message("mod_response",ModLoader.getLoaded().stream().map(Mod::name).collect(Collectors.toList()).containsAll(List.of(msg.getContent().split(";"))) ? "true" : "false"));
             }else{
-                //sanity
-                ctx.write(new Message("mod_response","true"));
-                ctx.flush();
+                if(msg.getContent().replace(';',' ').isBlank()){
+                    ctx.channel().write(new Message("mod_response","true"));
+                }else {
+                    ctx.channel().write(new Message("mod_response", "false"));
+                }
             }
+            ctx.channel().flush();
+            log.debug("Successfully written back mod_response to client!");
         });
     }
     private static void lateInitMods(){

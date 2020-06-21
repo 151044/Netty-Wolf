@@ -23,6 +23,8 @@ import com.colin.games.werewolf.client.ClientMain;
 import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
+import com.colin.games.werewolf.common.modding.Mod;
+import com.colin.games.werewolf.common.modding.ModLoader;
 import io.netty.channel.Channel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +32,7 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.stream.Collectors;
 
 /**
  * A GUI for choosing your name in the game.
@@ -62,6 +65,7 @@ public class NameFrame extends JFrame {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Name contains invalid characters!", "Name taken!", JOptionPane.WARNING_MESSAGE));
                 return;
             }
+            submit.setEnabled(false);
             log.info("Awaiting for connection to server!");
             Client.getCurrent().connectFuture().syncUninterruptibly();
             Channel chan = Client.getCurrent().getChannel();
@@ -105,38 +109,43 @@ public class NameFrame extends JFrame {
                 }else{
                     log.info("Server is not full!");
                 }
-                try{
-                    await.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
-                    e.printStackTrace();
+                if(Environment.isModded()){
+                    log.info("Asking server about mods...");
+                    MessageDispatch.register("mod_response", (ctx, msg) -> {
+                        log.debug("Mod response received with message " + msg.getContent());
+                        try {
+                            boolean result = Boolean.parseBoolean(msg.getContent());
+                            if (result) {
+                                log.info("The server has accepted this mod list.");
+                            } else {
+                                log.info("The server cannot accept this mod list!");
+                                System.exit(0);
+                            }
+                        } catch (IllegalArgumentException iae) {
+                            throw new AssertionError(iae);
+                        }
+                        dispose();
+                        Client.getCurrent().getChannel().write(new Message("join_game",requested));
+                        Client.getCurrent().getChannel().flush();
+                        MessageDispatch.register("name_res",null);
+                        MessageDispatch.register("is_full_res",null);
+                        Client.getCurrent().setName(requested);
+                        ChatFrame chat = new ChatFrame(requested);
+                        MessageDispatch.register("chat",chat::displayMsg);
+                    });
+                    Client.getCurrent().getChannel().write(new Message("mod_query", ModLoader.getLoaded().stream().map(Mod::depsOnOtherSide).map(l -> String.join(";", l).strip()).collect(Collectors.joining(";"))));
+                    Client.getCurrent().getChannel().flush();
+                }else{
+                    dispose();
+                    Client.getCurrent().getChannel().write(new Message("join_game",requested));
+                    Client.getCurrent().getChannel().flush();
+                    MessageDispatch.register("name_res",null);
+                    MessageDispatch.register("is_full_res",null);
+                    Client.getCurrent().setName(requested);
+                    ChatFrame chat = new ChatFrame(requested);
+                    MessageDispatch.register("chat",chat::displayMsg);
                 }
             });
-            try{
-                await.await();
-            } catch (InterruptedException | BrokenBarrierException e) {
-                e.printStackTrace();
-            }
-            await.reset();
-            if(Environment.isModded()){
-                log.info("Asking server about mods...");
-
-            }
-            try{
-                await.await();
-            } catch (InterruptedException | BrokenBarrierException e) {
-                e.printStackTrace();
-            }
-            await.reset();
-            if(success){
-                dispose();
-                Client.getCurrent().getChannel().write(new Message("join_game",requested));
-                Client.getCurrent().getChannel().flush();
-                MessageDispatch.register("name_res",null);
-                MessageDispatch.register("is_full_res",null);
-                Client.getCurrent().setName(requested);
-                ChatFrame chat = new ChatFrame(requested);
-                MessageDispatch.register("chat",chat::displayMsg);
-            }
         });
         panel.add(submit);
         add(panel);

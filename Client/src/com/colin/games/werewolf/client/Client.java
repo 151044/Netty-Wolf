@@ -53,7 +53,7 @@ public class Client {
     private static Client current;
     private String name;
     private ChannelFuture connect;
-    private final Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Client"));
+    private static final Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("Client"));
 
     /**
      * Constructs a new Client.
@@ -186,8 +186,13 @@ public class Client {
         });
         Runtime.getRuntime().addShutdownHook(new Thread(()-> {
             if(Client.getCurrent() != null) {
-                Client.getCurrent().getChannel().write(new Message("disconnect", Client.getCurrent().getName()));
+                log.info("Disconnecting!");
+                Client.getCurrent().getChannel().write(new Message("disconnect", Client.getCurrent().getName() == null ? "empty" : Client.getCurrent().getName()));
                 Client.getCurrent().getChannel().flush();
+            }
+            if(Environment.isModded()){
+                log.info("Cleaning up mods...");
+                ModLoader.getLoaded().forEach(Mod::cleanup);
             }
         }));
     }
