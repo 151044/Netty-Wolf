@@ -35,4 +35,28 @@ public interface GameCondition {
      * @return The reason for completion of this game
      */
     String reason();
+
+    /**
+     * Resolves the given game condition with the current one to see which on should take priority.
+     * @return
+     */
+    default GameCondition resolve(GameCondition game){
+        if(this.hasWon() && game.hasWon()){
+            return this.priority() > game.priority() ? this : game;
+        }else if(this.hasWon() && !game.hasWon()){
+            return this;
+        }else if(!this.hasWon() && game.hasWon()){
+            return game;
+        }else{
+            return DefaultConditions.CONTINUE;
+        }
+    }
+
+    /**
+     * Describes what priority that the game conditions are in when two conflict.
+     * @return The integer value, showing its relative priority
+     */
+    default int priority(){
+        return 0;
+    }
 }

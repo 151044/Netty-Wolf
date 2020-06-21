@@ -39,6 +39,30 @@ public class GameState {
     private static String killedByWolf = "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
     private static final Map<String,BitSet> cache = new HashMap<>();
     private static final List<String> killed = new ArrayList<>();
+    private static final List<Function<Map<String,Boolean>,GameCondition>> functions = new ArrayList<>();
+    static{
+        functions.add((map) -> {
+            boolean werewolfWin = true,villagerWin = true;
+            for(String s : map.entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).collect(Collectors.toList())){
+                String group = Groups.getGroup(RoleDispatch.roleFromName(s));
+                if(group.equals("Werewolf")){
+                    villagerWin = false;
+                }else if(group.equals("Villager")){
+                    werewolfWin = false;
+                }
+            }
+            if(werewolfWin){
+                return DefaultConditions.WIN_WEREWOLF;
+            }
+            if(villagerWin){
+                return DefaultConditions.WIN_VILLAGERS;
+            }
+            if(isAlive.entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).count() == 0){
+                return DefaultConditions.WIN_NONE;
+            }
+            return DefaultConditions.CONTINUE;
+        });
+    }
 
     /**
      * Adds a player to the registry.
@@ -147,25 +171,8 @@ public class GameState {
      * @return The current game's condition
      */
     public static GameCondition checkWinCon(){
-        boolean werewolfWin = true,villagerWin = true;
-        for(String s : isAlive.entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).collect(Collectors.toList())){
-            String group = Groups.getGroup(RoleDispatch.roleFromName(s));
-            if(group.equals("Werewolf")){
-                villagerWin = false;
-            }else if(group.equals("Villager")){
-                werewolfWin = false;
-            }
-        }
-        if(werewolfWin){
-            return DefaultConditions.WIN_WEREWOLF;
-        }
-        if(villagerWin){
-            return DefaultConditions.WIN_VILLAGERS;
-        }
-        if(isAlive.entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).count() == 0){
-            return DefaultConditions.WIN_NONE;
-        }
-        return DefaultConditions.CONTINUE;
+        List<GameCondition> cons = functions.stream().map(func -> func.apply(isAlive)).collect(Collectors.toList());
+        return cons.stream().reduce((g1,g2) -> g1.resolve(g2)).orElseThrow();
     }
     /**
      * Checks the winning condition of the game according to the given function.
@@ -206,5 +213,13 @@ public class GameState {
      */
     public static void clearKilled(){
         killed.clear();
+    }
+
+    /**
+     * Gets the number of not-dead people.
+     * @return The number of people who are not dead
+     */
+    public static int numAlive(){
+        return isAlive.entrySet().stream().filter(ent -> ent.getValue()).collect(Collectors.toList()).size();
     }
 }

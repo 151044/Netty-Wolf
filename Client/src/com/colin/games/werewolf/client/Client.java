@@ -168,7 +168,11 @@ public class Client {
         });
         MessageDispatch.register("init_cache",(ctx,msg) -> PlayerCache.init(msg.getContent()));
         MessageDispatch.register("cache_update",(ctx,msg) -> PlayerCache.update(msg.getContent()));
-        MessageDispatch.register("vote_start",(ctx,msg) -> new VotingFrame());
+        MessageDispatch.register("vote_start",(ctx,msg) -> {
+            if(!PlayerCache.lookup(Client.getCurrent().name).isDead()){
+                new VotingFrame();
+            }
+        });
         Roles.register("Werewolf", Werewolf::new);
         Roles.register("Guard", Guard::new);
         Roles.register("Hunter", Hunter::new);

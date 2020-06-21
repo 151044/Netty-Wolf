@@ -88,6 +88,6 @@ public class VotingState {
      * @return True if the vote is done, false otherwise
      */
     public static boolean isDone(){
-        return votes.size() == Connections.openChannels().size();
+        return votes.size() == GameState.numAlive();
     }
 }

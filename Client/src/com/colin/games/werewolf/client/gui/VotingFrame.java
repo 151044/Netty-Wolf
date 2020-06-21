@@ -36,7 +36,7 @@ import java.util.Vector;
  */
 public class VotingFrame extends JFrame {
     private final Map<String,JLabel> map = new HashMap<>();
-
+    private boolean noEmit = false;
     /**
      * Constructs a new VotingFrame.
      */
@@ -51,7 +51,7 @@ public class VotingFrame extends JFrame {
         players.addItem(new Player("Abstain",new Villager()));
         voteP.add(players);
         players.addItemListener(ae -> {
-            if(ae.getStateChange() == ItemEvent.SELECTED) {
+            if(ae.getStateChange() == ItemEvent.SELECTED && !noEmit) {
                 Client.getCurrent().writeAndFlush(new Message("vote_init", Client.getCurrent().getName() + "," + ((Player) players.getSelectedItem()).getName()));
             }
         });
@@ -61,6 +61,7 @@ public class VotingFrame extends JFrame {
             submit.setEnabled(false);
         }
         submit.addActionListener(ae -> {
+            noEmit = true;
             Client.getCurrent().writeAndFlush(new Message("vote_final",Client.getCurrent().getName() + "," + ((Player) players.getSelectedItem()).getName()));
             submit.setEnabled(false);
         });

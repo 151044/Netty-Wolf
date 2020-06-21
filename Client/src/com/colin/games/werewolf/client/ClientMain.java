@@ -37,6 +37,8 @@ import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -62,21 +64,24 @@ public class ClientMain {
     public static void main(String[] args) throws UnsupportedLookAndFeelException, IOException, ClassNotFoundException {
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
         if(args.length != 0){
-            String op = args[0].toLowerCase();
-            if(op.equals("debug")){
+            List<String> arg = new ArrayList<>(List.of(args));
+            if(arg.contains("debug")){
+                arg.removeIf(str -> str.equals("info") || str.equals("warn"));
                 Configurator.setRootLevel(Level.DEBUG);
-            }else if(op.equals("info")){
+            }else if(arg.contains("info")){
+                arg.removeIf(str -> str.equals("debug") || str.equals("warn"));
                 Configurator.setRootLevel(Level.INFO);
-            }else{
+            }else if(arg.contains("warn")){
+                arg.removeIf(str -> str.equals("info") || str.equals("debug"));
                 Configurator.setRootLevel(Level.WARN);
             }
-            if(args[1] != null){
-                String setVisible = args[1];
-                if(setVisible.equals("--show-log")){
-                    log = new OutputFrame("Client Log");
-                    log.setVisible(true);
-                    log.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                }
+            if(arg.contains("--show-log")){
+                log = new OutputFrame("Client Log");
+                log.setVisible(true);
+                log.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+            if(arg.contains("--no-diary")){
+
             }
         }else{
             Configurator.setRootLevel(Level.WARN);
@@ -135,8 +140,8 @@ public class ClientMain {
                 logger.info("Cannot find any mods. Reverting to non-modded mode!");
                 Environment.setModded(false);
             }
+            ModLoader.getLoaded().forEach(Mod::init);
         }
-        ModLoader.getLoaded().forEach(Mod::init);
         new StartMenu();
     }
     private static void initConfig(Path root) throws IOException {
@@ -144,6 +149,7 @@ public class ClientMain {
         conf.store("mods","false");
         conf.store("debug","false");
         conf.store("throwOnInvalidMod","false");
+        conf.store("diary","true");Configurator.setRootLevel(Level.DEBUG);
         conf.write();
     }
 

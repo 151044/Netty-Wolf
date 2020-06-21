@@ -52,7 +52,7 @@ public class Presets {
             Map<String, String> env = new HashMap<>();
             env.put("create", "true");
             FileSystem zip = FileSystems.newFileSystem(uri, env);
-            setPresets(Path.of(Presets.class.getResource("resources/DefaultLoad.txt").toURI()));
+            setPresets(Path.of(ClassLoader.getSystemResource("resources/DefaultLoad.txt").toURI()));
         } catch (IOException | URISyntaxException e) {
             log.error("Preset file failed to be loaded!");
             throw new RuntimeException(e);
