@@ -5,9 +5,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ master ]
   pull_request:
-    branches: [ dev ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -29,8 +29,8 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest-dev-build"
-          prerelease: true
+          automatic_release_tag: "latest-stable-build"
+          prerelease: false
           title: "Latest-Dev-Build"
           files: |
             LICENSE.md
