@@ -30,7 +30,7 @@ jobs:
       with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest-stable-build"
-          prerelease: true
+          prerelease: false
           title: "Latest-Dev-Build"
           files: |
             LICENSE.md
