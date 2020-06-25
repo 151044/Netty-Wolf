@@ -149,7 +149,7 @@ public class ClientMain {
         conf.store("mods","false");
         conf.store("debug","false");
         conf.store("throwOnInvalidMod","false");
-        conf.store("diary","true");Configurator.setRootLevel(Level.DEBUG);
+        conf.store("diary","true");
         conf.write();
     }
 
