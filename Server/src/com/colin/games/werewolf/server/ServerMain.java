@@ -33,10 +33,9 @@ import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -58,35 +57,31 @@ public class ServerMain {
      * @throws ClassNotFoundException Lint
      */
     public static void main(String[] args) throws Exception{
+        UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        Environment.setSide(Environment.Side.SERVER);
         if(args.length != 0){
-            List<String> arg = new ArrayList<>(List.of(args));
-            if(arg.contains("debug")){
-                arg.removeIf(str -> str.equals("info") || str.equals("warn"));
+            String op = args[0].toLowerCase();
+            if(op.equals("debug")){
                 Configurator.setRootLevel(Level.DEBUG);
-            }else if(arg.contains("info")){
-                arg.removeIf(str -> str.equals("debug") || str.equals("warn"));
+            }else if(op.equals("info")){
                 Configurator.setRootLevel(Level.INFO);
-            }else if(arg.contains("warn")){
-                arg.removeIf(str -> str.equals("info") || str.equals("debug"));
+            }else{
                 Configurator.setRootLevel(Level.WARN);
             }
-            if(arg.stream().anyMatch(str -> str.startsWith("--theme="))){
-                Environment.setLookAndFeel(arg.stream().filter(str -> str.startsWith("--theme=")).findFirst().get().replace("--theme=",""),null);
-            }else{
-                Environment.setLookAndFeel("nimbus",null);
-            }
-            if(arg.contains("--show-log")){
-                log = new OutputFrame("Client Log");
-                log.setVisible(true);
-                log.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            if(args[1] != null){
+                String setVisible = args[1];
+                if(setVisible.equals("--show-log")){
+                    log = new OutputFrame("Server Log");
+                    log.setVisible(true);
+                    log.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                }
             }
         }else{
             Configurator.setRootLevel(Level.WARN);
-            Environment.setLookAndFeel("nimbus",null);
         }
         Logger logger = appendLog(LogManager.getFormatterLogger("Launch"));
         logger.info("Starting!");
-        Environment.setSide(Environment.Side.SERVER);
+        Environment.setSide(Environment.Side.CLIENT);
         logger.info("Launching server!");
         Thread.setDefaultUncaughtExceptionHandler((t,ex) -> {
             ex.printStackTrace();
