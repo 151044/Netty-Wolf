@@ -61,6 +61,12 @@ public class StartMenu extends JFrame {
             buttons.add(mods);
             mods.addActionListener(ignored -> new ModList());
         }
+        JButton settings = new JButton("Settings");
+        settings.addActionListener(ignored -> {
+            dispose();
+            new ThemeFrame();
+        });
+        buttons.add(settings);
         add(buttons);
         pack();
         setVisible(true);

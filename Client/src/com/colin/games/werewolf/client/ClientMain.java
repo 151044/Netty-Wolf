@@ -34,7 +34,6 @@ import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -57,12 +56,10 @@ public class ClientMain {
      * The second argument is --show-log, which opens a dedicated GUI with the log.<br>
      * Please note that all of the above are optional.
      * @param args Application parameters --- see above
-     * @throws UnsupportedLookAndFeelException If Nimbus Look and Feel is unsupported
      * @throws IOException When an I/O error occurs
      * @throws ClassNotFoundException Lint
      */
-    public static void main(String[] args) throws UnsupportedLookAndFeelException, IOException, ClassNotFoundException {
-        UIManager.setLookAndFeel(new NimbusLookAndFeel());
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         if(args.length != 0){
             List<String> arg = new ArrayList<>(List.of(args));
             if(arg.contains("debug")){
@@ -75,16 +72,19 @@ public class ClientMain {
                 arg.removeIf(str -> str.equals("info") || str.equals("debug"));
                 Configurator.setRootLevel(Level.WARN);
             }
+            if(arg.stream().anyMatch(str -> str.startsWith("--theme="))){
+                Environment.setLookAndFeel(arg.stream().filter(str -> str.startsWith("--theme=")).findFirst().get().replace("--theme=",""),null);
+            }else{
+                Environment.setLookAndFeel("nimbus",null);
+            }
             if(arg.contains("--show-log")){
                 log = new OutputFrame("Client Log");
                 log.setVisible(true);
                 log.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             }
-            if(arg.contains("--no-diary")){
-
-            }
         }else{
             Configurator.setRootLevel(Level.WARN);
+            Environment.setLookAndFeel("nimbus",null);
         }
         Logger logger = appendLog(LogManager.getFormatterLogger("Launch"));
         logger.info("Starting!");

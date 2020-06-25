@@ -30,6 +30,7 @@ sourceSets {
 dependencies{
     implementation group: 'io.netty', name: 'netty-all', version: '4.1.50.Final'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+    implementation group: 'com.formdev', name: 'flatlaf', version: '0.36'
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11

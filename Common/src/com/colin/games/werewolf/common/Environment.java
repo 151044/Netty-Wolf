@@ -19,7 +19,14 @@
 package com.colin.games.werewolf.common;
 
 import com.colin.games.werewolf.common.modding.ModType;
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
+import javax.swing.*;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -115,9 +122,37 @@ public class Environment {
 
     /**
      * Adds these modules to the modified list.
-     * @param modified The list of modified modules
+     * @param modifications The list of modified modules
      */
-    public void addModified(List<ModType> modified){
-        this.modified.addAll(modified);
+    public static void addModified(List<ModType> modifications){
+        modified.addAll(modifications);
+    }
+
+    /**
+     * Sets the current look and feel.
+     * @param feel The string describing the look and feel, as shown bove
+     * @param top The root component of the current UI
+     */
+    public static void setLookAndFeel(String feel, Component top){
+        LookAndFeel toSet = null;
+        if(feel.equals("light")){
+            toSet = new FlatLightLaf();
+        }else if(feel.equals("dark")){
+            toSet = new FlatDarkLaf();
+        }else if(feel.equals("intellij")){
+            toSet = new FlatIntelliJLaf();
+        }else if(feel.equals("dracula")){
+            toSet = new FlatDarculaLaf();
+        }else{
+            toSet = new NimbusLookAndFeel();
+        }
+        try{
+            UIManager.setLookAndFeel(toSet);
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+        if(top != null){
+            SwingUtilities.updateComponentTreeUI(top);
+        }
     }
 }
