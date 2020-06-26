@@ -20,7 +20,13 @@ package com.colin.games.werewolf.client.gui;
 
 import javax.swing.*;
 
+/**
+ * The GUI for selecting which settings to tweak.
+ */
 public class SettingsFrame extends JFrame {
+    /**
+     * Creates a new SettingFrame.
+     */
     public SettingsFrame(){
         super("Settings");
     }
