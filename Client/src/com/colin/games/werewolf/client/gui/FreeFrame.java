@@ -48,10 +48,6 @@ public class FreeFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         JTextArea jta = new JTextArea();
-        jta.append("Pre-Preamble:\n" +
-                "This is not a license in the conventional sense. While a software license seeks to limit you, the user, of their rights, this license " +
-                "aims to provide you with indisputable rights to modify, to distribute, and to share, given that the resulting product also follows this license" +
-                "in order to preserve the rights that are given to you by this document.\n\n\n");
         log.info("Loading GPL...");
         try {
             final URI uri = getClass().getResource("/resources").toURI();
