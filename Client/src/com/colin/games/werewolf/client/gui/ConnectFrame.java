@@ -52,6 +52,7 @@ public class ConnectFrame extends JFrame {
         JButton submit = new JButton("Connect!");
         pane.add(submit);
         submit.addActionListener(ae -> {
+            boolean fail = false;
             try {
                 int handler = Integer.parseInt(port.getText());
                 InetAddress addr = InetAddress.getByName(ip.getText());
@@ -60,11 +61,15 @@ public class ConnectFrame extends JFrame {
                 cli.run();
                 new NameFrame();
             }catch(NumberFormatException nfe){
+                fail = true;
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Invalid port number entered!","Please try again.",JOptionPane.INFORMATION_MESSAGE));
             }catch(UnknownHostException uhe){
+                fail = true;
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Invalid IP entered!","Please try again.",JOptionPane.INFORMATION_MESSAGE));
             }
-            dispose();
+            if(!fail) {
+                dispose();
+            }
         });
         add(pane);
         pack();
