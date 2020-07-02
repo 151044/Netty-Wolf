@@ -29,7 +29,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest-stable-build"
           prerelease: false
-          title: "Latest-Dev-Build"
+          title: "Latest-Stable-Build"
           files: |
             LICENSE.md
             ./build/libs/Server-0.1.0.jar
