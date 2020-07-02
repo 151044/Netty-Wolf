@@ -69,6 +69,7 @@ public class StartMenu extends JFrame {
         buttons.add(settings);
         add(buttons);
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 }

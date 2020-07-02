@@ -124,6 +124,7 @@ public class ChatFrame extends JFrame {
             chan.flush();
             msg.setText("");
         });
+        setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         pack();
         setVisible(true);
         MessageDispatch.register("night",(ctx,m) -> send.setEnabled(false));

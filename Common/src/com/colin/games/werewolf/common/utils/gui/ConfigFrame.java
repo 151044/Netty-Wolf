@@ -23,6 +23,7 @@ import com.colin.games.werewolf.common.utils.Config;
 import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Map;
 
 /**
  * A GUI for manually editing settings.
@@ -65,5 +66,8 @@ public class ConfigFrame extends JFrame {
     public ConfigFrame(Config conf,String title){
         super(title);
         this.conf = conf;
+        for(Map.Entry<String,String> ent : conf.getAsMap().entrySet()){
+            
+        }
     }
 }
