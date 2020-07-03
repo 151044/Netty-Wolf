@@ -73,11 +73,10 @@ public class Environment {
 
     /**
      * Gets the working directory of this game.
-     * Note that this is a wrapper around {@link System#getProperty(String) System.getProperty()}.
-     * @return The path of the current directory
+     * @return The path of the directory to put configs in
      */
     public static Path workingDir(){
-        return Paths.get(System.getProperty("user.dir"));
+        return Paths.get(System.getProperty("user.home"));
     }
 
     /**

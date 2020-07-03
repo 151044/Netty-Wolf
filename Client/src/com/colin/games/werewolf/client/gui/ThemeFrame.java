@@ -55,7 +55,7 @@ public class ThemeFrame extends JFrame {
         add(back);
         back.addActionListener(ignored-> {
             dispose();
-            new StartMenu();
+            new SettingsFrame();
         });
         pack();
         setVisible(true);

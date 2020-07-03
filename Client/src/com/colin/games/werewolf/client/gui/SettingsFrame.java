@@ -29,5 +29,24 @@ public class SettingsFrame extends JFrame {
      */
     public SettingsFrame(){
         super("Settings");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BoxLayout(getContentPane(),BoxLayout.X_AXIS));
+        JPanel defaults = new JPanel();
+        defaults.setLayout(new BoxLayout(defaults,BoxLayout.Y_AXIS));
+        JButton theme = new JButton("Theme");
+        theme.addActionListener((ae) -> {
+           dispose();
+           new ThemeFrame();
+        });
+        defaults.add(theme);
+        add(defaults);
+        JPanel exit = new JPanel();
+        exit.setLayout(new BoxLayout(exit,BoxLayout.Y_AXIS));
+        JButton back = new JButton("Back");
+        back.addActionListener(ae -> dispose());
+        exit.add(back);
+        add(exit);
+        pack();
+        setVisible(true);
     }
 }
