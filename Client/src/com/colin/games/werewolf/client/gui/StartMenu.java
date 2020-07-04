@@ -33,7 +33,7 @@ public class StartMenu extends JFrame {
     public StartMenu(){
         super("Start Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(getContentPane(),BoxLayout.X_AXIS));
         JLabel name = new JLabel("Netty-Wolf");
         name.setAlignmentX(Component.CENTER_ALIGNMENT);
         name.setFont(name.getFont().deriveFont(14.0f));
