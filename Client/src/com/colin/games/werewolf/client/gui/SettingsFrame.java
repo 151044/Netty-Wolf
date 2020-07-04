@@ -43,7 +43,10 @@ public class SettingsFrame extends JFrame {
         JPanel exit = new JPanel();
         exit.setLayout(new BoxLayout(exit,BoxLayout.Y_AXIS));
         JButton back = new JButton("Back");
-        back.addActionListener(ae -> dispose());
+        back.addActionListener(ae -> {
+            dispose();
+            new StartMenu();
+        });
         exit.add(back);
         add(exit);
         pack();

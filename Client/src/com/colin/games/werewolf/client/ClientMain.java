@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.client;
 
+import com.colin.games.werewolf.client.audio.AudioControl;
 import com.colin.games.werewolf.client.gui.StartMenu;
 import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.modding.Mod;
@@ -33,12 +34,16 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * The main class.
@@ -59,7 +64,7 @@ public class ClientMain {
      * @throws IOException When an I/O error occurs
      * @throws ClassNotFoundException Lint
      */
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, URISyntaxException {
         if(args.length != 0){
             List<String> arg = new ArrayList<>(List.of(args));
             if(arg.contains("debug")){
@@ -97,6 +102,16 @@ public class ClientMain {
             }
             new ExceptionFrame((Exception) ex,t);
         });
+        final URI uri = ClientMain.class.getResource("/resources").toURI();
+        Map<String, String> env = new HashMap<>();
+        env.put("create", "true");
+        FileSystem zip = FileSystems.newFileSystem(uri, env);
+        try {
+            AudioControl.setBackground(ClassLoader.getSystemResource("resources/lol.wav"));
+            AudioControl.setVolume(0.2f);
+        } catch (UnsupportedAudioFileException | LineUnavailableException e) {
+            logger.error(e);
+        }
         Path root = Environment.workingDir().resolve("netty-wolf");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
