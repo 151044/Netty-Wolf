@@ -25,14 +25,9 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Shows the GPL.
@@ -50,18 +45,14 @@ public class FreeFrame extends JFrame {
         JTextArea jta = new JTextArea();
         log.info("Loading GPL...");
         try {
-            final URI uri = getClass().getResource("/resources").toURI();
-            Map<String, String> env = new HashMap<>();
-            env.put("create", "true");
-            FileSystem zip = FileSystems.newFileSystem(uri, env);
             jta.append(String.join("\n",Files.readAllLines(Path.of(ClassLoader.getSystemResource("resources/GPL.txt").toURI()))));
         } catch (IOException | URISyntaxException e) {
             log.info("Failed to load GPL!");
             throw new RuntimeException(e);
         }
         jta.setEditable(false);
-        jta.setLineWrap(true);
-        jta.setWrapStyleWord(true);
+        jta.setLineWrap(false);
+        jta.setWrapStyleWord(false);
         JScrollPane textScroll = new JScrollPane(jta);
         JPanel jp = new JPanel();
         jp.setLayout(new BorderLayout());
