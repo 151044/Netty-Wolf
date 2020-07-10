@@ -29,7 +29,7 @@ import java.util.Map;
  * A GUI for manually editing settings.
  */
 public class ConfigFrame extends JFrame {
-    private Config conf;
+    private final Config conf;
 
     /**
      * Creates a new ConfigFrame with the specified path to load the config from.

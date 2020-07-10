@@ -85,7 +85,7 @@ public class GameState {
      * @param msg The message which dispatched this order
      */
     public static void heal(Message msg){
-        cache.get(killedByWolf).set(2);
+        cache.get(msg.getContent()).set(2);
     }
     /**
      * Kills a player by wolves.
@@ -172,7 +172,7 @@ public class GameState {
      */
     public static GameCondition checkWinCon(){
         List<GameCondition> cons = functions.stream().map(func -> func.apply(isAlive)).collect(Collectors.toList());
-        return cons.stream().reduce((g1,g2) -> g1.resolve(g2)).orElseThrow();
+        return cons.stream().reduce(GameCondition::resolve).orElseThrow();
     }
     /**
      * Checks the winning condition of the game according to the given function.
@@ -220,6 +220,6 @@ public class GameState {
      * @return The number of people who are not dead
      */
     public static int numAlive(){
-        return isAlive.entrySet().stream().filter(ent -> ent.getValue()).collect(Collectors.toList()).size();
+        return (int) isAlive.entrySet().stream().filter(ent -> ent.getValue()).count();
     }
 }

@@ -142,8 +142,8 @@ public class NameFrame extends JFrame {
                     MessageDispatch.register("name_res",null);
                     MessageDispatch.register("is_full_res",null);
                     Client.getCurrent().setName(requested);
-                    ChatFrame chat = new ChatFrame(requested);
-                    MessageDispatch.register("chat",chat::displayMsg);
+                    TabbedMainFrame frame = new TabbedMainFrame(requested);
+                    MessageDispatch.register("chat",frame::displayMsg);
                 }
             });
         });

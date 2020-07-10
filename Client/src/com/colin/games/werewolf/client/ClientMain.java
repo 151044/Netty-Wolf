@@ -51,6 +51,7 @@ import java.util.*;
 public class ClientMain {
     private static OutputFrame log;
     private static Config conf;
+    //private static Image icon;
     private ClientMain(){
         throw new AssertionError();
     }
@@ -112,6 +113,8 @@ public class ClientMain {
         } catch (UnsupportedAudioFileException | LineUnavailableException e) {
             logger.error(e);
         }
+        /*When the icon is 64x64
+        icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("resources/logo.png"));*/
         Path root = Environment.workingDir().resolve("netty-wolf");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
@@ -184,4 +187,9 @@ public class ClientMain {
         temp.addAppender(appender);
         return logging;
     }
+    /* When I get 64x64 icon
+    public static Image getIcon(){
+        return icon;
+    }
+     */
 }

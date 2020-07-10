@@ -28,7 +28,7 @@ import java.awt.*;
  */
 public class StartMenu extends JFrame {
     /**
-     * Constructs a mew StartMenu.
+     * Constructs a new StartMenu.
      */
     public StartMenu(){
         super("Start Menu");
@@ -70,6 +70,8 @@ public class StartMenu extends JFrame {
         add(buttons);
         pack();
         setLocationRelativeTo(null);
+        //When I get a 64x64 icon
+        //setIconImage(ClientMain.getIcon());
         setVisible(true);
     }
 }
