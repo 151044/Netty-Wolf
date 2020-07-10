@@ -22,11 +22,9 @@ import com.colin.games.werewolf.common.Environment;
 
 import javax.swing.*;
 
-public class ThemeFrame extends JFrame {
-    public ThemeFrame(){
-        super("Choose a theme!");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+public class ThemePanel extends JPanel {
+    public ThemePanel(){
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         ButtonGroup group = new ButtonGroup();
         JRadioButton nimbus = new JRadioButton("Nimbus");
         JRadioButton light = new JRadioButton("Light");
@@ -51,13 +49,5 @@ public class ThemeFrame extends JFrame {
         intellij.addActionListener(ignored -> Environment.setLookAndFeel("intellij"));
         dracula.addActionListener(ignored -> Environment.setLookAndFeel("dracula"));
         add(layout);
-        JButton back = new JButton("Back");
-        add(back);
-        back.addActionListener(ignored-> {
-            dispose();
-            new SettingsFrame();
-        });
-        pack();
-        setVisible(true);
     }
 }

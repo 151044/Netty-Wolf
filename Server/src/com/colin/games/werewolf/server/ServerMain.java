@@ -71,9 +71,9 @@ public class ServerMain {
                 Configurator.setRootLevel(Level.WARN);
             }
             if(arg.stream().anyMatch(str -> str.startsWith("--theme="))){
-                Environment.setLookAndFeel(arg.stream().filter(str -> str.startsWith("--theme=")).findFirst().get().replace("--theme=",""),null);
+                Environment.setLookAndFeel(arg.stream().filter(str -> str.startsWith("--theme=")).findFirst().get().replace("--theme=",""));
             }else{
-                Environment.setLookAndFeel("nimbus",null);
+                Environment.setLookAndFeel("nimbus");
             }
             if(arg.contains("--show-log")){
                 log = new OutputFrame("Client Log");
@@ -82,7 +82,7 @@ public class ServerMain {
             }
         }else{
             Configurator.setRootLevel(Level.WARN);
-            Environment.setLookAndFeel("nimbus",null);
+            Environment.setLookAndFeel("nimbus");
         }
         Logger logger = appendLog(LogManager.getFormatterLogger("Launch"));
         logger.info("Starting!");
@@ -95,7 +95,7 @@ public class ServerMain {
             }
             new ExceptionFrame((Exception) ex,t);
         });
-        Path root = Environment.workingDir().resolve("netty-wolf-server");
+        Path root = Environment.workingDir().resolve(".netty-wolf-server");
         if(!root.toFile().exists()){
             logger.info("Creating server directory...");
             if(!root.toFile().mkdir()){
