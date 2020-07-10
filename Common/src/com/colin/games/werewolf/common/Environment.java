@@ -130,9 +130,8 @@ public class Environment {
     /**
      * Sets the current look and feel.
      * @param feel The string describing the look and feel, as shown above
-     * @param top The root component of the current UI
      */
-    public static void setLookAndFeel(String feel, Component top){
+    public static void setLookAndFeel(String feel){
         LookAndFeel toSet;
         switch (feel) {
             case "light":
@@ -156,8 +155,8 @@ public class Environment {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        if(top != null){
-            SwingUtilities.updateComponentTreeUI(top);
+        for (Window w : Window.getWindows()) {
+            SwingUtilities.updateComponentTreeUI(w);
         }
     }
 }

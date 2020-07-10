@@ -79,9 +79,9 @@ public class ClientMain {
                 Configurator.setRootLevel(Level.WARN);
             }
             if(arg.stream().anyMatch(str -> str.startsWith("--theme="))){
-                Environment.setLookAndFeel(arg.stream().filter(str -> str.startsWith("--theme=")).findFirst().get().replace("--theme=",""),null);
+                Environment.setLookAndFeel(arg.stream().filter(str -> str.startsWith("--theme=")).findFirst().get().replace("--theme=",""));
             }else{
-                Environment.setLookAndFeel("nimbus",null);
+                Environment.setLookAndFeel("nimbus");
             }
             if(arg.contains("--show-log")){
                 log = new OutputFrame("Client Log");
@@ -90,7 +90,7 @@ public class ClientMain {
             }
         }else{
             Configurator.setRootLevel(Level.WARN);
-            Environment.setLookAndFeel("nimbus",null);
+            Environment.setLookAndFeel("nimbus");
         }
         Logger logger = appendLog(LogManager.getFormatterLogger("Launch"));
         logger.info("Starting!");
@@ -115,7 +115,7 @@ public class ClientMain {
         }
         /*When the icon is 64x64
         icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("resources/logo.png"));*/
-        Path root = Environment.workingDir().resolve("netty-wolf");
+        Path root = Environment.workingDir().resolve(".netty-wolf");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
             if(!root.toFile().mkdir()){
@@ -167,7 +167,6 @@ public class ClientMain {
         conf.store("mods","false");
         conf.store("debug","false");
         conf.store("throwOnInvalidMod","false");
-        conf.store("diary","true");
         conf.write();
     }
 

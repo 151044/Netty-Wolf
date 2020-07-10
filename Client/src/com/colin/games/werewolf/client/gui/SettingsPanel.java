@@ -19,16 +19,13 @@
 package com.colin.games.werewolf.client.gui;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class TabbedSettingFrame extends JFrame {
-    public TabbedSettingFrame(){
-        super("About");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JTabbedPane tabs = new JTabbedPane();
-        tabs.addTab("Acknowledgements",new ThanksPane());
-        tabs.addTab("License",new LicensePane());
-        add(tabs);
-        pack();
-        setVisible(true);
+public class SettingsPanel extends JPanel {
+    public SettingsPanel(){
+        setLayout(new BorderLayout());
+        JTabbedPane tab = new JTabbedPane();
+        tab.addTab("Themes",new ThemePanel());
+        add(tab);
     }
 }

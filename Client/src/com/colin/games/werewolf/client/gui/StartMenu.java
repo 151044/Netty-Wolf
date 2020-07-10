@@ -22,6 +22,7 @@ import com.colin.games.werewolf.common.Environment;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * The starting menu. The first GUI of the game.
@@ -33,17 +34,21 @@ public class StartMenu extends JFrame {
     public StartMenu(){
         super("Start Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
+        CardLayout ref = new CardLayout();
+        JPanel actual = new JPanel(ref);
+        JPanel init = new JPanel();
+        init.setLayout(new BoxLayout(init,BoxLayout.Y_AXIS));
         JLabel name = new JLabel("Netty-Wolf");
         name.setAlignmentX(Component.CENTER_ALIGNMENT);
         name.setFont(name.getFont().deriveFont(14.0f));
-        add(name);
+        init.add(name);
         JLabel subTitle = new JLabel("A werewolf game");
         subTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(subTitle);
+        init.add(subTitle);
         JLabel by = new JLabel("Made By: 151044");
         by.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(by);
+        init.add(by);
         JPanel buttons = new JPanel();
         buttons.setLayout(new BoxLayout(buttons,BoxLayout.X_AXIS));
         JButton connect = new JButton("Connect");
@@ -54,7 +59,9 @@ public class StartMenu extends JFrame {
         });
         buttons.add(connect);
         JButton about = new JButton("About");
-        about.addActionListener(ignored -> new TabbedSettingFrame());
+        about.addActionListener(ignored -> {
+            ref.show(actual,"About");
+        });
         buttons.add(about);
         if(Environment.isModded()){
             JButton mods = new JButton("Mods");
@@ -63,12 +70,23 @@ public class StartMenu extends JFrame {
         }
         JButton settings = new JButton("Settings");
         settings.addActionListener(ignored -> {
-            dispose();
-            new SettingsFrame();
+            ref.show(actual,"Settings");
         });
         buttons.add(settings);
-        add(buttons);
+        init.add(buttons);
+        actual.add(init,"Start");
+        actual.add(new TabbedAboutPanel(),"About");
+        actual.add(new SettingsPanel(),"Settings");
+        add(actual,BorderLayout.CENTER);
+        JMenuBar mBar = new JMenuBar();
+        JMenu menu = new JMenu("Options");
+        mBar.add(menu);
+        JMenuItem item = new JMenuItem("Back", KeyEvent.VK_B);
+        item.addActionListener(ae -> ref.show(actual,"Start"));
+        menu.add(item);
+        setJMenuBar(mBar);
         pack();
+        ref.show(actual,"Start");
         setLocationRelativeTo(null);
         //When I get a 64x64 icon
         //setIconImage(ClientMain.getIcon());
