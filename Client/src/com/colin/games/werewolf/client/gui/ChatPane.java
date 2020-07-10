@@ -24,7 +24,6 @@ import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.message.MessageDispatch;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.CharsetUtil;
 
 import javax.swing.*;
@@ -35,21 +34,10 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
-/**
- * The GUI for the chat window.
- */
-@Deprecated
-public class ChatFrame extends JFrame {
+public class ChatPane extends JPanel {
     private final PrintStream ps;
     private final JTextArea textArea;
-
-    /**
-     * Constructs a new ChatFrame with the specified player name.
-     * @param name The name of the player
-     */
-    public ChatFrame(String name){
-        super(name + "'s Chat room");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public ChatPane(String name){
         textArea = new JTextArea();
         JPanel pane = new JPanel();
         pane.setLayout(new BorderLayout());
@@ -126,18 +114,10 @@ public class ChatFrame extends JFrame {
             msg.setText("");
         });
         setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
-        pack();
-        setVisible(true);
-        MessageDispatch.register("night",(ctx,m) -> send.setEnabled(false));
+        MessageDispatch.register("night",(ctx, m) -> send.setEnabled(false));
         MessageDispatch.register("day",(ctx,m) -> send.setEnabled(true));
     }
-
-    /**
-     * Displays the given message.
-     * @param ignored ChannelHandlerContext which is not used
-     * @param message The message to display
-     */
-    public void displayMsg(ChannelHandlerContext ignored, Message message) {
+    public void displayMsg(Message message) {
         ps.println(message.getContent());
         ps.flush();
     }

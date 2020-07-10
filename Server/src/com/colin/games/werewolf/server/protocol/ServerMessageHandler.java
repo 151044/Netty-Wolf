@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
  * Handles incoming messages.
  */
 public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
-    private Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Message Handler"));
+    private final Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Message Handler"));
     /**
      * Constructs a fresh ServerMessageHandler.
      */

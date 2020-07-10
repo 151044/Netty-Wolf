@@ -40,7 +40,7 @@ import java.util.Set;
 public class Environment {
     private static boolean isModded = false;
     private static Side side;
-    private static Set<ModType> modified = new HashSet<>();
+    private static final Set<ModType> modified = new HashSet<>();
     private Environment(){
         throw new AssertionError();
     }
@@ -129,21 +129,27 @@ public class Environment {
 
     /**
      * Sets the current look and feel.
-     * @param feel The string describing the look and feel, as shown bove
+     * @param feel The string describing the look and feel, as shown above
      * @param top The root component of the current UI
      */
     public static void setLookAndFeel(String feel, Component top){
-        LookAndFeel toSet = null;
-        if(feel.equals("light")){
-            toSet = new FlatLightLaf();
-        }else if(feel.equals("dark")){
-            toSet = new FlatDarkLaf();
-        }else if(feel.equals("intellij")){
-            toSet = new FlatIntelliJLaf();
-        }else if(feel.equals("dracula")){
-            toSet = new FlatDarculaLaf();
-        }else{
-            toSet = new NimbusLookAndFeel();
+        LookAndFeel toSet;
+        switch (feel) {
+            case "light":
+                toSet = new FlatLightLaf();
+                break;
+            case "dark":
+                toSet = new FlatDarkLaf();
+                break;
+            case "intellij":
+                toSet = new FlatIntelliJLaf();
+                break;
+            case "dracula":
+                toSet = new FlatDarculaLaf();
+                break;
+            default:
+                toSet = new NimbusLookAndFeel();
+                break;
         }
         try{
             UIManager.setLookAndFeel(toSet);
