@@ -130,7 +130,7 @@ public class NameFrame extends JFrame {
                         MessageDispatch.register("name_res",null);
                         MessageDispatch.register("is_full_res",null);
                         Client.getCurrent().setName(requested);
-                        ChatFrame chat = new ChatFrame(requested);
+                        TabbedMainFrame chat = new TabbedMainFrame(requested);
                         MessageDispatch.register("chat",chat::displayMsg);
                     });
                     Client.getCurrent().getChannel().write(new Message("mod_query", ModLoader.getLoaded().stream().map(Mod::depsOnOtherSide).map(l -> String.join(";", l).strip()).collect(Collectors.joining(";"))));
