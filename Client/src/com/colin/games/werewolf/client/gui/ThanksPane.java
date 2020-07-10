@@ -24,11 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Holds dedications to several people.
- */
-@Deprecated
-public class ThanksFrame extends JFrame {
+public class ThanksPane extends JPanel {
     private static final Map<String,String> dedication = new HashMap<>();
     static{
         dedication.put("Lio","Lio, thank you for inspiring me to make this game.");
@@ -37,15 +33,9 @@ public class ThanksFrame extends JFrame {
         dedication.put("XDGUY","To XDGUY: So long, and thanks for all the memes. And the time spent helping me debug. And the new ideas given.");
         dedication.put("You","Dear player, thank you for supporting me!");
     }
-
-    /**
-     * Constructs a new ThanksFrame.
-     */
-    public ThanksFrame(){
-        super("Thank you!");
+    public ThanksPane(){
         java.util.List<String> list = new ArrayList<>(dedication.keySet());
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
         DefaultListModel<String> lm = new DefaultListModel<>();
         list.forEach(lm::addElement);
         JList<String> show = new JList<>(lm);
@@ -62,16 +52,11 @@ public class ThanksFrame extends JFrame {
         });
         JScrollPane jsp = new JScrollPane(show);
         jsp.setPreferredSize(jsp.getPreferredSize());
-        JButton back = new JButton("Back");
-        back.addActionListener((ignored) -> dispose());
         info.setEnabled(false);
         JPanel buttons = new JPanel();
         buttons.setLayout(new FlowLayout());
         buttons.add(info);
-        buttons.add(back);
-        add(jsp);
-        add(buttons);
-        pack();
-        setVisible(true);
+        add(jsp,BorderLayout.CENTER);
+        add(buttons,BorderLayout.PAGE_END);
     }
 }
