@@ -80,7 +80,7 @@ public class Server {
                             @Override
                             protected void initChannel(SocketChannel socketChannel) {
                                 ChannelPipeline p = socketChannel.pipeline();
-                                p.addLast(new LineBasedFrameDecoder(3000));
+                                p.addLast(new LineBasedFrameDecoder(6000));
                                 p.addLast(new StringDecoder(CharsetUtil.UTF_8));
                                 p.addLast(new MessageDecoder());
                                 p.addLast(new ServerMessageHandler());

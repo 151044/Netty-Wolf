@@ -54,7 +54,7 @@ public class StartMenu extends JFrame {
         });
         buttons.add(connect);
         JButton about = new JButton("About");
-        about.addActionListener(ignored -> new AboutFrame());
+        about.addActionListener(ignored -> new TabbedSettingFrame());
         buttons.add(about);
         if(Environment.isModded()){
             JButton mods = new JButton("Mods");

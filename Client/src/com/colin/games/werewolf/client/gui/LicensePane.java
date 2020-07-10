@@ -29,24 +29,14 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/**
- * Shows the GPL.
- */
-@Deprecated
-public class FreeFrame extends JFrame {
+public class LicensePane extends JPanel {
     private static final Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("About"));
-
-    /**
-     * Constructs a new FreeFrame.
-     */
-    public FreeFrame(){
-        super("License");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    public LicensePane(){
         setLayout(new BorderLayout());
         JTextArea jta = new JTextArea();
         log.info("Loading GPL...");
         try {
-            jta.append(String.join("\n",Files.readAllLines(Path.of(ClassLoader.getSystemResource("resources/GPL.txt").toURI()))));
+            jta.append(String.join("\n", Files.readAllLines(Path.of(ClassLoader.getSystemResource("resources/GPL.txt").toURI()))));
         } catch (IOException | URISyntaxException e) {
             log.info("Failed to load GPL!");
             throw new RuntimeException(e);
@@ -59,7 +49,5 @@ public class FreeFrame extends JFrame {
         jp.setLayout(new BorderLayout());
         jp.add(textScroll);
         add(textScroll,BorderLayout.CENTER);
-        pack();
-        setVisible(true);
     }
 }
