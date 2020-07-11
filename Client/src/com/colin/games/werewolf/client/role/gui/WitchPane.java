@@ -16,16 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.client.gui;
+package com.colin.games.werewolf.client.role.gui;
+
+import com.colin.games.werewolf.client.role.Witch;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class SettingsPanel extends JPanel {
-    public SettingsPanel(){
-        setLayout(new BorderLayout());
-        JTabbedPane tab = new JTabbedPane();
-        tab.addTab("Themes",new ThemePane());
-        add(tab);
+public class WitchPane extends JPanel {
+    public WitchPane(String dead, Witch context){
+
     }
 }

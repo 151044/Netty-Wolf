@@ -22,7 +22,10 @@ import com.colin.games.werewolf.client.role.groups.DefaultGroups;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
+import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
+
+import javax.swing.*;
 
 /**
  * The Villager role.<br>
@@ -55,6 +58,15 @@ public class Villager implements Role {
     public Group getGroup() {
         return DefaultGroups.VILLAGER;
     }
+
+    @Override
+    public WrapperPane getActionPane() {
+        JPanel empty = new JPanel();
+        empty.setLayout(new BoxLayout(empty,BoxLayout.Y_AXIS));
+        empty.add(new JLabel("Nothing to do...."));
+        return new WrapperPane(empty);
+    }
+
     @Override
     public String toString() {
         return name();

@@ -19,10 +19,11 @@
 package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.groups.DefaultGroups;
-import com.colin.games.werewolf.client.role.gui.WerewolfFrame;
+import com.colin.games.werewolf.client.role.gui.WerewolfPane;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
+import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Arrays;
@@ -33,6 +34,7 @@ import java.util.List;
  * The Werewolves can kill one player per night.
  */
 public class Werewolf implements Role {
+    private WerewolfPane pane = null;
     /**
      * Constructs a new Werewolf instance.
      */
@@ -47,7 +49,12 @@ public class Werewolf implements Role {
     @Override
     public void action(ChannelHandlerContext ctx, Message msg) {
         List<String> otherWolves = Arrays.asList(msg.getContent().split(","));
-        new WerewolfFrame(otherWolves);
+        if(!pane.hasInitialized()){
+            pane.initLabels(otherWolves);
+        }else{
+            pane.updateFrame(otherWolves);
+        }
+        pane.setVisible(true);
     }
 
     @Override
@@ -59,6 +66,14 @@ public class Werewolf implements Role {
     public Group getGroup() {
         return DefaultGroups.WEREWOLF;
     }
+
+    @Override
+    public WrapperPane getActionPane() {
+        WerewolfPane pane = new WerewolfPane();
+        this.pane = pane;
+        return new WrapperPane(pane);
+    }
+
     @Override
     public String toString() {
         return name();

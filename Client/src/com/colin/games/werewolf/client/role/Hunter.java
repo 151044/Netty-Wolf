@@ -20,9 +20,11 @@ package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.groups.DefaultGroups;
 import com.colin.games.werewolf.client.role.gui.HunterFrame;
+import com.colin.games.werewolf.client.role.gui.HunterPane;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
+import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -55,6 +57,12 @@ public class Hunter implements Role {
     public Group getGroup() {
         return DefaultGroups.VILLAGER;
     }
+
+    @Override
+    public WrapperPane getActionPane() {
+        return new WrapperPane(new HunterPane());
+    }
+
     @Override
     public String toString() {
         return name();

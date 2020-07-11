@@ -24,6 +24,8 @@ import io.netty.channel.ChannelHandlerContext;
 import javax.swing.*;
 
 public class TabbedMainFrame extends JFrame {
+    private static TabbedMainFrame current = null;
+    private JTabbedPane tabs = new JTabbedPane();
     private ChatPane chat;
     public TabbedMainFrame(String name){
         super("Main Frame");
@@ -38,5 +40,17 @@ public class TabbedMainFrame extends JFrame {
     }
     public void displayMsg(ChannelHandlerContext ignored, Message message) {
         chat.displayMsg(message);
+    }
+    public static TabbedMainFrame getCurrent(){
+        if(current == null){
+            throw new IllegalStateException("Current TabbedMainFrame is null!");
+        }
+        return current;
+    }
+    public static void setCurrent(TabbedMainFrame toSet){
+        current = toSet;
+    }
+    public void addTab(String title,JPanel toAdd){
+        tabs.addTab(title,toAdd);
     }
 }

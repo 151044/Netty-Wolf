@@ -22,8 +22,8 @@ import com.colin.games.werewolf.common.Environment;
 
 import javax.swing.*;
 
-public class ThemePanel extends JPanel {
-    public ThemePanel(){
+public class ThemePane extends JPanel {
+    public ThemePane(){
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         ButtonGroup group = new ButtonGroup();
         JRadioButton nimbus = new JRadioButton("Nimbus");

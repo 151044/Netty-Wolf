@@ -16,16 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.client.gui;
+package com.colin.games.werewolf.common.roles;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SettingsPanel extends JPanel {
-    public SettingsPanel(){
+public class WrapperPane extends JPanel {
+    private JPanel wrap;
+    public WrapperPane(JPanel wrap){
+        this.wrap = wrap;
         setLayout(new BorderLayout());
-        JTabbedPane tab = new JTabbedPane();
-        tab.addTab("Themes",new ThemePane());
-        add(tab);
+        add(wrap);
+    }
+    public void setWrappedVisible(boolean toSet){
+        wrap.setVisible(toSet);
     }
 }
