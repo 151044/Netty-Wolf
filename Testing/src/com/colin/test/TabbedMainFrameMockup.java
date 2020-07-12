@@ -16,19 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.client.gui;
+package com.colin.test;
 
+import com.colin.games.werewolf.client.gui.ChatPane;
+import com.colin.games.werewolf.client.gui.Diary;
+import com.colin.games.werewolf.client.gui.TabbedMainFrame;
 import com.colin.games.werewolf.common.message.Message;
 import io.netty.channel.ChannelHandlerContext;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class TabbedMainFrame extends JFrame {
+public class TabbedMainFrameMockup extends JFrame {
     private static TabbedMainFrame current = null;
     private final JTabbedPane tabs;
     private final ChatPane chat;
-    public TabbedMainFrame(String name){
+    public TabbedMainFrameMockup(String name){
         super("Main Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -36,6 +39,7 @@ public class TabbedMainFrame extends JFrame {
         chat = new ChatPane(name);
         tabs.addTab("Chat",chat);
         tabs.addTab("Diary",new Diary());
+        addTab("Hello",new Diary());
         add(tabs);
         pack();
         setVisible(true);
@@ -53,8 +57,6 @@ public class TabbedMainFrame extends JFrame {
         current = toSet;
     }
     public void addTab(String title,JPanel toAdd){
-        SwingUtilities.invokeLater(() -> {
-            tabs.addTab(title, toAdd);
-        });
+        tabs.addTab(title, toAdd);
     }
 }

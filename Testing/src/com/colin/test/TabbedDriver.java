@@ -16,22 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.common.roles;
+package com.colin.test;
+
+import com.colin.games.werewolf.common.Environment;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.Objects;
 
-public class WrapperPane extends JPanel {
-    private final JPanel wrap;
-    public WrapperPane(JPanel wrap){
-        Objects.requireNonNull(wrap,"Null passed to WrapperPane.");
-        this.wrap = wrap;
-        setLayout(new BorderLayout());
-        add(wrap,BorderLayout.CENTER);
-    }
-    public WrapperPane setWrappedVisible(boolean toSet){
-        wrap.setVisible(toSet);
-        return this;
+public class TabbedDriver {
+    public static void main(String[] args) {
+        Environment.setLookAndFeel("dracula");
+        TabbedMainFrameMockup mock = new TabbedMainFrameMockup("bkj");
+        JPanel pane = new JPanel();
+        pane.add(new JButton("vshbkjdfhx"));
+        mock.addTab("Action",pane);
     }
 }

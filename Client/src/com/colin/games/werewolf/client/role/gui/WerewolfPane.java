@@ -84,7 +84,7 @@ public class WerewolfPane extends JPanel {
         map.entrySet().removeIf(ent -> !toDiff.contains(ent.getKey()));
     }
     public void initLabels(List<String> others){
-        if(!isInitialized){
+        if(isInitialized){
             throw new IllegalStateException("Re-init of labels in werewolf.");
         }
         for(String s : others){

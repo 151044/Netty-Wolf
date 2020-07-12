@@ -40,6 +40,7 @@ public class SeerPane extends JPanel {
             JOptionPane.showMessageDialog(null,((Player) players.getSelectedItem()).getName() + (((Player) players.getSelectedItem()).getRole().getGroup().isGood() ? " has an aura of normalcy around them." : " has an evil aura around them!"),"Information",JOptionPane.INFORMATION_MESSAGE);
             submit.setEnabled(false);
         }));
+        submit.setPreferredSize(submit.getPreferredSize());
         add(choiceP);
         JButton pass = new JButton("Pass");
         add(pass);

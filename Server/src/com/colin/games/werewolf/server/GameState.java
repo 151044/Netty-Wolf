@@ -37,6 +37,7 @@ public class GameState {
     }
     private static final Map<String,Boolean> isAlive = new HashMap<>();
     private static String killedByWolf = "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
+    private static List<String> toKill = new ArrayList<>();
     private static final Map<String,BitSet> cache = new HashMap<>();
     private static final List<String> killed = new ArrayList<>();
     private static final List<Function<Map<String,Boolean>,GameCondition>> functions = new ArrayList<>();
@@ -93,7 +94,10 @@ public class GameState {
      */
     public static void killAsWolf(Message msg){
         cache.get(msg.getContent()).set(0);
-        killedByWolf = msg.getContent();
+        if(!cache.get(msg.getContent()).get(3)){
+            killedByWolf = msg.getContent();
+            toKill.add(msg.getContent());
+        }
     }
     /**
      * Kills a player by witch.
@@ -139,6 +143,7 @@ public class GameState {
         }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",str.isBlank() ? "empty" : str)));
         cache.forEach((string,bs) -> bs.clear());
+        toKill.clear();
     }
 
     /**
@@ -164,6 +169,7 @@ public class GameState {
         }
         Connections.openChannels().forEach(ch -> ch.writeAndFlush(new Message("cache_update",str.isBlank() ? "empty" : str)));
         cache.forEach((string,bs) -> bs.clear());
+        toKill.clear();
     }
 
     /**
@@ -221,5 +227,12 @@ public class GameState {
      */
     public static int numAlive(){
         return (int) isAlive.entrySet().stream().filter(Map.Entry::getValue).count();
+    }
+
+    public static void tryKillDirect(Message s){
+        toKill.add(s.getContent());
+    }
+    public static List<String> getTryKill(){
+        return toKill;
     }
 }
