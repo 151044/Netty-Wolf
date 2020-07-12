@@ -22,9 +22,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Diary extends JPanel {
-    private JTextArea textArea;
     public Diary(){
-        textArea = new JTextArea();
+        JTextArea textArea = new JTextArea();
         JPanel pane = new JPanel();
         pane.setLayout(new BorderLayout());
         textArea.setLineWrap(true);

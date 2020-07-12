@@ -29,12 +29,12 @@ import java.util.List;
 import java.util.Vector;
 
 public class WitchPane extends JPanel {
-    private JComboBox saveChoice;
-    private JComboBox<Player> choice;
-    private Witch context;
-    private JButton heal;
+    private final JComboBox<String> saveChoice;
+    private final JComboBox<Player> choice;
+    private final Witch context;
+    private final JButton heal;
     private final JButton submitKill;
-    private JLabel text = new JLabel();
+    private final JLabel text = new JLabel();
 
     public WitchPane(Witch context){
         this.context = context;
@@ -44,7 +44,7 @@ public class WitchPane extends JPanel {
         save.add(text);
         heal = new JButton("Save");
         save.add(heal);
-        saveChoice = new JComboBox();
+        saveChoice = new JComboBox<>();
         heal.addActionListener((ignored) -> {
             Client.getCurrent().writeAndFlush(new Message("witch_heal",((Player) saveChoice.getSelectedItem()).getName()));
             context.setHealStatus(true);

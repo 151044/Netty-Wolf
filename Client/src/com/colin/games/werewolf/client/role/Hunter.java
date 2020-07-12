@@ -31,7 +31,7 @@ import io.netty.channel.ChannelHandlerContext;
  * A Hunter can take revenge by killing another player when they are killed.
  */
 public class Hunter implements Role {
-    private HunterPane pane = new HunterPane();
+    private final HunterPane pane = new HunterPane();
     /**
      * Constructs a new Hunter instance.
      */

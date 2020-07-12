@@ -25,8 +25,8 @@ import javax.swing.*;
 
 public class TabbedMainFrame extends JFrame {
     private static TabbedMainFrame current = null;
-    private JTabbedPane tabs = new JTabbedPane();
-    private ChatPane chat;
+    private final JTabbedPane tabs = new JTabbedPane();
+    private final ChatPane chat;
     public TabbedMainFrame(String name){
         super("Main Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

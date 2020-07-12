@@ -23,7 +23,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class WrapperPane extends JPanel {
-    private JPanel wrap;
+    private final JPanel wrap;
     public WrapperPane(JPanel wrap){
         Objects.requireNonNull(wrap,"Null passed to WrapperPane.");
         this.wrap = wrap;

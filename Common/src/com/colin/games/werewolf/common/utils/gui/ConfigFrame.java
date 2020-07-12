@@ -29,7 +29,6 @@ import java.util.Map;
  * A GUI for manually editing settings.
  */
 public class ConfigFrame extends JFrame {
-    private final Config conf;
 
     /**
      * Creates a new ConfigFrame with the specified path to load the config from.
@@ -65,7 +64,6 @@ public class ConfigFrame extends JFrame {
      */
     public ConfigFrame(Config conf,String title){
         super(title);
-        this.conf = conf;
         for(Map.Entry<String,String> ent : conf.getAsMap().entrySet()){
             
         }

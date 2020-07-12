@@ -220,6 +220,6 @@ public class GameState {
      * @return The number of people who are not dead
      */
     public static int numAlive(){
-        return (int) isAlive.entrySet().stream().filter(ent -> ent.getValue()).count();
+        return (int) isAlive.entrySet().stream().filter(Map.Entry::getValue).count();
     }
 }

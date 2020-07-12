@@ -31,7 +31,7 @@ import io.netty.channel.ChannelHandlerContext;
  * The Seer can lookup whether a person is good or bad once per night.
  */
 public class Seer implements Role {
-    private SeerPane pane = new SeerPane();
+    private final SeerPane pane = new SeerPane();
     /**
      * Constructs a new Seer instance.
      */
