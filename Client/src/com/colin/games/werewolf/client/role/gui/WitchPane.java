@@ -18,12 +18,69 @@
 
 package com.colin.games.werewolf.client.role.gui;
 
+import com.colin.games.werewolf.client.Client;
+import com.colin.games.werewolf.client.PlayerCache;
 import com.colin.games.werewolf.client.role.Witch;
+import com.colin.games.werewolf.common.Player;
+import com.colin.games.werewolf.common.message.Message;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.Vector;
 
 public class WitchPane extends JPanel {
-    public WitchPane(String dead, Witch context){
+    private JComboBox saveChoice;
+    private JComboBox<Player> choice;
+    private Witch context;
+    private JButton heal;
+    private final JButton submitKill;
+    private JLabel text = new JLabel();
 
+    public WitchPane(Witch context){
+        this.context = context;
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JPanel save = new JPanel();
+        save.setLayout(new BoxLayout(save,BoxLayout.X_AXIS));
+        save.add(text);
+        heal = new JButton("Save");
+        save.add(heal);
+        saveChoice = new JComboBox();
+        heal.addActionListener((ignored) -> {
+            Client.getCurrent().writeAndFlush(new Message("witch_heal",((Player) saveChoice.getSelectedItem()).getName()));
+            context.setHealStatus(true);
+            heal.setEnabled(false);
+        });
+        add(save);
+        JPanel kill = new JPanel();
+        choice = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
+        submitKill = new JButton("Kill");
+        kill.add(choice);
+        kill.add(submitKill);
+        submitKill.addActionListener(ignored -> {
+            Player p = (Player) choice.getSelectedItem();
+            context.setKillStatus(true);
+            submitKill.setEnabled(false);
+            Client.getCurrent().writeAndFlush(new Message("witch_kill",p.getName()));
+        });
+        JButton pass = new JButton("Pass");
+        pass.addActionListener(ignored -> {
+            setVisible(false);
+            Client.getCurrent().writeAndFlush(new Message("next","empty"));
+        });
+        add(kill);
+        add(pass);
+    }
+    public void update(List<String> toUpdate){
+        text.setText("In this round, " + String.join(" and ",toUpdate) + " has been killed");
+        saveChoice.removeAllItems();
+        toUpdate.forEach(saveChoice::addItem);
+        choice.removeAllItems();
+        PlayerCache.notDead().forEach(choice::addItem);
+        if (context.isKillUsed()) {
+            submitKill.setEnabled(false);
+        }
+        if(context.isHealUsed()){
+            heal.setEnabled(false);
+        }
     }
 }

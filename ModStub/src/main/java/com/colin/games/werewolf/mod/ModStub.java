@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.mod;
 
+import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.modding.AbstractMod;
 import com.colin.games.werewolf.common.modding.ModType;
 
@@ -52,5 +53,10 @@ public class ModStub extends AbstractMod {
     @Override
     public String version() {
         return "v0.0.1";
+    }
+
+    @Override
+    public void init() {
+        Environment.setLookAndFeel("dracula");
     }
 }

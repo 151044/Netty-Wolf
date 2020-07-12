@@ -20,15 +20,18 @@ package com.colin.games.werewolf.common.roles;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class WrapperPane extends JPanel {
     private JPanel wrap;
     public WrapperPane(JPanel wrap){
+        Objects.requireNonNull(wrap,"Null passed to WrapperPane.");
         this.wrap = wrap;
         setLayout(new BorderLayout());
         add(wrap);
     }
-    public void setWrappedVisible(boolean toSet){
+    public WrapperPane setWrappedVisible(boolean toSet){
         wrap.setVisible(toSet);
+        return this;
     }
 }

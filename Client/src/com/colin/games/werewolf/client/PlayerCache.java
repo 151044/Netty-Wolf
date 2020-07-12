@@ -18,6 +18,7 @@
 
 package com.colin.games.werewolf.client;
 
+import com.colin.games.werewolf.client.gui.TabbedMainFrame;
 import com.colin.games.werewolf.client.role.Roles;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
@@ -58,6 +59,7 @@ public class PlayerCache {
         });
         init = true;
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"You have been assigned role " + lookup(Client.getCurrent().getName()).getRole().toString()));
+        TabbedMainFrame.getCurrent().addTab("Action",lookup(Client.getCurrent().getName()).getRole().getActionPane().setWrappedVisible(false));
     }
 
     /**

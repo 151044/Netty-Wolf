@@ -19,7 +19,6 @@
 package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.groups.DefaultGroups;
-import com.colin.games.werewolf.client.role.gui.HunterFrame;
 import com.colin.games.werewolf.client.role.gui.HunterPane;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
@@ -32,6 +31,7 @@ import io.netty.channel.ChannelHandlerContext;
  * A Hunter can take revenge by killing another player when they are killed.
  */
 public class Hunter implements Role {
+    private HunterPane pane = new HunterPane();
     /**
      * Constructs a new Hunter instance.
      */
@@ -45,7 +45,7 @@ public class Hunter implements Role {
 
     @Override
     public void action(ChannelHandlerContext ctx, Message msg) {
-        new HunterFrame();
+        pane.setVisible(true);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Hunter implements Role {
 
     @Override
     public WrapperPane getActionPane() {
-        return new WrapperPane(new HunterPane());
+        return new WrapperPane(pane);
     }
 
     @Override

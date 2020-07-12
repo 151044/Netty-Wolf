@@ -19,12 +19,15 @@
 package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.groups.DefaultGroups;
-import com.colin.games.werewolf.client.role.gui.WitchFrame;
+import com.colin.games.werewolf.client.role.gui.WitchPane;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
 import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The Witch role.<br>
@@ -33,6 +36,7 @@ import io.netty.channel.ChannelHandlerContext;
 public class Witch implements Role {
     private boolean isHealUsed = false;
     private boolean isKillUsed = false;
+    private WitchPane pane = null;
 
     /**
      * Constructs a new Witch instance.
@@ -47,8 +51,9 @@ public class Witch implements Role {
 
     @Override
     public void action(ChannelHandlerContext ctx, Message msg) {
-        String died = msg.getContent();
-        new WitchFrame(died,this);
+        List<String> deaths = Arrays.asList(msg.getContent().split(","));
+        pane.update(deaths);
+        pane.setVisible(true);
     }
 
     @Override
@@ -63,7 +68,9 @@ public class Witch implements Role {
 
     @Override
     public WrapperPane getActionPane() {
-        return null;
+        WitchPane pane = new WitchPane(this);
+        this.pane = pane;
+        return new WrapperPane(pane);
     }
 
     /**

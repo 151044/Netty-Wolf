@@ -179,8 +179,8 @@ public class GameState {
      * @param winFunction The function to apply to get a win condition
      * @return The current game's condition
      */
-    public static GameCondition checkWinCon(Function<Map<String,Boolean>,GameCondition> winFunction){
-        return winFunction.apply(isAlive);
+    public static void addWinCon(Function<Map<String,Boolean>,GameCondition> winFunction){
+        functions.add(winFunction);
     }
 
     /**

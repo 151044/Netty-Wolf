@@ -48,6 +48,7 @@ public class Guard implements Role {
 
     @Override
     public void action(ChannelHandlerContext ctx, Message msg) {
+        pane.setVisible(true);
         pane.updateGUI(this);
     }
 
