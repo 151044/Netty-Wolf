@@ -21,6 +21,7 @@ package com.colin.games.werewolf.mod.killer.client;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
+import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
 
 public class Killer implements Role {
@@ -42,5 +43,10 @@ public class Killer implements Role {
     @Override
     public Group getGroup() {
         return new KillerGroup();
+    }
+
+    @Override
+    public WrapperPane getActionPane() {
+        return null;
     }
 }

@@ -26,39 +26,27 @@ import com.colin.games.werewolf.common.message.Message;
 import javax.swing.*;
 import java.util.Vector;
 
-/**
- * Shows the window for the hunter to take action.
- * @see com.colin.games.werewolf.client.role.Hunter Hunter
- */
-public class HunterFrame extends JFrame {
-    /**
-     * Constructs a new HunterFrame.
-     */
-    public HunterFrame() {
-        super("Revenge!");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        add(new JLabel("You have been killed!"));
+public class SeerPane extends JPanel {
+    public SeerPane(){
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         JPanel choiceP = new JPanel();
-        choiceP.setLayout(new BoxLayout(choiceP, BoxLayout.X_AXIS));
-        choiceP.add(new JLabel("Choose a person to take revenge against: "));
+        choiceP.setLayout(new BoxLayout(choiceP,BoxLayout.X_AXIS));
+        choiceP.add(new JLabel("Choose a person to check: "));
         JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
         choiceP.add(players);
-        JButton submit = new JButton("Kill");
+        JButton submit = new JButton("Check");
         choiceP.add(submit);
         submit.addActionListener((ignored) -> SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null, ((Player) players.getSelectedItem()).getName() + " is now killed!" , "Information", JOptionPane.INFORMATION_MESSAGE);
-            Client.getCurrent().writeAndFlush(new Message("hunter_kill",((Player) players.getSelectedItem()).getName()));
+            JOptionPane.showMessageDialog(null,((Player) players.getSelectedItem()).getName() + (((Player) players.getSelectedItem()).getRole().getGroup().isGood() ? " has an aura of normalcy around them." : " has an evil aura around them!"),"Information",JOptionPane.INFORMATION_MESSAGE);
             submit.setEnabled(false);
         }));
+        submit.setPreferredSize(submit.getPreferredSize());
         add(choiceP);
         JButton pass = new JButton("Pass");
         add(pass);
         pass.addActionListener((ignored) -> {
-            dispose();
-            Client.getCurrent().writeAndFlush(new Message("next", "empty"));
+            setVisible(false);
+            Client.getCurrent().writeAndFlush(new Message("next","empty"));
         });
-        pack();
-        setVisible(true);
     }
 }

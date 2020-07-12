@@ -50,4 +50,6 @@ public interface Role {
      * @return The group of this role
      */
     Group getGroup();
+
+    WrapperPane getActionPane();
 }

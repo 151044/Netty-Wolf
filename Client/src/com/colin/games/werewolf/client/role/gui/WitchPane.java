@@ -25,37 +25,35 @@ import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.Vector;
 
-/**
- * Shows the window for the witch to take action.
- * @see com.colin.games.werewolf.client.role.Witch Witch
- */
-public class WitchFrame extends JFrame {
-    public WitchFrame(String dead, Witch context){
-        super("Your turn!");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+public class WitchPane extends JPanel {
+    private final JComboBox<String> saveChoice;
+    private final JComboBox<Player> choice;
+    private final Witch context;
+    private final JButton heal;
+    private final JButton submitKill;
+    private final JLabel text = new JLabel();
+
+    public WitchPane(Witch context){
+        this.context = context;
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         JPanel save = new JPanel();
         save.setLayout(new BoxLayout(save,BoxLayout.X_AXIS));
-        save.add(new JLabel("In this round, " + dead + " has been killed."));
-        JButton heal = new JButton("Save");
-        if(context.isHealUsed()){
-            heal.setEnabled(false);
-        }
+        save.add(text);
+        heal = new JButton("Save");
         save.add(heal);
+        saveChoice = new JComboBox<>();
         heal.addActionListener((ignored) -> {
-            Client.getCurrent().writeAndFlush(new Message("witch_heal","empty"));
+            Client.getCurrent().writeAndFlush(new Message("witch_heal",((Player) saveChoice.getSelectedItem()).getName()));
             context.setHealStatus(true);
             heal.setEnabled(false);
         });
         add(save);
         JPanel kill = new JPanel();
-        JComboBox<Player> choice = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
-        JButton submitKill = new JButton("Kill");
-        if (context.isKillUsed()) {
-            submitKill.setEnabled(false);
-        }
+        choice = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
+        submitKill = new JButton("Kill");
         kill.add(choice);
         kill.add(submitKill);
         submitKill.addActionListener(ignored -> {
@@ -66,12 +64,23 @@ public class WitchFrame extends JFrame {
         });
         JButton pass = new JButton("Pass");
         pass.addActionListener(ignored -> {
+            setVisible(false);
             Client.getCurrent().writeAndFlush(new Message("next","empty"));
-            dispose();
         });
         add(kill);
         add(pass);
-        pack();
-        setVisible(true);
+    }
+    public void update(List<String> toUpdate){
+        text.setText("In this round, " + String.join(" and ",toUpdate) + " has been killed");
+        saveChoice.removeAllItems();
+        toUpdate.forEach(saveChoice::addItem);
+        choice.removeAllItems();
+        PlayerCache.notDead().forEach(choice::addItem);
+        if (context.isKillUsed()) {
+            submitKill.setEnabled(false);
+        }
+        if(context.isHealUsed()){
+            heal.setEnabled(false);
+        }
     }
 }

@@ -19,11 +19,12 @@
 package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.groups.DefaultGroups;
-import com.colin.games.werewolf.client.role.gui.GuardFrame;
+import com.colin.games.werewolf.client.role.gui.GuardPane;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
+import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -32,6 +33,7 @@ import io.netty.channel.ChannelHandlerContext;
  */
 public class Guard implements Role {
     private Player lastProtected = null;
+    private GuardPane pane = null;
 
     /**
      * Constructs a new Guard instance.
@@ -46,7 +48,8 @@ public class Guard implements Role {
 
     @Override
     public void action(ChannelHandlerContext ctx, Message msg) {
-        new GuardFrame(this);
+        pane.setVisible(true);
+        pane.updateGUI(this);
     }
 
     @Override
@@ -57,6 +60,12 @@ public class Guard implements Role {
     @Override
     public Group getGroup() {
         return DefaultGroups.VILLAGER;
+    }
+
+    @Override
+    public WrapperPane getActionPane() {
+        pane = new GuardPane(this);
+        return new WrapperPane(pane);
     }
 
     /**

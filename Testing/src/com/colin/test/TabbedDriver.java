@@ -16,16 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.colin.games.werewolf.client.gui;
+package com.colin.test;
+
+import com.colin.games.werewolf.common.Environment;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class SettingsPanel extends JPanel {
-    public SettingsPanel(){
-        setLayout(new BorderLayout());
-        JTabbedPane tab = new JTabbedPane();
-        tab.addTab("Themes",new ThemePane());
-        add(tab);
+public class TabbedDriver {
+    public static void main(String[] args) {
+        Environment.setLookAndFeel("dracula");
+        TabbedMainFrameMockup mock = new TabbedMainFrameMockup("bkj");
+        JPanel pane = new JPanel();
+        pane.add(new JButton("vshbkjdfhx"));
+        mock.addTab("Action",pane);
     }
 }

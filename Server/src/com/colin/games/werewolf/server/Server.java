@@ -214,7 +214,7 @@ public class Server {
         RoleOrder.setAfter("Werewolf","Guard","guard_next");
         RoleOrder.setAfter("Guard","Witch","witch_next");
         RoleOrder.setAfter("Witch","Seer","seer_next");
-        RoleOrder.setMessageContents("Witch", GameState::getWolfKill);
+        RoleOrder.setMessageContents("Witch", () -> String.join(",",GameState.getTryKill()));
         MessageDispatch.register("vote_init",(ctx,msg) -> Connections.openChannels().forEach(ch -> {
             ch.write(msg);
             ch.flush();

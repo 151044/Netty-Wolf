@@ -19,10 +19,11 @@
 package com.colin.games.werewolf.client.role;
 
 import com.colin.games.werewolf.client.role.groups.DefaultGroups;
-import com.colin.games.werewolf.client.role.gui.SeerFrame;
+import com.colin.games.werewolf.client.role.gui.SeerPane;
 import com.colin.games.werewolf.common.message.Message;
 import com.colin.games.werewolf.common.roles.Group;
 import com.colin.games.werewolf.common.roles.Role;
+import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -30,6 +31,7 @@ import io.netty.channel.ChannelHandlerContext;
  * The Seer can lookup whether a person is good or bad once per night.
  */
 public class Seer implements Role {
+    private final SeerPane pane = new SeerPane();
     /**
      * Constructs a new Seer instance.
      */
@@ -43,7 +45,7 @@ public class Seer implements Role {
 
     @Override
     public void action(ChannelHandlerContext ctx, Message msg) {
-        new SeerFrame();
+        pane.setVisible(true);
     }
 
     @Override
@@ -55,6 +57,12 @@ public class Seer implements Role {
     public Group getGroup() {
         return DefaultGroups.VILLAGER;
     }
+
+    @Override
+    public WrapperPane getActionPane() {
+        return new WrapperPane(pane);
+    }
+
     @Override
     public String toString() {
         return name();

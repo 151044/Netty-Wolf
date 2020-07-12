@@ -20,43 +20,40 @@ package com.colin.games.werewolf.client.role.gui;
 
 import com.colin.games.werewolf.client.Client;
 import com.colin.games.werewolf.client.PlayerCache;
+import com.colin.games.werewolf.client.role.Guard;
 import com.colin.games.werewolf.common.Player;
 import com.colin.games.werewolf.common.message.Message;
 
 import javax.swing.*;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
-/**
- * Shows the window for the seer to take action.
- * @see com.colin.games.werewolf.client.role.Seer Seer
- */
-public class SeerFrame extends JFrame {
-    /**
-     * Constructs a new SeerFrame.
-     */
-    public SeerFrame(){
-        super("Your turn!");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+public class GuardPane extends JPanel {
+    private JComboBox<Player> players;
+    public GuardPane(Guard context){
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         JPanel choiceP = new JPanel();
         choiceP.setLayout(new BoxLayout(choiceP,BoxLayout.X_AXIS));
-        choiceP.add(new JLabel("Choose a person to check: "));
-        JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
+        choiceP.add(new JLabel("Choose a person to guard: "));
+        players = new JComboBox<>(new Vector<>(PlayerCache.notDead().stream().filter(pla -> (pla != null) && !pla.equals(context.lastSaved())).collect(Collectors.toList())));
         choiceP.add(players);
-        JButton submit = new JButton("Check");
+        JButton submit = new JButton("Protect");
         choiceP.add(submit);
         submit.addActionListener((ignored) -> SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(null,((Player) players.getSelectedItem()).getName() + (((Player) players.getSelectedItem()).getRole().getGroup().isGood() ? " has an aura of normalcy around them." : " has an evil aura around them!"),"Information",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"You protected " + ((Player) players.getSelectedItem()).getName() + ".","Information",JOptionPane.INFORMATION_MESSAGE);
             submit.setEnabled(false);
+            Client.getCurrent().writeAndFlush(new Message("guard",((Player) players.getSelectedItem()).getName()));
+            context.setSaved((Player) players.getSelectedItem());
         }));
         add(choiceP);
         JButton pass = new JButton("Pass");
         add(pass);
         pass.addActionListener((ignored) -> {
-            dispose();
+            setVisible(false);
             Client.getCurrent().writeAndFlush(new Message("next","empty"));
         });
-        pack();
-        setVisible(true);
+    }
+    public void updateGUI(Guard context){
+        players = new JComboBox<>(new Vector<>(PlayerCache.notDead().stream().filter(pla -> (pla != null) && !pla.equals(context.lastSaved())).collect(Collectors.toList())));
     }
 }

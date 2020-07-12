@@ -59,9 +59,7 @@ public class StartMenu extends JFrame {
         });
         buttons.add(connect);
         JButton about = new JButton("About");
-        about.addActionListener(ignored -> {
-            ref.show(actual,"About");
-        });
+        about.addActionListener(ignored -> ref.show(actual,"About"));
         buttons.add(about);
         if(Environment.isModded()){
             JButton mods = new JButton("Mods");
@@ -69,9 +67,7 @@ public class StartMenu extends JFrame {
             mods.addActionListener(ignored -> new ModList());
         }
         JButton settings = new JButton("Settings");
-        settings.addActionListener(ignored -> {
-            ref.show(actual,"Settings");
-        });
+        settings.addActionListener(ignored -> ref.show(actual,"Settings"));
         buttons.add(settings);
         init.add(buttons);
         actual.add(init,"Start");

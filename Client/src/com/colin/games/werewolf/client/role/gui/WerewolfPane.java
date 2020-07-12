@@ -29,27 +29,18 @@ import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.util.*;
 
-/**
- * Shows the window for the werewolf to take action.
- * @see com.colin.games.werewolf.client.role.Werewolf Werewolf
- */
-public class WerewolfFrame extends JFrame {
+public class WerewolfPane extends JPanel {
     private final Map<String,String> choices = new HashMap<>();
     private final Map<String,JLabel> map = new HashMap<>();
-
-    /**
-     * Constructs a new WerewolfFrame.
-     * @param others The list of wolves
-     */
-    public WerewolfFrame(List<String> others){
-        super("Your turn!");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+    private final JPanel otherP = new JPanel();
+    private final JButton ok = new JButton("OK");
+    private static boolean isInitialized = false;
+    public WerewolfPane(){
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         JPanel you = new JPanel();
         you.setLayout(new BoxLayout(you,BoxLayout.X_AXIS));
         you.add(new JLabel("Select a person to kill:"));
         JComboBox<Player> players = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
-        JButton ok = new JButton("OK");
         players.addItemListener(evt -> {
             if(evt.getStateChange() == ItemEvent.SELECTED){
                 Player select = (Player) evt.getItem();
@@ -61,38 +52,26 @@ public class WerewolfFrame extends JFrame {
         });
         you.add(players);
         add(you);
-        JPanel otherP = new JPanel();
         otherP.setLayout(new BoxLayout(otherP,BoxLayout.Y_AXIS));
-        for(String s : others){
-            JLabel label = new JLabel(s + ": ");
-            otherP.add(label);
-            map.put(s,label);
-        }
         add(otherP);
-        if(!(others.size() == 1)){
-            ok.setEnabled(false);
-        }
+        ok.setEnabled(false);
         ok.addActionListener(ae -> {
             Channel chan = Client.getCurrent().getChannel();
             chan.write(new Message("werewolf_kill",choices.values().stream().findAny().orElseThrow()));
             chan.flush();
             chan.write(new Message("next","empty"));
             chan.flush();
-            dispose();
         });
         ok.setEnabled(false);
         add(ok);
-        pack();
-        setVisible(true);
-        MessageDispatch.register("wolf_init",(ctx,msg) -> {
+        MessageDispatch.register("wolf_init",(ctx, msg) -> {
             String[] split = msg.getContent().split(":");
             setDisplay(split[0],split[1]);
             choices.put(split[0],split[1]);
             ok.setEnabled(new HashSet<>(choices.values()).size() == 1);
         });
-        MessageDispatch.register("werewolf_term",(ctx,msg) -> dispose());
+        MessageDispatch.register("werewolf_term",(ctx,msg) -> setVisible(false));
     }
-
     /**
      * Sets the decision of a player.
      * @param player The player to set the decision
@@ -100,5 +79,25 @@ public class WerewolfFrame extends JFrame {
      */
     public void setDisplay(String player,String decide){
         SwingUtilities.invokeLater(() -> map.get(player).setText(player + ": " + decide));
+    }
+    public void updateFrame(List<String> toDiff){
+        map.entrySet().removeIf(ent -> !toDiff.contains(ent.getKey()));
+    }
+    public void initLabels(List<String> others){
+        if(isInitialized){
+            throw new IllegalStateException("Re-init of labels in werewolf.");
+        }
+        for(String s : others){
+            JLabel label = new JLabel(s + ": ");
+            otherP.add(label);
+            map.put(s,label);
+        }
+        if(!(others.size() == 1)){
+            ok.setEnabled(false);
+        }
+        isInitialized = true;
+    }
+    public boolean hasInitialized(){
+        return isInitialized;
     }
 }
