@@ -45,6 +45,7 @@ public class WitchPane extends JPanel {
         heal = new JButton("Save");
         save.add(heal);
         saveChoice = new JComboBox<>();
+        saveChoice.setPreferredSize(saveChoice.getPreferredSize());
         heal.addActionListener((ignored) -> {
             Client.getCurrent().writeAndFlush(new Message("witch_heal",((Player) saveChoice.getSelectedItem()).getName()));
             context.setHealStatus(true);
@@ -53,6 +54,7 @@ public class WitchPane extends JPanel {
         add(save);
         JPanel kill = new JPanel();
         choice = new JComboBox<>(new Vector<>(PlayerCache.notDead()));
+        choice.setPreferredSize(choice.getPreferredSize());
         submitKill = new JButton("Kill");
         kill.add(choice);
         kill.add(submitKill);
