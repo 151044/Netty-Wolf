@@ -19,13 +19,14 @@
 package com.colin.games.werewolf.mod.killer.client;
 
 import com.colin.games.werewolf.client.role.Roles;
+import com.colin.games.werewolf.common.message.MessageDispatch;
 import com.colin.games.werewolf.common.modding.AbstractMod;
 import com.colin.games.werewolf.common.modding.ModType;
 import com.colin.games.werewolf.common.roles.Groups;
 
 import java.util.List;
 
-public class KillerClientMain extends AbstractMod {
+public class KillerClientMod extends AbstractMod {
     @Override
     public boolean isServer() {
         return false;
@@ -60,6 +61,9 @@ public class KillerClientMain extends AbstractMod {
     public void init() {
         Roles.register("Killer",Killer::new);
         Groups.register("Killer","Killer");
+        MessageDispatch.register("killer_role",(ctx,msg) -> {
+
+        });
     }
 
     @Override

@@ -63,8 +63,8 @@ public class ModLoader {
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toList());
         List<Mod> rem = new ArrayList<>();
+        Environment.Side s = Environment.getSide();
         for(Mod m : mods){
-            Environment.Side s = Environment.getSide();
             if(s.equals(Environment.Side.CLIENT)){
                 if(!m.isClient()){
                     if(throwOnInvalid){
