@@ -49,11 +49,12 @@ public class AudioControl {
     public static void setBackground(URL soundPath) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         if(background != null){
             background.close();
+            background = AudioSystem.getClip();
         }
         background.open(AudioSystem.getAudioInputStream(soundPath));
         background.setFramePosition(0);
-        background.start();
         background.loop(Clip.LOOP_CONTINUOUSLY);
+        background.start();
     }
 
     /**

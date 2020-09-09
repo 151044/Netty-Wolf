@@ -108,6 +108,7 @@ public class ClientMain {
         env.put("create", "true");
         FileSystem zip = FileSystems.newFileSystem(uri, env);
         try {
+            logger.info("Starting audio subsystem...");
             AudioControl.setBackground(ClassLoader.getSystemResource("resources/lol.wav"));
             AudioControl.setVolume(0.2f);
         } catch (UnsupportedAudioFileException | LineUnavailableException e) {
