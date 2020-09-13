@@ -130,4 +130,12 @@ public class ModLoader {
     public static List<Mod> getLoaded(){
         return new ArrayList<>(mods);
     }
+
+    /**
+     * Gets all the names of loaded mods.
+     * @return The list of names of loaded mods
+     */
+    public static List<String> allNames(){
+        return mods.stream().map(Mod::name).collect(Collectors.toList());
+    }
 }

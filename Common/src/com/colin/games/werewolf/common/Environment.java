@@ -28,7 +28,6 @@ import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -76,7 +75,7 @@ public class Environment {
      * @return The path of the directory to put configs in
      */
     public static Path workingDir(){
-        return Paths.get(System.getProperty("user.home"));
+        return Path.of(System.getProperty("user.home"));
     }
 
     /**

@@ -53,6 +53,7 @@ public class Server {
     private final int maxPlayers;
     private static Server instance;
     private final ServerStatusFrame status = new ServerStatusFrame();
+    private static int waitTime = 120;
     private static final Logger log = ServerMain.appendLog(LogManager.getFormatterLogger("Server"));
     /**
      * Creates a new, but not started, server with the specified port.
@@ -172,7 +173,7 @@ public class Server {
                         ch.flush();
                     }
                     ch.flush();
-                    ch.write(new Message("chat","Please discuss. You have 2 minutes."));
+                    ch.write(new Message("chat","Please discuss. You have " + waitTime + " seconds."));
                     ch.flush();
                     });
                 if(con.hasWon()){
@@ -181,7 +182,7 @@ public class Server {
                 GameState.clearKilled();
                 new Thread(() -> {
                     try {
-                        Thread.sleep(120000);
+                        Thread.sleep(waitTime * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -265,9 +266,8 @@ public class Server {
             }
         });
         MessageDispatch.register("mod_query",(ctx,msg) -> {
-            log.debug("Mod query received! Content: " + msg.getContent() + " as compared with local " + ModLoader.getLoaded().stream().map(Mod::name).collect(Collectors.toList()));
             if(Environment.isModded()){
-                ctx.channel().write(new Message("mod_response",ModLoader.getLoaded().stream().map(Mod::name).collect(Collectors.toList()).containsAll(List.of(msg.getContent().split(";"))) ? "true" : "false"));
+                ctx.channel().write(new Message("mod_response",ModLoader.allNames().containsAll(List.of(msg.getContent().split(";"))) ? "true" : "false"));
             }else{
                 if(msg.getContent().replace(';',' ').isBlank()){
                     ctx.channel().write(new Message("mod_response","true"));
@@ -276,7 +276,7 @@ public class Server {
                 }
             }
             ctx.channel().flush();
-            log.debug("Successfully written back mod_response to client!");
+            ctx.channel().write(new Message("server_mod_query",ModLoader.allNames().stream().collect(Collectors.joining(";"))));
         });
     }
     private static void lateInitMods(){
@@ -314,5 +314,13 @@ public class Server {
      */
     public ServerStatusFrame statusFrame(){
         return status;
+    }
+
+    /**
+     * Sets the waiting time for discussion.
+     * @param waitTime The waiting time, in seconds
+     */
+    public static void setWaitTime(int waitTime) {
+        Server.waitTime = waitTime;
     }
 }

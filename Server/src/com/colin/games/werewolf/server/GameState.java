@@ -149,7 +149,7 @@ public class GameState {
     /**
      * Applies all outstanding operations with respect to the given function.
      * @param func The function to apply
-     * @deprecated The method is incomplete
+     * @deprecated The method is incomplete, and is difficult to refactor into a usable state. This will be removed.
      */
     @Deprecated
     public static void applyOutstanding(BiFunction<String,BitSet,Boolean> func){
@@ -181,9 +181,8 @@ public class GameState {
         return cons.stream().reduce(GameCondition::resolve).orElseThrow();
     }
     /**
-     * Checks the winning condition of the game according to the given function.
+     * Adds a winning condition of the game according to the given function.
      * @param winFunction The function to apply to get a win condition
-     * @return The current game's condition
      */
     public static void addWinCon(Function<Map<String,Boolean>,GameCondition> winFunction){
         functions.add(winFunction);
@@ -198,7 +197,7 @@ public class GameState {
     }
 
     /**
-     * Directly kills a person. Used by voting.
+     * Directly kills a person. Used by the voting mechanism.
      * @param name The name of the voted person
      */
     public static void directKill(String name){
@@ -232,6 +231,11 @@ public class GameState {
     public static void tryKillDirect(Message s){
         toKill.add(s.getContent());
     }
+
+    /**
+     * Gets the list of people selected to be killed, regardless of any intervention
+     * @return A list of names of people to be killed
+     */
     public static List<String> getTryKill(){
         return toKill;
     }

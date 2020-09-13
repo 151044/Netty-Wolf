@@ -139,6 +139,7 @@ public class ServerMain {
                 Environment.setModded(false);
             }
         }
+        Server.setWaitTime(conf.fromString("waitSeconds",Integer::parseInt,"120"));
         new InitFrame();
     }
     private static void initConfig(Path root) throws IOException {
@@ -146,6 +147,7 @@ public class ServerMain {
         conf.store("mods","false");
         conf.store("debug","false");
         conf.store("throwOnInvalidMod","false");
+        conf.store("waitSeconds","120");
         conf.write();
     }
     /**

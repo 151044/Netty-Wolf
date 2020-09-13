@@ -30,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.stream.Collectors;
@@ -112,17 +113,24 @@ public class NameFrame extends JFrame {
                 if(Environment.isModded()){
                     log.info("Asking server about mods...");
                     MessageDispatch.register("mod_response", (ctx, msg) -> {
-                        log.debug("Mod response received with message " + msg.getContent());
-                        try {
-                            boolean result = Boolean.parseBoolean(msg.getContent());
-                            if (result) {
-                                log.info("The server has accepted this mod list.");
-                            } else {
-                                log.info("The server cannot accept this mod list!");
-                                System.exit(0);
-                            }
-                        } catch (IllegalArgumentException iae) {
-                            throw new AssertionError(iae);
+                                try {
+                                    boolean result = Boolean.parseBoolean(msg.getContent());
+                                    if (result) {
+                                        log.info("The server has accepted this mod list.");
+                                    } else {
+                                        log.info("The server cannot accept this mod list!");
+                                        System.exit(0);
+                                    }
+                                } catch (IllegalArgumentException iae) {
+                                    throw new AssertionError(iae);
+                                }
+                            });
+                    MessageDispatch.register("server_mod_query",(ctx,msg) -> {
+                        if(!ModLoader.allNames().containsAll(List.of(msg.getContent().split(";")))){
+                            log.info("The server has mods which are not compatible with you!");
+                            System.exit(0);
+                        }else{
+                            log.info("Client and server mods are compatible.");
                         }
                         dispose();
                         Client.getCurrent().getChannel().write(new Message("join_game",requested));
