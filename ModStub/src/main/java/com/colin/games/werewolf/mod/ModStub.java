@@ -57,6 +57,6 @@ public class ModStub extends AbstractMod {
 
     @Override
     public void init() {
-        Environment.setLookAndFeel("dracula");
+        Environment.setLookAndFeel("darcula");
     }
 }
