@@ -142,7 +142,7 @@ public class Environment {
             case "intellij":
                 toSet = new FlatIntelliJLaf();
                 break;
-            case "dracula":
+            case "darcula":
                 toSet = new FlatDarculaLaf();
                 break;
             default:
