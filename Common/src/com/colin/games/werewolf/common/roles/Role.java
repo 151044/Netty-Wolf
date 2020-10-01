@@ -46,10 +46,14 @@ public interface Role {
     String callbackName();
 
     /**
-     * Gets the group which this role belongs to
+     * Gets the group which this role belongs to.
      * @return The group of this role
      */
     Group getGroup();
 
+    /**
+     * Gets the pane where player action is taken on a call to {@link #action(ChannelHandlerContext, Message) action(ChannelHandlerContext, Message)} is received.
+     * @return The panne where action occurs
+     */
     WrapperPane getActionPane();
 }

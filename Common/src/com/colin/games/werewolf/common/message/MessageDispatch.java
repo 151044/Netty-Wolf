@@ -32,7 +32,6 @@ public class MessageDispatch {
     private MessageDispatch(){
         throw new AssertionError();
     }
-    private static final boolean debug = true;
     private static final Map<String, BiConsumer<ChannelHandlerContext,Message>> lookup = new HashMap<>();
 
     /**

@@ -66,6 +66,7 @@ public class KillerClientMod extends AbstractMod {
         });
     }
 
+
     @Override
     public String desc() {
         return "Murderous intent, coming to a client near you.";

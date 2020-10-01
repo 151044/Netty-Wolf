@@ -90,7 +90,7 @@ public class AudioControl {
      * @throws IOException When the file cannot be read
      * @throws UnsupportedAudioFileException When this audio format is not supported
      * @throws LineUnavailableException When a line is not available
-     */
+ */
     public static void playClip(URL clip, boolean pauseBackground) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
         Clip load = AudioSystem.getClip();
         load.open(AudioSystem.getAudioInputStream(clip));

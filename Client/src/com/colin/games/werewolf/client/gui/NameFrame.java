@@ -63,7 +63,7 @@ public class NameFrame extends JFrame {
                 return;
             }
             if(requested.contains("://:") || requested.contains(";") || requested.contains(",")){
-                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Name contains invalid characters!", "Name taken!", JOptionPane.WARNING_MESSAGE));
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Name contains invalid characters!", "Name invalid!", JOptionPane.WARNING_MESSAGE));
                 return;
             }
             submit.setEnabled(false);
@@ -145,6 +145,7 @@ public class NameFrame extends JFrame {
                     Client.getCurrent().getChannel().write(new Message("mod_query", ModLoader.getLoaded().stream().map(Mod::depsOnOtherSide).map(l -> String.join(";", l).strip()).collect(Collectors.joining(";"))));
                     Client.getCurrent().getChannel().flush();
                 }else{
+                    //we are good, can join
                     dispose();
                     Client.getCurrent().getChannel().write(new Message("join_game",requested));
                     Client.getCurrent().getChannel().flush();
