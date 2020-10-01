@@ -37,7 +37,7 @@ public class ThemePane extends JPanel {
         JRadioButton light = new JRadioButton("Light");
         JRadioButton dark =  new JRadioButton("Dark");
         JRadioButton intellij = new JRadioButton("Inverted Light");
-        JRadioButton dracula = new JRadioButton("Dracula");
+        JRadioButton dracula = new JRadioButton("Darcula");
         group.add(nimbus);
         group.add(light);
         group.add(dark);
