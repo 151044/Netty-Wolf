@@ -29,8 +29,15 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * A pane for showing the GPL.
+ */
 public class LicensePane extends JPanel {
     private static final Logger log = ClientMain.appendLog(LogManager.getFormatterLogger("About"));
+
+    /**
+     * Creates a pane to show the license and loads the license from a file.
+     */
     public LicensePane(){
         setLayout(new BorderLayout());
         JTextArea jta = new JTextArea();

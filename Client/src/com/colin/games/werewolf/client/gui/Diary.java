@@ -21,7 +21,13 @@ package com.colin.games.werewolf.client.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The diary panel.
+ */
 public class Diary extends JPanel {
+    /**
+     * Constructs a new Diary panel for the game.
+     */
     public Diary(){
         JTextArea textArea = new JTextArea();
         JPanel pane = new JPanel();

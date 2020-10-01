@@ -21,7 +21,13 @@ package com.colin.games.werewolf.client.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The about panel.
+ */
 public class TabbedAboutPanel extends JPanel {
+    /**
+     * Creates a new about panel.
+     */
     public TabbedAboutPanel(){
         setLayout(new BorderLayout());
         JTabbedPane tabs = new JTabbedPane();

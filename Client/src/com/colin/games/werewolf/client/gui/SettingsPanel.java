@@ -21,7 +21,13 @@ package com.colin.games.werewolf.client.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A pane for various settings.
+ */
 public class SettingsPanel extends JPanel {
+    /**
+     * Creates a new settings pane.
+     */
     public SettingsPanel(){
         setLayout(new BorderLayout());
         JTabbedPane tab = new JTabbedPane();

@@ -34,9 +34,17 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
+/**
+ * The pane for chat messages.
+ */
 public class ChatPane extends JPanel {
     private final PrintStream ps;
     private final JTextArea textArea;
+
+    /**
+     * Creates a new ChatPane with the specified player name.
+     * @param name The name of the player playing the game
+     */
     public ChatPane(String name){
         textArea = new JTextArea();
         JPanel pane = new JPanel();
@@ -117,6 +125,11 @@ public class ChatPane extends JPanel {
         MessageDispatch.register("night",(ctx, m) -> send.setEnabled(false));
         MessageDispatch.register("day",(ctx,m) -> send.setEnabled(true));
     }
+
+    /**
+     * Displays a message to the pane.
+     * @param message The message to write to the pane
+     */
     public void displayMsg(Message message) {
         ps.println(message.getContent());
         ps.flush();

@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Main pane for dedications and thanks for people who supported me.
+ */
 public class ThanksPane extends JPanel {
     private static final Map<String,String> dedication = new HashMap<>();
     static{
@@ -33,6 +36,10 @@ public class ThanksPane extends JPanel {
         dedication.put("XDGUY","To XDGUY: So long, and thanks for all the memes. And the time spent helping me debug. And the new ideas given.");
         dedication.put("You","Dear player, thank you for supporting me!");
     }
+
+    /**
+     * Creates a new ThanksPane.
+     */
     public ThanksPane(){
         java.util.List<String> list = new ArrayList<>(dedication.keySet());
         setLayout(new BorderLayout());

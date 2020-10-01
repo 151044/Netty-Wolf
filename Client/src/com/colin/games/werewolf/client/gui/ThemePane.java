@@ -22,7 +22,14 @@ import com.colin.games.werewolf.common.Environment;
 
 import javax.swing.*;
 
+/**
+ * A panel for setting the theme of the game.
+ */
 public class ThemePane extends JPanel {
+    /**
+     * Constructs a new ThemePane.
+     * The default theme is Nimbus, unless otherwise specified.
+     */
     public ThemePane(){
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         ButtonGroup group = new ButtonGroup();

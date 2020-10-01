@@ -24,10 +24,18 @@ import io.netty.channel.ChannelHandlerContext;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The main game frame.
+ */
 public class TabbedMainFrame extends JFrame {
     private static TabbedMainFrame current = null;
     private final JTabbedPane tabs;
     private final ChatPane chat;
+
+    /**
+     * Creates a new game frame.
+     * @param name The name of the player
+     */
     public TabbedMainFrame(String name){
         super("Main Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,6 +48,12 @@ public class TabbedMainFrame extends JFrame {
         pack();
         setVisible(true);
     }
+
+    /**
+     * An adaptor for displaying messages to the chat.
+     * @param ignored The channel handler context, ignored but included for compat purposes with the callbacks
+     * @param message The message to display to the chat pane
+     */
     public void displayMsg(ChannelHandlerContext ignored, Message message) {
         chat.displayMsg(message);
     }
@@ -49,9 +63,20 @@ public class TabbedMainFrame extends JFrame {
         }
         return current;
     }
+
+    /**
+     * Sets the current main frame.
+     * @param toSet The frame to set
+     */
     public static void setCurrent(TabbedMainFrame toSet){
         current = toSet;
     }
+
+    /**
+     * Adds a tab to the main pane.
+     * @param title Title of the pane
+     * @param toAdd The panel to add
+     */
     public void addTab(String title,JPanel toAdd){
         SwingUtilities.invokeLater(() -> {
             tabs.addTab(title, toAdd);
