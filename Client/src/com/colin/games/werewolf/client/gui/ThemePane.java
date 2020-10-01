@@ -54,7 +54,7 @@ public class ThemePane extends JPanel {
         light.addActionListener(ignored -> Environment.setLookAndFeel("light"));
         dark.addActionListener(ignored -> Environment.setLookAndFeel("dark"));
         intellij.addActionListener(ignored -> Environment.setLookAndFeel("intellij"));
-        dracula.addActionListener(ignored -> Environment.setLookAndFeel("dracula"));
+        dracula.addActionListener(ignored -> Environment.setLookAndFeel("darcula"));
         add(layout);
     }
 }
