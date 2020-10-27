@@ -79,5 +79,20 @@ public class Player {
     public String toString() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return isDead == player.isDead &&
+                Objects.equals(name, player.name) &&
+                Objects.equals(role, player.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, isDead, role);
+    }
 }
 

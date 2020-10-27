@@ -27,6 +27,8 @@ import com.colin.games.werewolf.common.roles.Role;
 import com.colin.games.werewolf.common.roles.WrapperPane;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.util.Objects;
+
 /**
  * The Guard role.<br>
  * The Guard role can protect any player from being killed, but cannot protect the same person twice in a row.
@@ -81,11 +83,25 @@ public class Guard implements Role {
      * @param player The player to set
      */
     public void setSaved(Player player){
+        Objects.requireNonNull(player);
         lastProtected = player;
     }
 
     @Override
     public String toString() {
         return name();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Guard guard = (Guard) o;
+        return Objects.equals(pane, guard.pane);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pane);
     }
 }
