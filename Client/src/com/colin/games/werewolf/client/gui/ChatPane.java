@@ -115,7 +115,7 @@ public class ChatPane extends JPanel {
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Message cannot be entered!", "Invalid message!", JOptionPane.WARNING_MESSAGE));
                 return;
             }else if(msg.getText().equals("")){
-                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Empty message!", "Invalid message!", JOptionPane.WARNING_MESSAGE));
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "An empty message cannot be sent!", "Invalid message!", JOptionPane.WARNING_MESSAGE));
                 return;
             }
             String output = "[" + name + "]: " + msg.getText();
