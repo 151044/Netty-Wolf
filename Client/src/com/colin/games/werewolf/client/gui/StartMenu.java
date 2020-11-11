@@ -79,7 +79,20 @@ public class StartMenu extends JFrame {
         mBar.add(menu);
         JMenuItem item = new JMenuItem("Back", KeyEvent.VK_B);
         item.addActionListener(ae -> ref.show(actual,"Start"));
+        JMenuItem setMenu = new JMenuItem("Settings", KeyEvent.VK_S);
+        setMenu.addActionListener((ae) -> ref.show(actual,"Settings"));
         menu.add(item);
+        menu.add(setMenu);
+        JMenu quitMenu = new JMenu("Quit");
+        JMenuItem leave = new JMenuItem("Quit",KeyEvent.VK_Q);
+        leave.addActionListener((ae) -> {
+            int ret = JOptionPane.showConfirmDialog(null,"Do you really want to exit?","Exit?",JOptionPane.YES_NO_OPTION);
+            if(ret == JOptionPane.YES_OPTION){
+                System.exit(0);
+            }
+        });
+        quitMenu.add(leave);
+        mBar.add(quitMenu);
         setJMenuBar(mBar);
         pack();
         ref.show(actual,"Start");
