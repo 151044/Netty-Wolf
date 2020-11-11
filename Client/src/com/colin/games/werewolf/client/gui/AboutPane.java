@@ -24,11 +24,11 @@ import java.awt.*;
 /**
  * The about panel.
  */
-public class TabbedAboutPanel extends JPanel {
+public class AboutPane extends JPanel {
     /**
      * Creates a new about panel.
      */
-    public TabbedAboutPanel(){
+    public AboutPane(){
         setLayout(new BorderLayout());
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Acknowledgements",new ThanksPane());

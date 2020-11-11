@@ -138,9 +138,9 @@ public class NameFrame extends JFrame {
                         MessageDispatch.register("name_res",null);
                         MessageDispatch.register("is_full_res",null);
                         Client.getCurrent().setName(requested);
-                        TabbedMainFrame chat = new TabbedMainFrame(requested);
+                        MainFrame chat = new MainFrame(requested);
                         MessageDispatch.register("chat",chat::displayMsg);
-                        TabbedMainFrame.setCurrent(chat);
+                        MainFrame.setCurrent(chat);
                     });
                     Client.getCurrent().getChannel().write(new Message("mod_query", ModLoader.getLoaded().stream().map(Mod::depsOnOtherSide).map(l -> String.join(";", l).strip()).collect(Collectors.joining(";"))));
                     Client.getCurrent().getChannel().flush();
@@ -152,9 +152,9 @@ public class NameFrame extends JFrame {
                     MessageDispatch.register("name_res",null);
                     MessageDispatch.register("is_full_res",null);
                     Client.getCurrent().setName(requested);
-                    TabbedMainFrame frame = new TabbedMainFrame(requested);
+                    MainFrame frame = new MainFrame(requested);
                     MessageDispatch.register("chat",frame::displayMsg);
-                    TabbedMainFrame.setCurrent(frame);
+                    MainFrame.setCurrent(frame);
                 }
             });
         });

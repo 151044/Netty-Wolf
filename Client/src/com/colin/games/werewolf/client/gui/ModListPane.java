@@ -29,11 +29,11 @@ import java.util.List;
 /**
  * Shows the list of mods.
  */
-public class ModList extends JFrame {
+public class ModListPane extends JFrame {
     /**
      * Constructs a new ModList.
      */
-    public ModList(){
+    public ModListPane(){
         super("Mods Installed");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));

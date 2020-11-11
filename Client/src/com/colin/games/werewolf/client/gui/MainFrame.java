@@ -27,8 +27,8 @@ import java.awt.*;
 /**
  * The main game frame.
  */
-public class TabbedMainFrame extends JFrame {
-    private static TabbedMainFrame current = null;
+public class MainFrame extends JFrame {
+    private static MainFrame current = null;
     private final JTabbedPane tabs;
     private final ChatPane chat;
 
@@ -36,14 +36,14 @@ public class TabbedMainFrame extends JFrame {
      * Creates a new game frame.
      * @param name The name of the player
      */
-    public TabbedMainFrame(String name){
+    public MainFrame(String name){
         super("Main Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         tabs = new JTabbedPane();
         chat = new ChatPane(name);
         tabs.addTab("Chat",chat);
-        tabs.addTab("Diary",new Diary());
+        tabs.addTab("Diary",new DiaryPane());
         add(tabs);
         pack();
         setVisible(true);
@@ -57,7 +57,7 @@ public class TabbedMainFrame extends JFrame {
     public void displayMsg(ChannelHandlerContext ignored, Message message) {
         chat.displayMsg(message);
     }
-    public static TabbedMainFrame getCurrent(){
+    public static MainFrame getCurrent(){
         if(current == null){
             throw new IllegalStateException("Current TabbedMainFrame is null!");
         }
@@ -68,7 +68,7 @@ public class TabbedMainFrame extends JFrame {
      * Sets the current main frame.
      * @param toSet The frame to set
      */
-    public static void setCurrent(TabbedMainFrame toSet){
+    public static void setCurrent(MainFrame toSet){
         current = toSet;
     }
 

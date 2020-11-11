@@ -22,16 +22,21 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A pane for various settings.
+ * The diary panel.
  */
-public class SettingsPanel extends JPanel {
+public class DiaryPane extends JPanel {
     /**
-     * Creates a new settings pane.
+     * Constructs a new Diary panel for the game.
      */
-    public SettingsPanel(){
+    public DiaryPane(){
+        JTextArea textArea = new JTextArea();
+        JPanel pane = new JPanel();
+        pane.setLayout(new BorderLayout());
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        JScrollPane textScroll = new JScrollPane(textArea);
         setLayout(new BorderLayout());
-        JTabbedPane tab = new JTabbedPane();
-        tab.addTab("Themes",new ThemePane());
-        add(tab);
+        pane.add(textScroll);
+        add(pane,BorderLayout.CENTER);
     }
 }

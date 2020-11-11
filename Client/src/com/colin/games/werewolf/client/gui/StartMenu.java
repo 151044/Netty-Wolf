@@ -64,15 +64,15 @@ public class StartMenu extends JFrame {
         if(Environment.isModded()){
             JButton mods = new JButton("Mods");
             buttons.add(mods);
-            mods.addActionListener(ignored -> new ModList());
+            mods.addActionListener(ignored -> new ModListPane());
         }
         JButton settings = new JButton("Settings");
         settings.addActionListener(ignored -> ref.show(actual,"Settings"));
         buttons.add(settings);
         init.add(buttons);
         actual.add(init,"Start");
-        actual.add(new TabbedAboutPanel(),"About");
-        actual.add(new SettingsPanel(),"Settings");
+        actual.add(new AboutPane(),"About");
+        actual.add(new SettingsPane(),"Settings");
         add(actual,BorderLayout.CENTER);
         JMenuBar mBar = new JMenuBar();
         JMenu menu = new JMenu("Options");
