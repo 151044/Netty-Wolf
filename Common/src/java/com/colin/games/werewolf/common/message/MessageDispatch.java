@@ -47,7 +47,7 @@ public class MessageDispatch {
     /**
      * Registers a callback to be invoked once the String has been received.
      * @param str The name of the callback
-     * @param cons The consumer to receive the {@link com.colin.games.werewolf.common.message.Message Message}.
+     * @param cons The consumer to receive the {@link Message Message}.
      */
     public static void register(String str, BiConsumer<ChannelHandlerContext,Message> cons){
         lookup.put(str,cons);

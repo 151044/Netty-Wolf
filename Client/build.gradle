@@ -23,7 +23,7 @@ sourceSets {
     //noinspection GroovyAssignabilityCheck
     main {
         java {
-            srcDirs = ['src']
+            srcDirs = ['src/java']
         }
         //noinspection GroovyAssignabilityCheck
         resources{
@@ -38,6 +38,8 @@ dependencies{
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
     runtime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.0'
+    implementation 'net.java.dev.jna:jna:5.6.0'
+    implementation 'net.java.dev.jna:jna-platform:5.6.0'
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11

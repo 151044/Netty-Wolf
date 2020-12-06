@@ -23,7 +23,7 @@ package com.colin.games.werewolf.common.message;
  * It consists of 2 components: Type and content.<br>
  * The type determines how the message is handled.<br>
  * The content is the actual content of the message.<br>
- * @see com.colin.games.werewolf.common.message.MessageDispatch MessageDispatch
+ * @see MessageDispatch MessageDispatch
  */
 public class Message {
     private final String type;

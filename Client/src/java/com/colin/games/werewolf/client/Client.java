@@ -177,7 +177,7 @@ public class Client {
         Roles.register("Guard", Guard::new);
         Roles.register("Hunter", Hunter::new);
         Roles.register("Seer", Seer::new);
-        Roles.register("Villager",Villager::new);
+        Roles.register("Villager", Villager::new);
         Roles.register("Witch", Witch::new);
         MessageDispatch.register("end",(ctx,msg) -> {
             SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null,"Game ended! Reason: " + msg.getContent(),"Game Ended",JOptionPane.INFORMATION_MESSAGE));

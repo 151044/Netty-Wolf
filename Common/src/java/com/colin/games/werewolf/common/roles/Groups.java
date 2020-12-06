@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Registry for {@link com.colin.games.werewolf.common.roles.Group Group}s.
+ * Registry for {@link Group Group}s.
  */
 public class Groups {
     private Groups(){

@@ -24,7 +24,9 @@ import java.net.URL;
 
 /**
  * Main audio control class.
+ * Migration to another solution is in progress as Java sound is too annoying.
  */
+@Deprecated(forRemoval = true)
 public class AudioControl {
     private AudioControl(){
         throw new AssertionError();

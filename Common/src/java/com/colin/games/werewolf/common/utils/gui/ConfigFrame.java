@@ -40,7 +40,7 @@ public class ConfigFrame extends JFrame {
     }
 
     /**
-     * Creates a new ConfigFrame with the specified {@link com.colin.games.werewolf.common.utils.Config config} instance.
+     * Creates a new ConfigFrame with the specified {@link Config config} instance.
      * @param conf The config instance
      */
     public ConfigFrame(Config conf){
@@ -58,7 +58,7 @@ public class ConfigFrame extends JFrame {
     }
 
     /**
-     * Creates a new ConfigFrame with the specified {@link com.colin.games.werewolf.common.utils.Config config} instance and the given title.
+     * Creates a new ConfigFrame with the specified {@link Config config} instance and the given title.
      * @param conf The config instance
      * @param title The title of the config frame
      */

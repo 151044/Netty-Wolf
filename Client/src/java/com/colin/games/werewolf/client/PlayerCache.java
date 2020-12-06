@@ -102,7 +102,7 @@ public class PlayerCache {
     }
 
     /**
-     * Tests if the cache is initialized by the {@link com.colin.games.werewolf.client.PlayerCache#init init()} method.
+     * Tests if the cache is initialized by the {@link PlayerCache#init init()} method.
      * @return Whether the cache is initialized
      */
     public static boolean isInitialized(){

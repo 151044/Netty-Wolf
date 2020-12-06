@@ -19,7 +19,7 @@
 package com.colin.games.werewolf.common.message;
 
 /**
- * Thrown to indicate that a {@link com.colin.games.werewolf.common.message.Message Message} instance
+ * Thrown to indicate that a {@link Message Message} instance
  * received by this instance is malformed.
  */
 public class MalformedMessageException extends RuntimeException{

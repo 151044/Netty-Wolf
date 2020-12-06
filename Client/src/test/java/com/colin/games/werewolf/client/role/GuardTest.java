@@ -18,9 +18,10 @@
 
 package com.colin.games.werewolf.client.role;
 
-import com.colin.games.werewolf.client.role.groups.DefaultGroups;
 import com.colin.games.werewolf.common.Player;
 import org.junit.jupiter.api.Test;
+
+import java.client.role.groups.DefaultGroups;
 
 import static org.junit.jupiter.api.Assertions.*;
 

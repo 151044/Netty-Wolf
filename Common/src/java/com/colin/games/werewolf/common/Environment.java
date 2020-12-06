@@ -45,7 +45,7 @@ public class Environment {
     }
 
     /**
-     * Sets the {@link com.colin.games.werewolf.common.Environment.Side Side} of this running game.
+     * Sets the {@link Environment.Side Side} of this running game.
      * Should not be called from application code.
      * @param given The side to set. If null is passed, throws a {@link java.lang.NullPointerException NullPointerException}.
      */

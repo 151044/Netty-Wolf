@@ -18,16 +18,18 @@
 
 package com.colin.games.werewolf.client.role.groups;
 
+import com.colin.games.werewolf.client.role.Villager;
+import com.colin.games.werewolf.client.role.Werewolf;
 import com.colin.games.werewolf.common.roles.Group;
 
 /**
  * The default groups.
- * @see com.colin.games.werewolf.common.roles.Group Group
+ * @see Group Group
  */
 public enum DefaultGroups implements Group {
     /**
      * The Villager group.
-     * @see com.colin.games.werewolf.client.role.Villager Villager
+     * @see Villager Villager
      */
     VILLAGER(){
         @Override
@@ -42,7 +44,7 @@ public enum DefaultGroups implements Group {
     },
     /**
      * The Werewolf group.
-     * @see com.colin.games.werewolf.client.role.Werewolf Werewolf
+     * @see Werewolf Werewolf
      */
     WEREWOLF(){
         @Override
