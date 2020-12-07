@@ -1,4 +1,6 @@
 #include <stdbool.h>
+#include <strings.h>
+#include <stdio.h>
 //For compat purposes
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
@@ -31,7 +33,7 @@ bool playMusic(const char* path){
         printf("Failed to load music! Reason: %s", Mix_GetError());
         return false;
     }
-    musicPath = path;
+    strcpy(musicPath,path);
     return true;
 }
 bool playSound(const char* path, bool stopMus){
