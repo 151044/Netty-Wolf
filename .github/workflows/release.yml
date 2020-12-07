@@ -21,7 +21,7 @@ jobs:
     - name: Install SDL for Linux and MinGW-w64
       run: sudo apt install mingw-w64 libsdl2-mixer-dev libsdl2-dev -y
     - name: Compile natives
-        run: |
+      run: |
           cd Client/src/natives
           make linux
           make win
