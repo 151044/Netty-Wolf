@@ -54,6 +54,7 @@ bool playSound(const char* path, bool stopMus){
             Mix_ResumeMusic();
         }
     }
+    return true;
 }
 char* getPlaying(){
     return musicPath;
