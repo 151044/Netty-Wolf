@@ -17,8 +17,8 @@
 #
 
 mkdir make_linux
-mv libaudio.a libaudio.so.1.0.1 make_linux
-mv Audio.h make_linux
+cp libaudio.a libaudio.so.1.0.1 make_linux
+cp Audio.h make_linux
 tar -cvzf linux_dev.tar.gz make_linux
 rm -r make_linux
 
