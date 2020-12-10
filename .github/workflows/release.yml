@@ -20,14 +20,16 @@ jobs:
         java-version: 1.11
     - name: Install SDL for Linux and MinGW-w64
       run: sudo apt install mingw-w64 libsdl2-mixer-dev libsdl2-dev -y
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
     - name: Compile natives
       run: |
           cd Client/src/natives
           make linux
           make win
+          bash ./zip_win.sh
+          bash ./tar_linux.sh
           cd ../../../
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
     - name: Create Release
@@ -44,3 +46,5 @@ jobs:
             ./build/libs/Client-0.1.0.jar
             ./build/libs/ModStub-1.0.0.jar
             ./build/libs/Killer-Mod-Client-0.0.1.jar
+            ./Client/src/natives/win_dev.zip
+            ./Client/src/natives/linux_dev.tar.gz
