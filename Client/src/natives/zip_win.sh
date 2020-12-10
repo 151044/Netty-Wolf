@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Netty-Wolf
 # Copyright (C) 2020  Colin Chow

@@ -29,8 +29,8 @@ jobs:
         cd Client/src/natives
         make linux
         make win
-        bash ./zip_win.sh
-        bash ./tar_linux.sh
+        ./zip_win.sh
+        ./tar_linux.sh
         cd ../../../
     - name: Build with Gradle
       run: ./gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
