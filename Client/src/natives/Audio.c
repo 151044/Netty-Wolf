@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <strings.h>
 #include <stdio.h>
+#include <stdlib.h>
 //For compat purposes
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
@@ -10,7 +11,7 @@ int main(){
     return 0;
 }
 Mix_Music* music = NULL;
-char* musicPath = "";
+char* musicPath = ;
 bool initSDL(){
     SDL_SetMainReady();
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
@@ -32,6 +33,9 @@ bool playMusic(const char* path){
     if(music == NULL){
         printf("Failed to load music! Reason: %s", Mix_GetError());
         return false;
+    }
+    if(sizeof(ptr) <= strlen(path) * sizeof(char)){
+        realloc(ptr,(strlen(path) + 2) * sizeof(char))
     }
     strcpy(musicPath,path);
     return true;
