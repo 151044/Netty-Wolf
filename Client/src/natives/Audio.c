@@ -35,7 +35,9 @@ bool playMusic(const char* path){
         return false;
     }
     if(sizeof(musicPath) <= strlen(path) * sizeof(char)){
-        realloc(musicPath,(strlen(path) + 2) * sizeof(char))
+        if(!realloc(musicPath,(strlen(path) + 2) * sizeof(char))){
+            return false;
+        }
     }
     strcpy(musicPath,path);
     return true;
