@@ -11,7 +11,7 @@ int main(){
     return 0;
 }
 Mix_Music* music = NULL;
-char* musicPath = ;
+char* musicPath = "";
 bool initSDL(){
     SDL_SetMainReady();
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
@@ -34,8 +34,8 @@ bool playMusic(const char* path){
         printf("Failed to load music! Reason: %s", Mix_GetError());
         return false;
     }
-    if(sizeof(ptr) <= strlen(path) * sizeof(char)){
-        realloc(ptr,(strlen(path) + 2) * sizeof(char))
+    if(sizeof(musicPath) <= strlen(path) * sizeof(char)){
+        realloc(musicPath,(strlen(path) + 2) * sizeof(char))
     }
     strcpy(musicPath,path);
     return true;
