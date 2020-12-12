@@ -18,7 +18,7 @@
 
 package com.colin.games.werewolf.client;
 
-import com.colin.games.werewolf.client.audio.AudioControl;
+import com.colin.games.werewolf.client.audio.Audio;
 import com.colin.games.werewolf.client.gui.StartMenu;
 import com.colin.games.werewolf.common.Environment;
 import com.colin.games.werewolf.common.modding.Mod;
@@ -34,8 +34,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URI;
@@ -107,13 +105,10 @@ public class ClientMain {
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
         FileSystem zip = FileSystems.newFileSystem(uri, env);
-        try {
-            logger.info("Starting audio subsystem...");
-            AudioControl.setBackground(ClassLoader.getSystemResource("resources/lol.wav"));
-            AudioControl.setVolume(0.2f);
-        } catch (UnsupportedAudioFileException | LineUnavailableException e) {
-            logger.error(e);
-        }
+        logger.info("Starting audio subsystem...");
+        Audio.initSDL();
+        Audio.playMusic("./geg.mp3");
+        Audio.setVolume(30);
         /*When the icon is 64x64
         icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("resources/logo.png"));*/
         Path root = Environment.workingDir().resolve(".netty-wolf");

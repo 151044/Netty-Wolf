@@ -32,6 +32,7 @@ public class SettingsPane extends JPanel {
         setLayout(new BorderLayout());
         JTabbedPane tab = new JTabbedPane();
         tab.addTab("Themes",new ThemePane());
+        tab.addTab("Sound",new SoundPane());
         add(tab);
     }
 }

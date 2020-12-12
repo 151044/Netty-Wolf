@@ -22,7 +22,7 @@ import com.sun.jna.Native;
 
 public class Audio {
     static{
-        Native.register("libaudio");
+        Native.register("audio");
     }
     public static native boolean initSDL();
     public static native String getPlaying();
@@ -30,4 +30,5 @@ public class Audio {
     public static native boolean playSound(String path, boolean suspendMusic);
     public static native void setVolume(int vol);
     public static native void quitSDL();
+    public static native int getVolume();
 }
