@@ -31,7 +31,8 @@ jobs:
         tar -xzvf mixer.tar.gz
         mv SDL2-2.0.12 SDL_temp
         mkdir SDL2-2.0.12
-        cp -r SDL_temp/* SDL2_mixer-2.0.4/* SDL2-2.0.12 --overwrite
+        cp -r SDL_temp/* SDL2-2.0.12
+        cp -r SDL2_mixer-2.0.4/* SDL2-2.0.12
         rm dev.tar.gz mixer.tar.gz
         rm -r SDL_temp/ SDL2_mixer-2.0.4/
         cd ../../../
