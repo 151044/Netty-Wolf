@@ -5,3 +5,4 @@ bool playSound(const char* path, bool stopMus);
 char* getPlaying();
 void setVolume(int i);
 void quitSDL();
+int getVolume();
