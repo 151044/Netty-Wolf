@@ -12,7 +12,12 @@ int main(){
 }
 Mix_Music* music = NULL;
 char* musicPath;
+#ifdef Windows
+#define export __declspec(dllexport)
+export bool initSDL(){
+#else
 bool initSDL(){
+#endif
     SDL_SetMainReady();
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
         printf("SDL audio backend cannot be initialized! Reason: %s", SDL_GetError());
