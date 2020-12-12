@@ -11,7 +11,7 @@ int main(){
     return 0;
 }
 Mix_Music* music = NULL;
-char* musicPath = "";
+char* musicPath = (char*) malloc(60 * sizeof(char));;
 bool initSDL(){
     SDL_SetMainReady();
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
@@ -72,6 +72,7 @@ void setVolume(int i){
     Mix_Volume(-1,i);
 }
 void quitSDL(){
+    free(musicPath);
     Mix_Quit();
     SDL_Quit();
 }
