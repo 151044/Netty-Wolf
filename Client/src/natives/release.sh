@@ -19,8 +19,8 @@
 
 mkdir linux
 mkdir win
-cp libaudio.a libaudio.so ../../../build/libs/Client-0.1.0.jar ../resources/resources/geg.mp3 ./linux/
-cp libaudio.dll ../../../build/libs/Client-0.1.0.jar ../resources/resources/geg.mp3 ./SDL2-2.0.12/x86_64-w64-mingw32/bin/* win/
+cp libaudio.a libaudio.so ../../../build/libs/Client-0.1.0.jar ../../resources/resources/geg.mp3 ./linux/
+cp libaudio.dll ../../../build/libs/Client-0.1.0.jar ../../resources/resources/geg.mp3 ./SDL2-2.0.12/x86_64-w64-mingw32/bin/* win/
 zip -q -r win_release.zip win/
 rm -r win
 tar -cvzf linux_release.tar.gz linux/
