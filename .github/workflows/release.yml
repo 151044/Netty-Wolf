@@ -23,16 +23,7 @@ jobs:
     - name: Download SDL for cross-compiling
       run: |
         cd Client/src/natives
-        curl https://www.libsdl.org/release/SDL2-devel-2.0.12-mingw.tar.gz > dev.tar.gz
-        tar -xzvf dev.tar.gz
-        curl https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-mingw.tar.gz > mixer.tar.gz
-        tar -xzvf mixer.tar.gz
-        mv SDL2-2.0.12 SDL_temp
-        mkdir SDL2-2.0.12
-        cp -r SDL_temp/* SDL2-2.0.12
-        cp -r SDL2_mixer-2.0.4/* SDL2-2.0.12
-        rm dev.tar.gz mixer.tar.gz
-        rm -r SDL_temp/ SDL2_mixer-2.0.4/
+        ./download.sh
         cd ../../../
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -46,6 +37,11 @@ jobs:
           cd ../../../
     - name: Build with Gradle
       run: ./gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
+    - name: Create release archives
+      run: |
+        cd Client/src/natives
+        ./release.sh
+        cd ../../../
     - name: Create Release
       id: create_release
       uses: "marvinpinto/action-automatic-releases@latest"
@@ -62,3 +58,5 @@ jobs:
             ./build/libs/Killer-Mod-Client-0.0.1.jar
             ./Client/src/natives/win_dev.zip
             ./Client/src/natives/linux_dev.tar.gz
+            ./Client/src/natives/win_release.zip
+            ./Client/src/natives/linux_release.tar.gz
