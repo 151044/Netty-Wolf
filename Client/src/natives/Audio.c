@@ -44,6 +44,7 @@ bool playMusic(const char* path){
         printf("Failed to load music! Reason: %s", Mix_GetError());
         return false;
     }
+    Mix_PlayMusic(music,-1);
     if(sizeof(musicPath) <= strlen(path) * sizeof(char)){
         if(!realloc(musicPath,(strlen(path) + 2) * sizeof(char))){
             return false;
