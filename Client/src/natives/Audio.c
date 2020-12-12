@@ -53,9 +53,9 @@ bool playMusic(const char* path){
     return true;
 }
 #ifdef Windows
-export bool playSound(const char* path, bool stopMus)
+export bool playSound(const char* path, bool stopMus){
 #else
-bool playSound(const char* path, bool stopMus)
+bool playSound(const char* path, bool stopMus){
 #endif
     int isPaused = Mix_PausedMusic();
     if(stopMus){
@@ -94,9 +94,9 @@ void setVolume(int i){
     Mix_Volume(-1,i);
 }
 #ifdef Windows
-export void void quitSDL()
+export void quitSDL(){
 #else
-void quitSDL()
+void quitSDL(){
 #endif
     free(musicPath);
     Mix_Quit();
