@@ -93,6 +93,7 @@ export void setVolume(int i){
 void setVolume(int i){
 #endif
     Mix_Volume(-1,i);
+    Mix_VolumeMusic(i);
 }
 #ifdef Windows
 export void quitSDL(){
