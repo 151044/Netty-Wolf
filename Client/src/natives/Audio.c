@@ -30,7 +30,11 @@ bool initSDL(){
     musicPath = (char*) malloc(60 * sizeof(char));
     return true;
 }
+#ifdef Windows
+export bool playMusic(const char* path){
+#else
 bool playMusic(const char* path){
+#endif
     if(music != NULL || Mix_PlayingMusic() != 0){
         Mix_HaltMusic();
         Mix_FreeMusic(music);
@@ -48,7 +52,11 @@ bool playMusic(const char* path){
     strcpy(musicPath,path);
     return true;
 }
-bool playSound(const char* path, bool stopMus){
+#ifdef Windows
+export bool playSound(const char* path, bool stopMus)
+#else
+bool playSound(const char* path, bool stopMus)
+#endif
     int isPaused = Mix_PausedMusic();
     if(stopMus){
         if(isPaused != 1){
@@ -70,14 +78,26 @@ bool playSound(const char* path, bool stopMus){
     }
     return true;
 }
+#ifdef Windows
+export char* getPlaying(){
+#else
 char* getPlaying(){
+#endif
     return musicPath;
 }
 //0 to 128
+#ifdef Windows
+export void setVolume(int i){
+#else
 void setVolume(int i){
+#endif
     Mix_Volume(-1,i);
 }
-void quitSDL(){
+#ifdef Windows
+export void void quitSDL()
+#else
+void quitSDL()
+#endif
     free(musicPath);
     Mix_Quit();
     SDL_Quit();
