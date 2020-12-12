@@ -60,3 +60,5 @@ jobs:
             ./build/libs/Killer-Mod-Client-0.0.1.jar
             ./Client/src/natives/win_dev.zip
             ./Client/src/natives/linux_dev.tar.gz
+            ./Client/src/natives/win_release.zip
+            ./Client/src/natives/linux_release.tar.gz
