@@ -1,0 +1,38 @@
+pkgname=('netty-wolf-client-git')
+pkgver='0.0.6.5.r201024.1'
+pkgrel=1
+pkgdesc="A Werewolf Game's Client (Git version)."
+url="https://nopersonalinfo.freemyip.com"
+arch=('any')
+license=('GPL')
+depends=('jdk11-openjdk')
+makedepends=('git')
+conflicts=('netty-wolf-client')
+source=("$pkgname::git+https://github.com/151044/Netty-Wolf.git#branch=dev")
+sha512sums=('SKIP')
+prepare() {
+    cd $pkgname
+    chmod 755 "gradlew"
+}
+build() {
+    cd $pkgname
+    unset _JAVA_OPTIONS
+    GRADLE_USER_HOME="$srcdir" ./gradlew compileJava jar clientJar
+}
+package() {
+    install -Dm644 $pkgname/build/libs/Client-0.1.0.jar "$pkgdir/opt/netty-wolf/Client-0.1.0.jar"
+    echo "exec /usr/bin/java -jar '/opt/netty-wolf/Client-0.1.0.jar' "\$@"" > netty-wolf-client-git.sh
+    install -Dm755 netty-wolf-client-git.sh "$pkgdir/usr/bin/netty-wolf-client"
+cat <<EOF > $pkgname.desktop
+[Desktop Entry]
+Type=Application
+Version=0.0.6.4
+Name="Netty Wolf Client (Git version)"
+Comment="Werewolf Game Client (Git version)"
+Path=/opt/netty-wolf
+Exec=/usr/bin/netty-wolf-client-git
+Terminal=false
+Categories=Games;Java;
+EOF
+    install -Dm644 $pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+}

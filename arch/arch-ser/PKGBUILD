@@ -1,0 +1,39 @@
+pkgname=('netty-wolf-server')
+pkgver='0.0.6.5'
+pkgrel=1
+pkgdesc="A Werewolf Game's Server."
+url="https://nopersonalinfo.freemyip.com"
+arch=('any')
+license=('GPL')
+depends=('jdk11-openjdk')
+conflicts=('netty-wolf-server-git')
+makedepends=('git')
+source=("$pkgname::git+https://github.com/151044/Netty-Wolf.git")
+sha512sums=('SKIP')
+prepare() {
+    cd $pkgname
+    chmod 755 "gradlew"
+}
+build() {
+    cd $pkgname
+    unset _JAVA_OPTIONS
+    GRADLE_USER_HOME="$srcdir" ./gradlew compileJava jar serverJar
+}
+package() {
+    install -Dm644 $pkgname/build/libs/Server-0.1.0.jar "$pkgdir/opt/netty-wolf/Server-0.1.0.jar"
+    echo "exec /usr/bin/java -jar '/opt/netty-wolf/Server-0.1.0.jar' "\$@"" > netty-wolf-server.sh
+    install -Dm755 netty-wolf-server.sh "$pkgdir/usr/bin/netty-wolf-server" 
+cat <<'EOF' > $pkgname.desktop
+[Desktop Entry] 
+Type=Application
+Version=0.0.6.3
+Name="Netty Wolf Server"
+Comment="Werewolf Game Server"
+Path=/opt/netty-wolf
+Exec=/usr/bin/netty-wolf-server
+Terminal=false
+Categories=Games;Java;
+EOF
+    install -Dm644 $pkgname.desktop $pkgdir/usr/share/applications/$pkgname.desktop
+}
+

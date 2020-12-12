@@ -19,8 +19,8 @@
 package com.colin.test;
 
 import com.colin.games.werewolf.client.gui.ChatPane;
-import com.colin.games.werewolf.client.gui.Diary;
-import com.colin.games.werewolf.client.gui.TabbedMainFrame;
+import com.colin.games.werewolf.client.gui.DiaryPane;
+import com.colin.games.werewolf.client.gui.MainFrame;
 import com.colin.games.werewolf.common.message.Message;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -28,7 +28,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TabbedMainFrameMockup extends JFrame {
-    private static TabbedMainFrame current = null;
+    private static MainFrame current = null;
     private final JTabbedPane tabs;
     private final ChatPane chat;
     public TabbedMainFrameMockup(String name){
@@ -38,8 +38,8 @@ public class TabbedMainFrameMockup extends JFrame {
         tabs = new JTabbedPane();
         chat = new ChatPane(name);
         tabs.addTab("Chat",chat);
-        tabs.addTab("Diary",new Diary());
-        addTab("Hello",new Diary());
+        tabs.addTab("Diary",new DiaryPane());
+        addTab("Hello",new DiaryPane());
         add(tabs);
         pack();
         setVisible(true);
@@ -47,13 +47,13 @@ public class TabbedMainFrameMockup extends JFrame {
     public void displayMsg(ChannelHandlerContext ignored, Message message) {
         chat.displayMsg(message);
     }
-    public static TabbedMainFrame getCurrent(){
+    public static MainFrame getCurrent(){
         if(current == null){
             throw new IllegalStateException("Current TabbedMainFrame is null!");
         }
         return current;
     }
-    public static void setCurrent(TabbedMainFrame toSet){
+    public static void setCurrent(MainFrame toSet){
         current = toSet;
     }
     public void addTab(String title,JPanel toAdd){

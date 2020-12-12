@@ -47,7 +47,7 @@ public class Init {
         Roles.register("Seer", Seer::new);
         Roles.register("Werewolf", Werewolf::new);
         Roles.register("Guard", Guard::new);
-        Roles.register("Hunter",Hunter::new);
+        Roles.register("Hunter", Hunter::new);
         PlayerCache.init("151044:Villager;151044a:Seer;Five-Nine:Werewolf;XDGUY:Guard;Eric...:Hunter");
     }
 }

@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Java CI with Gradle on Dev
 
 on:
   push:
@@ -20,8 +20,18 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.11
+    - name: Install SDL for Linux and MinGW-w64
+      run: sudo apt install build-essential mingw-w64 libsdl2-mixer-dev libsdl2-dev -y
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Compile natives
+      run: |
+        cd Client/src/natives
+        make linux
+        make win
+        ./zip_win.sh
+        ./tar_linux.sh
+        cd ../../../
     - name: Build with Gradle
       run: ./gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
     - name: Create Release
@@ -38,3 +48,5 @@ jobs:
             ./build/libs/Client-0.1.0.jar
             ./build/libs/ModStub-1.0.0.jar
             ./build/libs/Killer-Mod-Client-0.0.1.jar
+            ./Client/src/natives/win_dev.zip
+            ./Client/src/natives/linux_dev.tar.gz

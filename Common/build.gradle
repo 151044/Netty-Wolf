@@ -23,7 +23,7 @@ sourceSets {
     //noinspection GroovyAssignabilityCheck
     main {
         java {
-            srcDirs = ['src']
+            srcDirs = ['src/java']
         }
     }
 }
