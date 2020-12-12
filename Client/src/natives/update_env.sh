@@ -17,9 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-mkdir make_linux
-cp libaudio.a libaudio.so make_linux
-cp Audio.h make_linux
-tar -cvzf linux_dev.tar.gz make_linux
+curl -L https://github.com/151044/Netty-Wolf/releases/download/latest-dev-build/linux_dev.tar.gz > dev.tar.gz
+tar -xzvf dev.tar.gz
+mv make_linux/Audio.h make_linux/libaudio.a make_linux/libaudio.so ./
 rm -r make_linux
-
+rm dev.tar.gz

@@ -8,7 +8,7 @@ WIN_LIB = ./SDL2-2.0.12/x86_64-w64-mingw32/lib
 
 linux : $(OBJS)
 	gcc -fPIC -g -c $(OBJS) -o $(OBJ_NAME).o -lSDL2main -lSDL2 -lSDL2_mixer -Wall -g
-	gcc -shared -Wl,-soname,libaudio.so -o libaudio.so.1.0.1 sound_lib.o -lc
+	gcc -shared -Wl,-soname,libaudio.so -o libaudio.so sound_lib.o -lc
 
 win : $(OBJS)
 	x86_64-w64-mingw32-gcc -g -c $(OBJS) -o $(OBJ_NAME).o -I $(WIN_DEP) -L $(WIN_LIB) -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -mwindows -Wall -g -D Windows
