@@ -27,7 +27,7 @@ bool initSDL(){
         printf("SDL audio mixer cannot be initialized! Reason: %s", SDL_GetError());
         return false;
     }
-    musicPath = (char*) malloc(60 * sizeof(char));
+    musicPath = malloc(60 * sizeof(char));
     return true;
 }
 #ifdef Windows
