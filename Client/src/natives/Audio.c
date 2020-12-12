@@ -104,3 +104,10 @@ void quitSDL(){
     Mix_Quit();
     SDL_Quit();
 }
+#ifdef Windows
+export int getVolume(){
+#else
+int getVolume(){
+#endif
+    return Mix_VolumeMusic(-1);
+}
