@@ -11,7 +11,7 @@ int main(){
     return 0;
 }
 Mix_Music* music = NULL;
-char* musicPath = (char*) malloc(60 * sizeof(char));
+char* musicPath;
 bool initSDL(){
     SDL_SetMainReady();
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
@@ -22,6 +22,7 @@ bool initSDL(){
         printf("SDL audio mixer cannot be initialized! Reason: %s", SDL_GetError());
         return false;
     }
+    musicPath = (char*) malloc(60 * sizeof(char));
     return true;
 }
 bool playMusic(const char* path){
