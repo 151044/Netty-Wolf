@@ -74,7 +74,7 @@ public class Environment {
      * Gets the working directory of this game.
      * @return The path of the directory to put configs in
      */
-    public static Path workingDir(){
+    public static Path homeDir(){
         return Path.of(System.getProperty("user.home"));
     }
 

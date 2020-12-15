@@ -111,10 +111,10 @@ public class ClientMain {
         Audio.setVolume(30);
         /*When the icon is 64x64
         icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("resources/logo.png"));*/
-        Path root = Environment.workingDir().resolve(".netty-wolf");
+        Path root = Environment.homeDir().resolve(".config/.netty-wolf");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
-            if(!root.toFile().mkdir()){
+            if(!root.toFile().mkdirs()){
                 logger.error("Cannot write to the current directory and no game files detected!\n Exiting...");
                 System.exit(1);
             }
