@@ -24,22 +24,18 @@ jobs:
       run: |
         cd Client/src/natives
         ./download.sh
-        cd ../../../
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: chmod +x ../../../gradlew
     - name: Compile natives
       run: |
-          cd Client/src/natives
           make linux
           make win
           ./zip_win.sh
           ./tar_linux.sh
-          cd ../../../
     - name: Build with Gradle
-      run: ./gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
+      run: ../../../gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
     - name: Create release archives
       run: |
-        cd Client/src/natives
         ./release.sh
         cd ../../../
     - name: Create Release

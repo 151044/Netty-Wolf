@@ -40,6 +40,21 @@ public class Environment {
     private static boolean isModded = false;
     private static Side side;
     private static final Set<ModType> modified = new HashSet<>();
+    private static final OperatingSystem os;
+    static{
+        String osStr = System.getProperty("os.name");
+        if(osStr == null){
+            os = OperatingSystem.UNKNOWN;
+        }else if(osStr.contains("Linux")){
+            os = OperatingSystem.LINUX;
+        }else if(osStr.toLowerCase().contains("windows")){
+            os = OperatingSystem.WINDOWS;
+        }else if(osStr.toLowerCase().contains("mac")){
+            os = OperatingSystem.MAC;
+        }else{
+            os = OperatingSystem.UNKNOWN;
+        }
+    }
     private Environment(){
         throw new AssertionError();
     }
@@ -157,5 +172,11 @@ public class Environment {
         for (Window w : Window.getWindows()) {
             SwingUtilities.updateComponentTreeUI(w);
         }
+    }
+    public static OperatingSystem getOperatingSystem(){
+        return os;
+    }
+    public enum OperatingSystem{
+        WINDOWS,MAC,LINUX,UNKNOWN
     }
 }

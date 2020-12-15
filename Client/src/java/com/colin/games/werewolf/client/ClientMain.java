@@ -109,8 +109,6 @@ public class ClientMain {
         Audio.initSDL();
         Audio.playMusic("./geg.mp3");
         Audio.setVolume(30);
-        /*When the icon is 64x64
-        icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("resources/logo.png"));*/
         Path root = Environment.homeDir().resolve(".config/.netty-wolf");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
@@ -182,9 +180,4 @@ public class ClientMain {
         temp.addAppender(appender);
         return logging;
     }
-    /* When I get 64x64 icon
-    public static Image getIcon(){
-        return icon;
-    }
-     */
 }
