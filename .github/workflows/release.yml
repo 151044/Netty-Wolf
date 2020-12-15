@@ -25,7 +25,7 @@ jobs:
         cd Client/src/natives
         ./download.sh
     - name: Grant execute permission for gradlew
-      run: chmod +x ../../.././gradlew
+      run: chmod +x gradlew
     - name: Compile natives
       run: |
           make linux
@@ -33,7 +33,7 @@ jobs:
           ./zip_win.sh
           ./tar_linux.sh
     - name: Build with Gradle
-      run: ../../.././gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
+      run: gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
     - name: Create release archives
       run: |
         ./release.sh
