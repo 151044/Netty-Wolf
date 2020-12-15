@@ -28,6 +28,7 @@ jobs:
       run: chmod +x gradlew
     - name: Compile natives
       run: |
+          cd Client/src/natives
           make linux
           make win
           ./zip_win.sh
@@ -36,6 +37,7 @@ jobs:
       run: gradlew compileJava jar clientJar serverJar modStubJar killerClientJar --stacktrace --info
     - name: Create release archives
       run: |
+        cd Client/src/natives
         ./release.sh
         cd ../../../
     - name: Create Release
