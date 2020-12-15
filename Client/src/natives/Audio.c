@@ -105,9 +105,23 @@ void quitSDL(){
     SDL_Quit();
 }
 #ifdef Windows
-export int getVolume(){
+export int getMusicVolume(){
 #else
 int getVolume(){
 #endif
     return Mix_VolumeMusic(-1);
+}
+#ifdef Windows
+export void setMusicVolume(int i){
+#else
+void setMusicVolume(int i){
+#endif
+    Mix_VolumeMusic(i);
+}
+#ifdef Windows
+export void setSoundVolume(int i){
+#else
+void setSoundVolume(int i){
+#endif
+    Mix_Volume(-1,i);
 }
