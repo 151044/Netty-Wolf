@@ -111,7 +111,7 @@ public class ClientMain {
             Audio.playMusic("./geg.mp3");
             Audio.setVolume(30);
         }else{
-            logger.warn("You appear to be using a Mac. Music support for Mac is not available yet.");
+            logger.warn("You appear to be using Mac OS. Music support for Mac OS is not available yet.");
             logger.warn("No sounds will be played.");
         }
         Path root = Environment.homeDir().resolve(".config/.netty-wolf");
