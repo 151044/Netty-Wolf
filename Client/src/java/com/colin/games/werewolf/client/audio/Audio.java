@@ -18,11 +18,16 @@
 
 package com.colin.games.werewolf.client.audio;
 
+import com.colin.games.werewolf.common.Environment;
 import com.sun.jna.Native;
 
 public class Audio {
+    private static boolean isLoaded = false;
     static{
-        Native.register("audio");
+        if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
+            Native.register("audio");
+            isLoaded = true;
+        }
     }
     public static native boolean initSDL();
     public static native String getPlaying();
@@ -31,4 +36,9 @@ public class Audio {
     public static native void setVolume(int vol);
     public static native void quitSDL();
     public static native int getVolume();
+    public static native void setMusicVolume();
+    public static native void setSoundVolume();
+    public static boolean isSoundLoaded(){
+        return isLoaded;
+    }
 }

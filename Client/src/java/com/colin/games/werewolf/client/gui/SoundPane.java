@@ -32,7 +32,6 @@ public class SoundPane extends JPanel {
             }
             Audio.setVolume((int) (volume.getValue() / 100.0f * 128));
         });
-        //Turn on labels at major tick marks.
         volume.setMajorTickSpacing(20);
         volume.setMinorTickSpacing(5);
         volume.setPaintTicks(true);
@@ -42,6 +41,7 @@ public class SoundPane extends JPanel {
         layout.add(new JLabel("Volume:"));
         layout.add(volume);
         add(layout);
+
     }
 
 }

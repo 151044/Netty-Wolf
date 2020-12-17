@@ -106,9 +106,14 @@ public class ClientMain {
         env.put("create", "true");
         FileSystem zip = FileSystems.newFileSystem(uri, env);
         logger.info("Starting audio subsystem...");
-        Audio.initSDL();
-        Audio.playMusic("./geg.mp3");
-        Audio.setVolume(30);
+        if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
+            Audio.initSDL();
+            Audio.playMusic("./geg.mp3");
+            Audio.setVolume(30);
+        }else{
+            logger.warn("You appear to be using a Mac. Music support for Mac is not available yet.");
+            logger.warn("No sounds will be played.");
+        }
         Path root = Environment.homeDir().resolve(".config/.netty-wolf");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
