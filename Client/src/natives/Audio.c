@@ -14,10 +14,10 @@ Mix_Music* music = NULL;
 char* musicPath;
 #ifdef Windows
 #define export __declspec(dllexport)
-export bool initSDL(){
 #else
-bool initSDL(){
+#define export
 #endif
+export bool initSDL(){
     SDL_SetMainReady();
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
         printf("SDL audio backend cannot be initialized! Reason: %s", SDL_GetError());
@@ -30,11 +30,7 @@ bool initSDL(){
     musicPath = malloc(60 * sizeof(char));
     return true;
 }
-#ifdef Windows
 export bool playMusic(const char* path){
-#else
-bool playMusic(const char* path){
-#endif
     if(music != NULL || Mix_PlayingMusic() != 0){
         Mix_HaltMusic();
         Mix_FreeMusic(music);
@@ -53,11 +49,7 @@ bool playMusic(const char* path){
     strcpy(musicPath,path);
     return true;
 }
-#ifdef Windows
 export bool playSound(const char* path, bool stopMus){
-#else
-bool playSound(const char* path, bool stopMus){
-#endif
     int isPaused = Mix_PausedMusic();
     if(stopMus){
         if(isPaused != 1){
@@ -79,49 +71,25 @@ bool playSound(const char* path, bool stopMus){
     }
     return true;
 }
-#ifdef Windows
 export char* getPlaying(){
-#else
-char* getPlaying(){
-#endif
     return musicPath;
 }
 //0 to 128
-#ifdef Windows
 export void setVolume(int i){
-#else
-void setVolume(int i){
-#endif
     Mix_Volume(-1,i);
     Mix_VolumeMusic(i);
 }
-#ifdef Windows
 export void quitSDL(){
-#else
-void quitSDL(){
-#endif
     free(musicPath);
     Mix_Quit();
     SDL_Quit();
 }
-#ifdef Windows
 export int getMusicVolume(){
-#else
-int getVolume(){
-#endif
     return Mix_VolumeMusic(-1);
 }
-#ifdef Windows
 export void setMusicVolume(int i){
-#else
-void setMusicVolume(int i){
-#endif
     Mix_VolumeMusic(i);
 }
-#ifdef Windows
 export void setSoundVolume(int i){
-#else
-void setSoundVolume(int i){
-#endif
     Mix_Volume(-1,i);
 }
