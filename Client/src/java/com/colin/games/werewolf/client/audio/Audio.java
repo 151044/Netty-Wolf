@@ -41,4 +41,7 @@ public class Audio {
     public static boolean isSoundLoaded(){
         return isLoaded;
     }
+    public static void setSoundAvailable(boolean b){
+        isLoaded = b;
+    }
 }

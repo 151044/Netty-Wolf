@@ -49,7 +49,6 @@ import java.util.*;
 public class ClientMain {
     private static OutputFrame log;
     private static Config conf;
-    //private static Image icon;
     private ClientMain(){
         throw new AssertionError();
     }
@@ -107,9 +106,11 @@ public class ClientMain {
         FileSystem zip = FileSystems.newFileSystem(uri, env);
         logger.info("Starting audio subsystem...");
         if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
-            Audio.initSDL();
-            Audio.playMusic("./geg.mp3");
-            Audio.setVolume(30);
+            Audio.setSoundAvailable(Audio.initSDL());
+            if(!Audio.isSoundLoaded()) {
+                Audio.playMusic("./geg.mp3");
+                Audio.setVolume(30);
+            }
         }else{
             logger.warn("You appear to be using Mac OS. Music support for Mac OS is not available yet.");
             logger.warn("No sounds will be played.");

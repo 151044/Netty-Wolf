@@ -53,7 +53,7 @@ public interface Role {
 
     /**
      * Gets the pane where player action is taken on a call to {@link #action(ChannelHandlerContext, Message) action(ChannelHandlerContext, Message)} is received.
-     * @return The panne where action occurs
+     * @return The pane where action occurs
      */
     WrapperPane getActionPane();
 }

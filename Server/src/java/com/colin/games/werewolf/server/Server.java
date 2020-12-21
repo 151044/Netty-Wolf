@@ -43,7 +43,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The actual server instance.
@@ -182,7 +181,7 @@ public class Server {
                 GameState.clearKilled();
                 new Thread(() -> {
                     try {
-                        Thread.sleep(waitTime * 1000);
+                        Thread.sleep(waitTime * 1000L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -276,7 +275,7 @@ public class Server {
                 }
             }
             ctx.channel().flush();
-            ctx.channel().write(new Message("server_mod_query",ModLoader.allNames().stream().collect(Collectors.joining(";"))));
+            ctx.channel().write(new Message("server_mod_query", String.join(";", ModLoader.allNames())));
         });
     }
     private static void lateInitMods(){

@@ -38,7 +38,7 @@ public interface GameCondition {
 
     /**
      * Resolves the given game condition with the current one to see which on should take priority.
-     * @return
+     * @return The correct game condition with respect t this one
      */
     default GameCondition resolve(GameCondition game){
         if(this.hasWon() && game.hasWon()){

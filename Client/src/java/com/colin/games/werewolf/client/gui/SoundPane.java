@@ -27,10 +27,9 @@ public class SoundPane extends JPanel {
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         JSlider volume = new JSlider(JSlider.HORIZONTAL,0,100,30);
         volume.addChangeListener((ce) -> {
-            if(volume.getValueIsAdjusting()){
-                return;
+            if(volume.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
+                Audio.setVolume((int) (volume.getValue() / 100.0f * 128));
             }
-            Audio.setVolume((int) (volume.getValue() / 100.0f * 128));
         });
         volume.setMajorTickSpacing(20);
         volume.setMinorTickSpacing(5);
