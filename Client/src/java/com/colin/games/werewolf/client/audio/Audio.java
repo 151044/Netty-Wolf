@@ -32,7 +32,9 @@ public class Audio {
             isLoaded = true;
         }
     }
-
+    private Audio(){
+        throw new AssertionError("The audio system uses static methods exclusively. No instances should be created.");
+    }
     /**
      * Initializes SDL. Needs to be called first.
      * @return True if initialization succeeds, false otherwise

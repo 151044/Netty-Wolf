@@ -22,7 +22,13 @@ import com.colin.games.werewolf.client.audio.Audio;
 
 import javax.swing.*;
 
+/**
+ * The pane controlling sound effects.
+ */
 public class SoundPane extends JPanel {
+    /**
+     * Creates a new SoundPane.
+     */
     public SoundPane(){
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         JSlider music = new JSlider(JSlider.HORIZONTAL, 0,100,30);
