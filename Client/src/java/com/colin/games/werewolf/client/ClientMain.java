@@ -103,6 +103,7 @@ public class ClientMain {
         final URI uri = ClientMain.class.getResource("/resources").toURI();
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
+        //Somehow necessary?
         FileSystem zip = FileSystems.newFileSystem(uri, env);
         logger.info("Starting audio subsystem...");
         if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
@@ -161,6 +162,11 @@ public class ClientMain {
                 Environment.setModded(false);
             }
             ModLoader.getLoaded().forEach(Mod::init);
+        }
+        if(Audio.isSoundLoaded()){
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                Audio.quitSDL();
+            }));
         }
         new StartMenu();
     }
