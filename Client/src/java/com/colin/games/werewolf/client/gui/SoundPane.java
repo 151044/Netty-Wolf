@@ -25,11 +25,31 @@ import javax.swing.*;
 public class SoundPane extends JPanel {
     public SoundPane(){
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JSlider music = new JSlider(JSlider.HORIZONTAL, 0,100,30);
+        music.setMajorTickSpacing(20);
+        music.setMinorTickSpacing(5);
+        music.setPaintTicks(true);
+        music.setPaintLabels(true);
+        JPanel mPanel = new JPanel();
+        mPanel.setLayout(new BoxLayout(mPanel,BoxLayout.X_AXIS));
+        mPanel.add(new JLabel("Music:"));
+        mPanel.add(music);
+        JSlider sounds = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        sounds.setMajorTickSpacing(20);
+        sounds.setMinorTickSpacing(5);
+        sounds.setPaintTicks(true);
+        sounds.setPaintLabels(true);
+        JPanel sPanel = new JPanel();
+        sPanel.setLayout(new BoxLayout(sPanel, BoxLayout.X_AXIS));
+        sPanel.add(new JLabel("Sounds:"));
+        sPanel.add(sounds);
         JSlider volume = new JSlider(JSlider.HORIZONTAL,0,100,30);
         volume.addChangeListener((ce) -> {
             if(volume.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
                 Audio.setVolume((int) (volume.getValue() / 100.0f * 128));
             }
+            music.setValue(volume.getValue());
+            sounds.setValue(volume.getValue());
         });
         volume.setMajorTickSpacing(20);
         volume.setMinorTickSpacing(5);
@@ -37,10 +57,11 @@ public class SoundPane extends JPanel {
         volume.setPaintLabels(true);
         JPanel layout = new JPanel();
         layout.setLayout(new BoxLayout(layout,BoxLayout.X_AXIS));
-        layout.add(new JLabel("Volume:"));
+        layout.add(new JLabel("Master Volume:"));
         layout.add(volume);
         add(layout);
-
+        add(mPanel);
+        add(sPanel);
     }
 
 }

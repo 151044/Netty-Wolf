@@ -35,7 +35,6 @@ public class Audio {
     public static native boolean playSound(String path, boolean suspendMusic);
     public static native void setVolume(int vol);
     public static native void quitSDL();
-    public static native int getVolume();
     public static native void setMusicVolume();
     public static native void setSoundVolume();
     public static boolean isSoundLoaded(){
