@@ -107,8 +107,10 @@ public class ClientMain {
         logger.info("Starting audio subsystem...");
         if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
             Audio.setSoundAvailable(Audio.initSDL());
-            if(!Audio.isSoundLoaded()) {
-                Audio.playMusic("./geg.mp3");
+            if(Audio.isSoundLoaded()) {
+                if(!Audio.playMusic("./geg.mp3")){
+                    logger.warn("Music cannot be found!");
+                }
                 Audio.setVolume(30);
             }
         }else{

@@ -8,3 +8,4 @@ void quitSDL();
 int getMusicVolume();
 void setMusicVolume(int i);
 void setSoundVolume(int i);
+bool isPlayingMusic();

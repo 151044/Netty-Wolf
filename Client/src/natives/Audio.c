@@ -28,6 +28,8 @@ export bool initSDL(){
         return false;
     }
     musicPath = malloc(60 * sizeof(char));
+    Mix_AllocateChannels(2);
+    fflush(stdout);
     return true;
 }
 export bool playMusic(const char* path){
@@ -40,13 +42,17 @@ export bool playMusic(const char* path){
         printf("Failed to load music! Reason: %s", Mix_GetError());
         return false;
     }
-    Mix_PlayMusic(music,-1);
+    if(Mix_PlayMusic(music,-1) == -1){
+        printf("Mix_PlayMusic: %s\n", Mix_GetError());
+        return false;
+    }
     if(sizeof(musicPath) <= strlen(path) * sizeof(char)){
         if(!realloc(musicPath,(strlen(path) + 2) * sizeof(char))){
             return false;
         }
     }
     strcpy(musicPath,path);
+    fflush(stdout);
     return true;
 }
 export bool playSound(const char* path, bool stopMus){
@@ -69,6 +75,7 @@ export bool playSound(const char* path, bool stopMus){
             Mix_ResumeMusic();
         }
     }
+    fflush(stdout);
     return true;
 }
 export char* getPlaying(){
@@ -92,4 +99,7 @@ export void setMusicVolume(int i){
 }
 export void setSoundVolume(int i){
     Mix_Volume(-1,i);
+}
+export bool isPlayingMusic(){
+    return Mix_PlayingMusic() == 0;
 }

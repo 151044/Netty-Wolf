@@ -35,12 +35,14 @@ public class Audio {
     public static native boolean playSound(String path, boolean suspendMusic);
     public static native void setVolume(int vol);
     public static native void quitSDL();
-    public static native void setMusicVolume();
-    public static native void setSoundVolume();
+    public static native void setMusicVolume(int i);
+    public static native void setSoundVolume(int i);
+    public static native boolean isPlayingMusic();
     public static boolean isSoundLoaded(){
         return isLoaded;
     }
     public static void setSoundAvailable(boolean b){
         isLoaded = b;
     }
+    public static native int getMusicVolume();
 }

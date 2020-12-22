@@ -34,6 +34,11 @@ public class SoundPane extends JPanel {
         mPanel.setLayout(new BoxLayout(mPanel,BoxLayout.X_AXIS));
         mPanel.add(new JLabel("Music:"));
         mPanel.add(music);
+        music.addChangeListener(ce -> {
+            if(music.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
+                Audio.setMusicVolume((int) (music.getValue() / 100.0f * 128));
+            }
+        });
         JSlider sounds = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
         sounds.setMajorTickSpacing(20);
         sounds.setMinorTickSpacing(5);
@@ -43,6 +48,11 @@ public class SoundPane extends JPanel {
         sPanel.setLayout(new BoxLayout(sPanel, BoxLayout.X_AXIS));
         sPanel.add(new JLabel("Sounds:"));
         sPanel.add(sounds);
+        sounds.addChangeListener(ce -> {
+            if(sounds.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
+                Audio.setSoundVolume((int) (sounds.getValue() / 100.0f * 128));
+            }
+        });
         JSlider volume = new JSlider(JSlider.HORIZONTAL,0,100,30);
         volume.addChangeListener((ce) -> {
             if(volume.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
