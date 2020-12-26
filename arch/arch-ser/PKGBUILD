@@ -1,11 +1,11 @@
 pkgname=('netty-wolf-server')
-pkgver='0.0.6.5'
+pkgver='0.0.7.0'
 pkgrel=1
 pkgdesc="A Werewolf Game's Server."
 url="https://nopersonalinfo.freemyip.com"
 arch=('any')
 license=('GPL')
-depends=('jdk11-openjdk')
+depends=('jdk11-openjdk' 'sdl2' 'sdl2_mixer')
 conflicts=('netty-wolf-server-git')
 makedepends=('git')
 source=("$pkgname::git+https://github.com/151044/Netty-Wolf.git")
@@ -17,11 +17,15 @@ prepare() {
 build() {
     cd $pkgname
     unset _JAVA_OPTIONS
+    cd Client/src/natives/
+    make linux
+    cd ../../../
     GRADLE_USER_HOME="$srcdir" ./gradlew compileJava jar serverJar
 }
 package() {
     install -Dm644 $pkgname/build/libs/Server-0.1.0.jar "$pkgdir/opt/netty-wolf/Server-0.1.0.jar"
-    echo "exec /usr/bin/java -jar '/opt/netty-wolf/Server-0.1.0.jar' "\$@"" > netty-wolf-server.sh
+    install -Dm644 $pkgname/Client/src/natives/libaudio.so "$pkgdir/opt/netty-wolf/libaudio.so"
+    echo "LD_LIBRARY_PATH=/opt/netty-wolf:\$LD_LIBRARY_PATH exec /usr/bin/java -jar '/opt/netty-wolf/Server-0.1.0.jar' "\$@"" > netty-wolf-server.sh
     install -Dm755 netty-wolf-server.sh "$pkgdir/usr/bin/netty-wolf-server" 
 cat <<'EOF' > $pkgname.desktop
 [Desktop Entry] 

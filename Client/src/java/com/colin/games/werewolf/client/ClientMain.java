@@ -129,7 +129,7 @@ public class ClientMain {
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
             if(!root.toFile().mkdirs()){
-                logger.error("Cannot write to the current directory and no game files detected!\n Exiting...");
+                logger.error("Cannot write to the store directory " + root + " and no game files detected!\n Exiting...");
                 System.exit(1);
             }
             logger.info("Initializing configuration files...");
