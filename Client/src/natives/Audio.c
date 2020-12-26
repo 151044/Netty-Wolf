@@ -28,7 +28,6 @@ export bool initSDL(){
         return false;
     }
     musicPath = malloc(60 * sizeof(char));
-    Mix_AllocateChannels(2);
     fflush(stdout);
     return true;
 }

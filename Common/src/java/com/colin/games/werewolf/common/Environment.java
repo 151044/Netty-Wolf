@@ -179,4 +179,13 @@ public class Environment {
     public enum OperatingSystem{
         WINDOWS,MAC,LINUX,UNKNOWN
     }
+    public static Path getStorePath(){
+        if(os.equals(OperatingSystem.MAC)){
+            return Path.of("~/Library/Application Support/Netty-Wolf/");
+        }else if(os.equals(OperatingSystem.LINUX)){
+            return Path.of("~/.local/share/Netty-Wolf/");
+        }else{
+            return Path.of("C:\\Users\\userName\\AppData\\Roaming\\Netty-Wolf");
+        }
+    }
 }

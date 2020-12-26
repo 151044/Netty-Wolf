@@ -118,7 +118,7 @@ public class ClientMain {
             logger.warn("You appear to be using Mac OS. Music support for Mac OS is not available yet.");
             logger.warn("No sounds will be played.");
         }
-        Path root = Environment.homeDir().resolve(".config/.netty-wolf");
+        Path root = Environment.getStorePath().resolve("configs");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
             if(!root.toFile().mkdirs()){
