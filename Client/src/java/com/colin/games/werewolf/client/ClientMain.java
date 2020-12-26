@@ -36,10 +36,12 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -106,10 +108,15 @@ public class ClientMain {
         //Somehow necessary?
         FileSystem zip = FileSystems.newFileSystem(uri, env);
         logger.info("Starting audio subsystem...");
+        InputStream in = ClassLoader.getSystemResourceAsStream("resources/geg.mp3");
+        Path tempFile = Files.createTempFile("nw","mus.mp3");
+        tempFile.toFile().deleteOnExit();
+        Files.write(tempFile,in.readAllBytes());
+        in.close();
         if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
             Audio.setSoundAvailable(Audio.initSDL());
             if(Audio.isSoundLoaded()) {
-                if(!Audio.playMusic("./geg.mp3")){
+                if(!Audio.playMusic(tempFile.toString())){
                     logger.warn("Music cannot be found!");
                 }
                 Audio.setVolume(30);
