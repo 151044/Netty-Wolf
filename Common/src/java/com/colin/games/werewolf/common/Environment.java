@@ -183,7 +183,7 @@ public class Environment {
         if(os.equals(OperatingSystem.MAC)){
             return Path.of("~/Library/Application Support/Netty-Wolf/");
         }else if(os.equals(OperatingSystem.LINUX)){
-            return Path.of("~/.local/share/Netty-Wolf/");
+            return homeDir().resolve(Path.of("/.local/share/Netty-Wolf/"));
         }else{
             return Path.of("C:\\Users\\userName\\AppData\\Roaming\\Netty-Wolf");
         }
