@@ -40,6 +40,21 @@ public class Environment {
     private static boolean isModded = false;
     private static Side side;
     private static final Set<ModType> modified = new HashSet<>();
+    private static final OperatingSystem os;
+    static{
+        String osStr = System.getProperty("os.name");
+        if(osStr == null){
+            os = OperatingSystem.UNKNOWN;
+        }else if(osStr.contains("Linux")){
+            os = OperatingSystem.LINUX;
+        }else if(osStr.toLowerCase().contains("windows")){
+            os = OperatingSystem.WINDOWS;
+        }else if(osStr.toLowerCase().contains("mac")){
+            os = OperatingSystem.MAC;
+        }else{
+            os = OperatingSystem.UNKNOWN;
+        }
+    }
     private Environment(){
         throw new AssertionError();
     }
@@ -74,7 +89,7 @@ public class Environment {
      * Gets the working directory of this game.
      * @return The path of the directory to put configs in
      */
-    public static Path workingDir(){
+    public static Path homeDir(){
         return Path.of(System.getProperty("user.home"));
     }
 
@@ -156,6 +171,21 @@ public class Environment {
         }
         for (Window w : Window.getWindows()) {
             SwingUtilities.updateComponentTreeUI(w);
+        }
+    }
+    public static OperatingSystem getOperatingSystem(){
+        return os;
+    }
+    public enum OperatingSystem{
+        WINDOWS,MAC,LINUX,UNKNOWN
+    }
+    public static Path getStorePath(){
+        if(os.equals(OperatingSystem.MAC)){
+            return homeDir().resolve(Path.of("~/Library/Application Support/Netty-Wolf/"));
+        }else if(os.equals(OperatingSystem.LINUX)){
+            return homeDir().resolve(Path.of("/.local/share/Netty-Wolf/"));
+        }else{
+            return homeDir().resolve("\\AppData\\Roaming\\Netty-Wolf");
         }
     }
 }

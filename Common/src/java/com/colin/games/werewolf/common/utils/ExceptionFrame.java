@@ -55,7 +55,7 @@ public class ExceptionFrame extends JFrame {
                 //The commented lines are for Java 8
                 /*List<String> temp = new ArrayList<>();
                 temp.add(getMsg(ex,t));*/
-                Files.write(Environment.workingDir().resolve("netty-wolf-exception-" + LocalDateTime.now().toString().replace(':','_') + ".txt"),List.of(getMsg(ex,t)/*temp*/));
+                Files.write(Environment.homeDir().resolve("netty-wolf-exception-" + LocalDateTime.now().toString().replace(':','_') + ".txt"),List.of(getMsg(ex,t)/*temp*/));
             } catch (IOException e) {
                 System.exit(1);
             }

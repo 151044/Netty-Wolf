@@ -22,26 +22,62 @@ import com.colin.games.werewolf.client.audio.Audio;
 
 import javax.swing.*;
 
+/**
+ * The pane controlling sound effects.
+ */
 public class SoundPane extends JPanel {
+    /**
+     * Creates a new SoundPane.
+     */
     public SoundPane(){
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        JSlider music = new JSlider(JSlider.HORIZONTAL, 0,100,30);
+        music.setMajorTickSpacing(20);
+        music.setMinorTickSpacing(5);
+        music.setPaintTicks(true);
+        music.setPaintLabels(true);
+        JPanel mPanel = new JPanel();
+        mPanel.setLayout(new BoxLayout(mPanel,BoxLayout.X_AXIS));
+        mPanel.add(new JLabel("Music:"));
+        mPanel.add(music);
+        music.addChangeListener(ce -> {
+            if(music.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
+                Audio.setMusicVolume((int) (music.getValue() / 100.0f * 128));
+            }
+        });
+        JSlider sounds = new JSlider(JSlider.HORIZONTAL, 0, 100, 30);
+        sounds.setMajorTickSpacing(20);
+        sounds.setMinorTickSpacing(5);
+        sounds.setPaintTicks(true);
+        sounds.setPaintLabels(true);
+        JPanel sPanel = new JPanel();
+        sPanel.setLayout(new BoxLayout(sPanel, BoxLayout.X_AXIS));
+        sPanel.add(new JLabel("Sounds:"));
+        sPanel.add(sounds);
+        sounds.addChangeListener(ce -> {
+            if(sounds.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
+                Audio.setSoundVolume((int) (sounds.getValue() / 100.0f * 128));
+            }
+        });
         JSlider volume = new JSlider(JSlider.HORIZONTAL,0,100,30);
         volume.addChangeListener((ce) -> {
-            if(volume.getValueIsAdjusting()){
-                return;
+            if(volume.getValueIsAdjusting() || !(Audio.isSoundLoaded())){
+                Audio.setVolume((int) (volume.getValue() / 100.0f * 128));
             }
-            Audio.setVolume((int) (volume.getValue() / 100.0f * 128));
+            music.setValue(volume.getValue());
+            sounds.setValue(volume.getValue());
         });
-        //Turn on labels at major tick marks.
         volume.setMajorTickSpacing(20);
         volume.setMinorTickSpacing(5);
         volume.setPaintTicks(true);
         volume.setPaintLabels(true);
         JPanel layout = new JPanel();
         layout.setLayout(new BoxLayout(layout,BoxLayout.X_AXIS));
-        layout.add(new JLabel("Volume:"));
+        layout.add(new JLabel("Master Volume:"));
         layout.add(volume);
         add(layout);
+        add(mPanel);
+        add(sPanel);
     }
 
 }

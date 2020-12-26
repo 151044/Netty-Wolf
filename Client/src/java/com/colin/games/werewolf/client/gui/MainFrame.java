@@ -78,8 +78,6 @@ public class MainFrame extends JFrame {
      * @param toAdd The panel to add
      */
     public void addTab(String title,JPanel toAdd){
-        SwingUtilities.invokeLater(() -> {
-            tabs.addTab(title, toAdd);
-        });
+        SwingUtilities.invokeLater(() -> tabs.addTab(title, toAdd));
     }
 }

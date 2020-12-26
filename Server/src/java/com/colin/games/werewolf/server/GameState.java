@@ -37,7 +37,7 @@ public class GameState {
     }
     private static final Map<String,Boolean> isAlive = new HashMap<>();
     private static String killedByWolf = "I'M_A_LITTLE_ERROR,_SHORT_AND_STOUT";
-    private static List<String> toKill = new ArrayList<>();
+    private static final List<String> toKill = new ArrayList<>();
     private static final Map<String,BitSet> cache = new HashMap<>();
     private static final List<String> killed = new ArrayList<>();
     private static final List<Function<Map<String,Boolean>,GameCondition>> functions = new ArrayList<>();

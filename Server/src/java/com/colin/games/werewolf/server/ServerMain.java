@@ -95,7 +95,7 @@ public class ServerMain {
             }
             new ExceptionFrame((Exception) ex,t);
         });
-        Path root = Environment.workingDir().resolve(".netty-wolf-server");
+        Path root = Environment.homeDir().resolve(".netty-wolf-server");
         if(!root.toFile().exists()){
             logger.info("Creating server directory...");
             if(!root.toFile().mkdir()){

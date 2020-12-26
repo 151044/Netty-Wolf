@@ -14,10 +14,10 @@ Mix_Music* music = NULL;
 char* musicPath;
 #ifdef Windows
 #define export __declspec(dllexport)
-export bool initSDL(){
 #else
-bool initSDL(){
+#define export
 #endif
+export bool initSDL(){
     SDL_SetMainReady();
     if(SDL_Init(SDL_INIT_AUDIO) < 0){
         printf("SDL audio backend cannot be initialized! Reason: %s", SDL_GetError());
@@ -28,13 +28,10 @@ bool initSDL(){
         return false;
     }
     musicPath = malloc(60 * sizeof(char));
+    fflush(stdout);
     return true;
 }
-#ifdef Windows
 export bool playMusic(const char* path){
-#else
-bool playMusic(const char* path){
-#endif
     if(music != NULL || Mix_PlayingMusic() != 0){
         Mix_HaltMusic();
         Mix_FreeMusic(music);
@@ -44,20 +41,20 @@ bool playMusic(const char* path){
         printf("Failed to load music! Reason: %s", Mix_GetError());
         return false;
     }
-    Mix_PlayMusic(music,-1);
+    if(Mix_PlayMusic(music,-1) == -1){
+        printf("Mix_PlayMusic: %s\n", Mix_GetError());
+        return false;
+    }
     if(sizeof(musicPath) <= strlen(path) * sizeof(char)){
         if(!realloc(musicPath,(strlen(path) + 2) * sizeof(char))){
             return false;
         }
     }
     strcpy(musicPath,path);
+    fflush(stdout);
     return true;
 }
-#ifdef Windows
 export bool playSound(const char* path, bool stopMus){
-#else
-bool playSound(const char* path, bool stopMus){
-#endif
     int isPaused = Mix_PausedMusic();
     if(stopMus){
         if(isPaused != 1){
@@ -77,37 +74,31 @@ bool playSound(const char* path, bool stopMus){
             Mix_ResumeMusic();
         }
     }
+    fflush(stdout);
     return true;
 }
-#ifdef Windows
 export char* getPlaying(){
-#else
-char* getPlaying(){
-#endif
     return musicPath;
 }
 //0 to 128
-#ifdef Windows
 export void setVolume(int i){
-#else
-void setVolume(int i){
-#endif
     Mix_Volume(-1,i);
     Mix_VolumeMusic(i);
 }
-#ifdef Windows
 export void quitSDL(){
-#else
-void quitSDL(){
-#endif
     free(musicPath);
     Mix_Quit();
     SDL_Quit();
 }
-#ifdef Windows
-export int getVolume(){
-#else
-int getVolume(){
-#endif
+export int getMusicVolume(){
     return Mix_VolumeMusic(-1);
+}
+export void setMusicVolume(int i){
+    Mix_VolumeMusic(i);
+}
+export void setSoundVolume(int i){
+    Mix_Volume(-1,i);
+}
+export bool isPlayingMusic(){
+    return Mix_PlayingMusic() == 0;
 }

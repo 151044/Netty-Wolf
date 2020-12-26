@@ -36,10 +36,12 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -49,7 +51,6 @@ import java.util.*;
 public class ClientMain {
     private static OutputFrame log;
     private static Config conf;
-    //private static Image icon;
     private ClientMain(){
         throw new AssertionError();
     }
@@ -104,17 +105,30 @@ public class ClientMain {
         final URI uri = ClientMain.class.getResource("/resources").toURI();
         Map<String, String> env = new HashMap<>();
         env.put("create", "true");
+        //Somehow necessary?
         FileSystem zip = FileSystems.newFileSystem(uri, env);
         logger.info("Starting audio subsystem...");
-        Audio.initSDL();
-        Audio.playMusic("./geg.mp3");
-        Audio.setVolume(30);
-        /*When the icon is 64x64
-        icon = Toolkit.getDefaultToolkit().createImage(ClassLoader.getSystemResource("resources/logo.png"));*/
-        Path root = Environment.workingDir().resolve(".netty-wolf");
+        InputStream in = ClassLoader.getSystemResourceAsStream("resources/geg.mp3");
+        Path tempFile = Files.createTempFile("nw","mus.mp3");
+        tempFile.toFile().deleteOnExit();
+        Files.write(tempFile,in.readAllBytes());
+        in.close();
+        if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
+            Audio.setSoundAvailable(Audio.initSDL());
+            if(Audio.isSoundLoaded()) {
+                if(!Audio.playMusic(tempFile.toString())){
+                    logger.warn("Music cannot be found!");
+                }
+                Audio.setVolume(30);
+            }
+        }else{
+            logger.warn("You appear to be using Mac OS. Music support for Mac OS is not available yet.");
+            logger.warn("No sounds will be played.");
+        }
+        Path root = Environment.getStorePath().resolve("configs");
         if(!root.toFile().exists()){
             logger.info("Creating game directory...");
-            if(!root.toFile().mkdir()){
+            if(!root.toFile().mkdirs()){
                 logger.error("Cannot write to the current directory and no game files detected!\n Exiting...");
                 System.exit(1);
             }
@@ -156,6 +170,11 @@ public class ClientMain {
             }
             ModLoader.getLoaded().forEach(Mod::init);
         }
+        if(Audio.isSoundLoaded()){
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                Audio.quitSDL();
+            }));
+        }
         new StartMenu();
     }
     private static void initConfig(Path root) throws IOException {
@@ -182,9 +201,4 @@ public class ClientMain {
         temp.addAppender(appender);
         return logging;
     }
-    /* When I get 64x64 icon
-    public static Image getIcon(){
-        return icon;
-    }
-     */
 }
