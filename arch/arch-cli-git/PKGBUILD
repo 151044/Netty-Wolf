@@ -1,5 +1,5 @@
 pkgname=('netty-wolf-client-git')
-pkgver='0.0.7.0.r201226.6'
+pkgver='0.0.7.0.r201226.8'
 pkgrel=1
 pkgdesc="A Werewolf Game's Client (Git version)."
 url="https://nopersonalinfo.freemyip.com"

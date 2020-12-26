@@ -24,8 +24,7 @@ build() {
 }
 package() {
     install -Dm644 $pkgname/build/libs/Server-0.1.0.jar "$pkgdir/opt/netty-wolf/Server-0.1.0.jar"
-    install -Dm644 $pkgname/Client/src/natives/libaudio.so "$pkgdir/opt/netty-wolf/libaudio.so"
-    echo "LD_LIBRARY_PATH=/opt/netty-wolf:\$LD_LIBRARY_PATH exec /usr/bin/java -jar '/opt/netty-wolf/Server-0.1.0.jar' "\$@"" > netty-wolf-server.sh
+    echo "exec /usr/bin/java -jar '/opt/netty-wolf/Server-0.1.0.jar' "\$@"" > netty-wolf-server.sh
     install -Dm755 netty-wolf-server.sh "$pkgdir/usr/bin/netty-wolf-server" 
 cat <<'EOF' > $pkgname.desktop
 [Desktop Entry] 
