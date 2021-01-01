@@ -108,11 +108,13 @@ public class ClientMain {
         //Somehow necessary?
         FileSystem zip = FileSystems.newFileSystem(uri, env);
         logger.info("Starting audio subsystem...");
+        //Copies file to temp location
         InputStream in = ClassLoader.getSystemResourceAsStream("resources/geg.mp3");
         Path tempFile = Files.createTempFile("nw","mus.mp3");
         tempFile.toFile().deleteOnExit();
         Files.write(tempFile,in.readAllBytes());
         in.close();
+        //Mac support for sound is not implemented
         if(!Environment.getOperatingSystem().equals(Environment.OperatingSystem.MAC)){
             Audio.setSoundAvailable(Audio.initSDL());
             if(Audio.isSoundLoaded()) {
@@ -122,7 +124,7 @@ public class ClientMain {
                 Audio.setVolume(30);
             }
         }else{
-            logger.warn("You appear to be using Mac OS. Music support for Mac OS is not available yet.");
+            logger.warn("You appear to be using Mac OS. Audio support for Mac OS is not available yet.");
             logger.warn("No sounds will be played.");
         }
         Path root = Environment.getStorePath().resolve("configs");

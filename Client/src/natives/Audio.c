@@ -42,7 +42,7 @@ export bool playMusic(const char* path){
         return false;
     }
     if(Mix_PlayMusic(music,-1) == -1){
-        printf("Mix_PlayMusic: %s\n", Mix_GetError());
+        printf("Mix_PlayMusic has failed: %s\n", Mix_GetError());
         return false;
     }
     if(sizeof(musicPath) <= strlen(path) * sizeof(char)){
