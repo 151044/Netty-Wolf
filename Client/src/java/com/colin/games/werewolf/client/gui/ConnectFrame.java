@@ -45,9 +45,11 @@ public class ConnectFrame extends JFrame {
         pane.setLayout(new BoxLayout(pane,BoxLayout.X_AXIS));
         pane.add(new JLabel("IP Address:"));
         JTextField ip = new JTextField(15);
+        ip.setMaximumSize(ip.getPreferredSize());
         pane.add(ip);
         pane.add(new JLabel("Port:"));
         JTextField port = new JTextField(6);
+        port.setMaximumSize(port.getPreferredSize());
         pane.add(port);
         JButton submit = new JButton("Connect!");
         pane.add(submit);
